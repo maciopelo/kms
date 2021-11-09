@@ -1,0 +1,17 @@
+@import "../../../sassStyles/variables";
+
+.button {
+  padding: 8px 15px;
+  border: 1px solid $gray;
+  border-radius: $borderRadiusBig;
+  background-color: $beige;
+  transition: all 0.4s;
+
+  &:hover {
+    background-color: $gray;
+    span {
+      transition: all 0.4s;
+      color: $beige;
+    }
+  }
+}

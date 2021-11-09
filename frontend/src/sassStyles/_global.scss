@@ -1,0 +1,60 @@
+@import "./variables";
+@import "./mixins";
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: $beige;
+  background-image: url("../assets/images/memphis-bg.png");
+}
+
+#root {
+  height: 100%;
+  max-width: 1920px;
+  width: calc(100% - 2 * 105px);
+  margin: 0 auto;
+
+  @include large {
+    width: calc(100% - 2 * 75px);
+  }
+
+  @include default {
+    width: calc(100% - 2 * 60px);
+  }
+
+  @include medium {
+    width: calc(100% - 2 * 40px);
+  }
+
+  @include small {
+    width: calc(100% - 2 * 20px);
+  }
+}
+
+input {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+button {
+  border: none;
+  background: none;
+  outline: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

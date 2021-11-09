@@ -1,0 +1,34 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+
+.switchWrapper {
+  width: 100%;
+  top: -12%;
+  display: flex;
+  position: absolute;
+
+  .switchTile {
+    display: flex;
+    flex: 1;
+    color: $gray;
+    padding: 20px;
+
+    @include tiny {
+      padding: 20px 10px;
+    }
+
+    justify-content: center;
+    position: relative;
+    background-color: $beige;
+    border-top-left-radius: $borderRadiusHuge;
+    border-top-right-radius: $borderRadiusHuge;
+    border: 3px solid $gray;
+    border-bottom: none;
+
+    &[data-active="true"] {
+      color: $beige;
+      background-color: $gray;
+      border-bottom: 3px solid $gray;
+    }
+  }
+}

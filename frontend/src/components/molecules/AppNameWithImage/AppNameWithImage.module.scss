@@ -1,0 +1,21 @@
+@import "../../../sassStyles/helpers";
+@import "../../../sassStyles/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  span {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+}
+
+.image {
+  width: 100%;
+  max-width: 700px;
+
+  @include medium {
+    display: none;
+  }
+}

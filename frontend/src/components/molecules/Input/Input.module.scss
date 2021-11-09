@@ -1,0 +1,72 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+
+.wrapper {
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 16px;
+  position: relative;
+
+  span:nth-of-type(1) {
+    opacity: 0;
+    position: absolute;
+    transition: all 0.3s;
+    background-color: $beige;
+    padding: 2px 5px;
+    border-radius: $borderRadiusSmall;
+    top: 18px;
+    left: 17px;
+    font-weight: bold;
+  }
+
+  span:nth-of-type(2) {
+    position: absolute;
+    width: 100%;
+    bottom: -12px;
+    left: 21px;
+  }
+}
+
+.input {
+  width: 100%;
+  background-color: $beige;
+  padding: 18px 20px 16px 20px;
+  border: 1px solid $gray;
+  border-radius: $borderRadiusBig;
+  font-size: 1.6rem;
+
+  @include default {
+    font-size: 1.3rem;
+  }
+
+  @include tiny {
+    font-size: 1rem;
+    padding: 15px 10px;
+  }
+
+  &[type="number"] {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    -moz-appearance: textfield;
+  }
+
+  &:not(:placeholder-shown) + span {
+    opacity: 1;
+    transition: all 0.3s;
+    top: -5px;
+  }
+
+  &:focus {
+    border-width: 2px;
+  }
+
+  &[data-invalid="true"] {
+    border-color: $errorRed;
+    & + span {
+      color: $errorRed;
+    }
+  }
+}
