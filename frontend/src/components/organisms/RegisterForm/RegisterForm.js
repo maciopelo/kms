@@ -11,7 +11,6 @@ const RegisterForm = () => {
     initialValues: {
       email: "",
       login: "",
-      kindergartenName: "",
       nip: "",
       password: "",
     },
@@ -47,15 +46,6 @@ const RegisterForm = () => {
           error={formik.errors.login}
           touched={formik.touched.login}
           {...formik.getFieldProps("login")}
-        />
-
-        <Input
-          name="kindergartenName"
-          type="text"
-          placeholder="nazwa przedszkola"
-          error={formik.errors.kindergartenName}
-          touched={formik.touched.kindergartenName}
-          {...formik.getFieldProps("kindergartenName")}
         />
 
         <Input
