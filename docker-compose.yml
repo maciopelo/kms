@@ -1,7 +1,6 @@
-version: '3.9'
+version: "3.9"
 
 services:
-
   kms-db:
     container_name: kms-db
     image: postgres
@@ -14,18 +13,18 @@ services:
       - "kms-postgres-data:/var/lib/postgresql/data"
     ports:
       - "5432:5432"
-      
-  kms-pgadmin:
-    depends_on: 
-      - kms-db
-    container_name: kms-pgadmin4
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: maciej@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "5050:80"
-      
+
+  # kms-pgadmin:
+  #   depends_on:
+  #     - kms-db
+  #   container_name: kms-pgadmin4
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: maciej@admin.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   ports:
+  #     - "5050:80"
+
 volumes:
   kms-postgres-data:

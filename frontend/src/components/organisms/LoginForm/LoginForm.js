@@ -5,8 +5,14 @@ import styles from "./LoginForm.module.scss";
 import Button from "../../atoms/Button/Button";
 import { useFormik } from "formik";
 import { loginSchema } from "../../../validators";
+import { useAuthContext } from "../../../store/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../../store/actions";
 
 const LoginForm = () => {
+  let navigate = useNavigate();
+  const { dispatch } = useAuthContext();
+
   const formik = useFormik({
     initialValues: {
       login: "",
@@ -15,8 +21,14 @@ const LoginForm = () => {
 
     validationSchema: loginSchema,
 
-    onSubmit: (values, errors) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        let response = await loginUser(dispatch, values);
+        if (!response) return;
+        navigate("/home");
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
 
