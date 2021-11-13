@@ -31,5 +31,10 @@ jobs:
       - name: Setup postgres
         run: docker-compose up -d
 
+      - name: Run migrations
+        run: |
+          python manage.py makemigrations
+          python manage.py migrate
+
       - name: Run tests
         run: python manage.py test
