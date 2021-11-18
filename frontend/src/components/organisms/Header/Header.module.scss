@@ -1,0 +1,58 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+@import "../../atoms/Text/Text.module.scss";
+
+.header {
+  height: $headerHeight;
+  background-color: $beige;
+  box-shadow: 0 2px 2px 0 rgba(62, 60, 61, 0.2);
+}
+
+.layout {
+  @extend .default-layout;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.link {
+  @extend .s18;
+  @extend .gray;
+  @extend .fMedium;
+
+  &:hover {
+    -webkit-text-fill-color: $gray;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: $gray;
+  }
+}
+
+.list {
+  display: flex;
+}
+
+.item:not(:last-child) {
+  margin-right: 34px;
+}
+
+.logout {
+  display: block;
+  margin-left: 30px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:global {
+  .active {
+    color: $rouge;
+    font-weight: 700;
+    &:hover {
+      -webkit-text-fill-color: $rouge;
+      -webkit-text-stroke-width: 0;
+      -webkit-text-stroke-color: $rouge;
+    }
+  }
+}
