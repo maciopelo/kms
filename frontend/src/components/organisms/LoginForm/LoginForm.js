@@ -1,21 +1,25 @@
 import React from "react";
 import LoginRegisterSwitch from "../../molecules/LoginRegisterSwitch/LoginRegisterSwitch";
 import Input from "../../molecules/Input/Input";
+import Text from "../../atoms/Text/Text";
 import styles from "./LoginForm.module.scss";
 import Button from "../../atoms/Button/Button";
 import { useFormik } from "formik";
 import { loginSchema } from "../../../validators";
 import { useAuthContext } from "../../../store/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { loginUser } from "../../../store/actions";
 
 const LoginForm = () => {
-  let navigate = useNavigate();
-  const { dispatch } = useAuthContext();
+  let history = useHistory();
+  const {
+    authState: { error },
+    dispatch,
+  } = useAuthContext();
 
   const formik = useFormik({
     initialValues: {
-      login: "",
+      email: "",
       password: "",
     },
 
@@ -25,7 +29,7 @@ const LoginForm = () => {
       try {
         let response = await loginUser(dispatch, values);
         if (!response) return;
-        navigate("/home");
+        history.push("/home");
       } catch (err) {
         console.log(err);
       }
@@ -41,12 +45,12 @@ const LoginForm = () => {
         id="login-form"
       >
         <Input
-          name="login"
-          type="text"
-          placeholder="login"
-          error={formik.errors.login}
-          touched={formik.touched.login}
-          {...formik.getFieldProps("login")}
+          name="email"
+          type="email"
+          placeholder="email"
+          error={formik.errors.email}
+          touched={formik.touched.email}
+          {...formik.getFieldProps("email")}
         />
 
         <Input
@@ -57,6 +61,11 @@ const LoginForm = () => {
           touched={formik.touched.password}
           {...formik.getFieldProps("password")}
         />
+        {error && (
+          <Text s16 error>
+            {error}
+          </Text>
+        )}
       </form>
 
       <Button form="login-form" type="submit">

@@ -34,3 +34,25 @@
     @content;
   }
 }
+
+.default-layout {
+  max-width: 1920px;
+  width: calc(100% - 2 * 105px);
+  margin: 0 auto;
+
+  @include large {
+    width: calc(100% - 2 * 75px);
+  }
+
+  @include default {
+    width: calc(100% - 2 * 60px);
+  }
+
+  @include medium {
+    width: calc(100% - 2 * 40px);
+  }
+
+  @include small {
+    width: calc(100% - 2 * 20px);
+  }
+}

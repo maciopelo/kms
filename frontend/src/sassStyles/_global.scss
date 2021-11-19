@@ -13,25 +13,11 @@ body {
 
 #root {
   height: 100%;
-  max-width: 1920px;
-  width: calc(100% - 2 * 105px);
-  margin: 0 auto;
+  width: 100%;
+}
 
-  @include large {
-    width: calc(100% - 2 * 75px);
-  }
-
-  @include default {
-    width: calc(100% - 2 * 60px);
-  }
-
-  @include medium {
-    width: calc(100% - 2 * 40px);
-  }
-
-  @include small {
-    width: calc(100% - 2 * 20px);
-  }
+main {
+  @extend .default-layout;
 }
 
 input {
@@ -48,6 +34,13 @@ button {
   &:hover {
     cursor: pointer;
   }
+}
+
+li {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
 }
 
 a {
