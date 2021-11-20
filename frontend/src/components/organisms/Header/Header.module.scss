@@ -6,6 +6,16 @@
   height: $headerHeight;
   background-color: $beige;
   box-shadow: 0 2px 2px 0 rgba(62, 60, 61, 0.2);
+  display: flex;
+}
+
+.logo {
+  display: block;
+  height: $headerHeight * 0.9;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .layout {
@@ -13,13 +23,21 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .link {
   @extend .s18;
   @extend .gray;
   @extend .fMedium;
+
+  @include default {
+    font-size: 1.7rem;
+  }
+
+  @include medium {
+    font-size: 1.4rem;
+  }
 
   &:hover {
     -webkit-text-fill-color: $gray;
@@ -30,15 +48,22 @@
 
 .list {
   display: flex;
+  align-items: center;
 }
 
 .item:not(:last-child) {
-  margin-right: 34px;
+  margin-right: 28px;
+  @include default {
+    transform: scale(0.85);
+  }
 }
 
 .logout {
   display: block;
-  margin-left: 30px;
+
+  @include default {
+    transform: scale(0.85);
+  }
 
   &:hover {
     cursor: pointer;

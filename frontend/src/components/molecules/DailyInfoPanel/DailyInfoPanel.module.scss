@@ -1,0 +1,44 @@
+@import "../../../sassStyles/variables";
+
+$paddingTB: 2px;
+$paddingLR: 4px;
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $paddingTB $paddingLR;
+  flex-direction: column;
+  width: 100%;
+  height: 190px;
+  background-color: $beige;
+  border-radius: $borderRadiusSmall;
+  border: rgba(62, 60, 61, 0.7) solid 2px;
+  box-shadow: 0 0 8px 2px rgba(62, 60, 61, 0.7);
+}
+
+.dayInfo {
+  height: 80%;
+  display: flex;
+  align-items: center;
+  span {
+    margin-top: 25px;
+  }
+}
+
+.nameDay {
+  align-self: flex-start;
+}
+
+.clock {
+  position: absolute;
+  left: $paddingLR;
+  top: $paddingTB;
+}
+
+.datetime {
+  position: absolute;
+  right: $paddingLR;
+  top: $paddingTB;
+}

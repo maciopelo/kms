@@ -16,10 +16,6 @@ body {
   width: 100%;
 }
 
-main {
-  @extend .default-layout;
-}
-
 input {
   border: none;
   outline: none;
@@ -50,4 +46,14 @@ a {
   &:hover {
     cursor: pointer;
   }
+}
+
+textarea {
+  background-color: transparent;
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }

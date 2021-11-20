@@ -1,0 +1,13 @@
+@import "../../sassStyles/variables";
+
+.homeContentWrapper {
+  height: calc(100vh - #{$headerHeight + 2 * $defaultLayoutTopBottomPadding});
+}
+
+.leftSide {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 700px;
+}

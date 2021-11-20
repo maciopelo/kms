@@ -6,6 +6,7 @@ import { useAuthContext } from "../../../store/contexts/AuthContext";
 import { useHistory } from "react-router";
 import { logoutUser } from "../../../store/actions";
 import { v4 as uuidv4 } from "uuid";
+import loginKids from "../../../assets/images/login-kids.png";
 
 const NAV = {
   HEADMASTER: [
@@ -49,9 +50,21 @@ const Header = () => {
     history.push("/login");
   };
 
+  const redirectHome = () => {
+    history.push("/home");
+  };
+
   return (
     <header className={styles.header}>
       <nav className={styles.layout}>
+        <img
+          onClick={redirectHome}
+          draggable="false"
+          className={styles.logo}
+          src={loginKids}
+          alt={`Logo`}
+        />
+
         <ul className={styles.list}>
           {NAV[type].map((link) => {
             return (
@@ -62,13 +75,16 @@ const Header = () => {
               </li>
             );
           })}
+
+          <li className={styles.item}>
+            <img
+              onClick={handleLogout}
+              src={logout}
+              alt="Logout Icon"
+              className={styles.logout}
+            />
+          </li>
         </ul>
-        <img
-          onClick={handleLogout}
-          src={logout}
-          alt="Logout Icon"
-          className={styles.logout}
-        />
       </nav>
     </header>
   );

@@ -1,0 +1,51 @@
+@import "../../../sassStyles/variables";
+@import "../../atoms/Text/Text.module.scss";
+
+.todoWrapper {
+  width: 100%;
+  height: 550px;
+  padding: 10px 20px;
+  background-color: $beige;
+  border-radius: $borderRadiusSmall;
+  border: rgba(62, 60, 61, 0.7) solid 2px;
+  box-shadow: 0 0 8px 2px rgba(62, 60, 61, 0.7);
+}
+
+.header {
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid $gray;
+}
+
+.todos {
+  overflow: scroll;
+  max-height: 360px;
+  & li {
+    margin-bottom: 20px;
+  }
+}
+
+.newTodo {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid $gray;
+  padding: 5px;
+  height: 70px;
+}
+
+.newTodoTextarea {
+  width: 100%;
+  resize: none;
+  @extend .s16;
+}
+
+.newTodoButton {
+  align-self: center;
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
