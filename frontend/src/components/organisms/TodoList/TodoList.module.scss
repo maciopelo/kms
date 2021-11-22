@@ -1,14 +1,21 @@
 @import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
 @import "../../atoms/Text/Text.module.scss";
 
+$todosHeight: 400px;
+
 .todoWrapper {
+  height: 500px;
   width: 100%;
-  height: 550px;
   padding: 10px 20px;
   background-color: $beige;
   border-radius: $borderRadiusSmall;
   border: rgba(62, 60, 61, 0.7) solid 2px;
   box-shadow: 0 0 8px 2px rgba(62, 60, 61, 0.7);
+
+  @include default {
+    padding: 10px;
+  }
 }
 
 .header {
@@ -18,34 +25,26 @@
 }
 
 .todos {
-  overflow: scroll;
-  max-height: 360px;
-  & li {
+  overflow-y: auto;
+  max-height: $todosHeight;
+  & li:not(:last-child) {
     margin-bottom: 20px;
   }
 }
 
-.newTodo {
+.todo {
   display: flex;
   width: 100%;
   border-bottom: 1px solid $gray;
   padding: 5px;
-  height: 70px;
-}
+  min-height: 70px;
 
-.newTodoTextarea {
-  width: 100%;
-  resize: none;
-  @extend .s16;
-}
-
-.newTodoButton {
-  align-self: center;
-  margin-left: 10px;
-  width: 30px;
-  height: 30px;
-
-  &:hover {
-    cursor: pointer;
+  & > span {
+    margin-right: 10px;
   }
+}
+
+.text {
+  @extend .s16;
+  width: 100%;
 }

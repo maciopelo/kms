@@ -1,13 +1,34 @@
 from django.shortcuts import render
-from rest_framework import serializers
+from rest_framework import serializers, status
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
-from .serializers import UserSerializer
+from .serializers import UserSerializer,TodoSerializer
 from rest_framework.response import Response
-from rest_framework.exceptions import AuthenticationFailed
-from .models import User
+from rest_framework.exceptions import AuthenticationFailed,ValidationError
+from .models import User, Todo
+from django.db.models import Q
 import datetime
 import jwt
+
+
+
+def authenticate_user(request):
+    
+    print(request.COOKIES)
+    token = request.COOKIES.get('jwt')
+
+    if not token:
+        raise AuthenticationFailed("błąd uwierzytelniania")
+
+    try:
+        payload = jwt.decode(token, 'secret_key', algorithms=['HS256'])
+
+    except jwt.ExpiredSignatureError:
+        raise AuthenticationFailed("błąd uwierzytelniania")
+    
+    return User.objects.get(pk=payload['id'])
+
+
 
 
 class RegisterView(APIView):
@@ -97,24 +118,83 @@ class LogoutView(APIView):
         return response
 
 
-# class UserView(APIView):
+
+class TodoView(APIView):
+
+
+    def get(self, request, day=None, month=None, year=None):
+
+        user = authenticate_user(request)
+        curr_month = datetime.date.today().month
+
+        # default from current month
+        todos = Todo.objects.filter(Q(user=user) & Q(date__month=curr_month))
+
+
+        # if given then from single day
+        if day and month and year:
+            today = f"{year}-{month}-{day}"
+            todos = Todo.objects.filter(Q(user=user) & Q(date=today))
+        
+
+        serializer = TodoSerializer(todos, many=True)
+
+        return Response(serializer.data)
+
     
-#     def get(self, request):
-#         token = request.COOKIES.get('jwt')
+    def post(self, request):
 
-#         if not token:
-#             raise AuthenticationFailed("Unauthenticated!")
+        user = authenticate_user(request)
 
-#         try:
-#             payload = jwt.decode(token, 'secret_key', algorithms=['HS256'])
-#         except jwt.ExpiredSignatureError:
-#             raise AuthenticationFailed("Unauthenticated!")
-       
-#         user = User.objects.get(pk=payload['id'])
-#         serializer = UserSerializer(user)
+        new_todo = {
+            "text":request.data['text'],
+            "date":request.data['date'],
+            'user':getattr(user,'id')
+        }
 
-#         return Response(serializer.data)
+        serializer = TodoSerializer(data=new_todo)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        
+        return Response({'msg':"empty task"}, 400)
 
+
+
+    def put(self, request):
+
+        user = authenticate_user(request)
+        todo_id = request.data['id']
+        new_text = request.data['text']
+
+        try:
+            todo = Todo.objects.get(Q(user=user) & Q(id=todo_id))
+            todo.text = new_text
+            todo.save()
+        except (Todo.DoesNotExist, ValidationError):
+            raise status.HTTP_400_BAD_REQUEST
+
+
+        serializer = TodoSerializer(todo)
+
+        return Response(serializer.data)
+
+    
+    def delete(self, request):
+
+        user = authenticate_user(request)
+        todo_id = request.data['id']
+        print(todo_id)
+        try:
+            todo = Todo.objects.get(Q(user=user) & Q(id=todo_id))
+            todo.delete()
+        except (Todo.DoesNotExist, ValidationError):
+            raise status.HTTP_400_BAD_REQUEST
+
+        return Response("Todo deleted successfully.")
+
+  
 
 
 

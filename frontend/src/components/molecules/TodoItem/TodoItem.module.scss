@@ -14,8 +14,9 @@
 }
 
 .text {
-  @extend .s16;
+  @extend .s14;
   width: 100%;
+  text-align: justify;
 }
 
 .done {

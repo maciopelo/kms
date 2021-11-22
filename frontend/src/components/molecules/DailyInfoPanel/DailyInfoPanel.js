@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import styles from "./DailyInfoPanel.module.scss";
 import Text from "../../atoms/Text/Text";
 import clock from "../../../assets/icons/clock.png";
-import { getDateAndTimeString } from "../../../utils/helpers";
+import { getDateAndTimeString } from "../../../utils/dateHelpers";
 
 const DailyInfoPanel = () => {
   const [date, setDate] = useState(() => getDateAndTimeString(new Date()));
@@ -17,17 +17,20 @@ const DailyInfoPanel = () => {
 
   return (
     <div className={styles.wrapper}>
-      <img className={styles.clock} src={clock} alt="Clock" />
-      <div className={styles.datetime}>
+      <div className={styles.top}>
+        <img className={styles.clock} src={clock} alt="Clock" />
+
         <Text s24 gray>
           {date}
         </Text>
       </div>
+
       <div className={styles.dayInfo}>
-        <Text s34 rouge fMedium>
-          Dzień Kubusia Puchatka
+        <Text s24 rouge fMedium>
+          Dzień Kubusia Puchatka Dzień Kubusia Puchatka
         </Text>
       </div>
+
       <div className={styles.nameDay}>
         <Text s24 gray fMedium>
           Imieniny:

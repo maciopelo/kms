@@ -2,29 +2,29 @@ import React, { useEffect, useState } from "react";
 import GenericPage from "../GenericPage/GenericPage";
 import { useAuthContext } from "../../store/contexts/AuthContext";
 import DailyInfoPanel from "../../components/molecules/DailyInfoPanel/DailyInfoPanel";
-import { getCurrentDayObject } from "../../utils/helpers";
 import TodoList from "../../components/organisms/TodoList/TodoList";
 import styles from "./Home.module.scss";
+import Calendar from "../../components/organisms/Calendar/Calendar";
+import useFetch from "../../hooks/useFetch";
+import { API } from "../../api/urls";
 
 const Home = () => {
   const {
     authState: { user },
   } = useAuthContext();
 
-  const [currentDay, setCurrentDay] = useState(() =>
-    getCurrentDayObject(new Date())
-  );
+  const { data, error, isLoading, setData } = useFetch(API.USER.TODOS);
 
-  console.log(currentDay);
   return (
     <GenericPage>
-      <div className={styles.homeContentWrapper}>
+      <div className={styles.homeContainer}>
         <div className={styles.leftSide}>
           <DailyInfoPanel />
-          <TodoList />
+          <TodoList todos={data} isLoading={isLoading} />
         </div>
-
-        {/* <span>{JSON.stringify(user)}</span> */}
+        <div className={styles.rightSide}>
+          <Calendar todos={data} setTodos={setData} isLoading={isLoading} />
+        </div>
       </div>
     </GenericPage>
   );

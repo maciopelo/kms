@@ -5,4 +5,7 @@ export const API = {
   LOGIN: `${BASE_URL}/login/`,
   AUTH: `${BASE_URL}/auth/`,
   LOGOUT: `${BASE_URL}/logout/`,
+  USER: {
+    TODOS: `${BASE_URL}/todo/`,
+  },
 };

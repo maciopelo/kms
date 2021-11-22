@@ -1,0 +1,91 @@
+@import "../../../../sassStyles/variables";
+@import "../../../atoms/Text/Text.module.scss";
+
+.wrapper {
+  width: 750px;
+  background-color: $beige;
+  border: 1px solid $gray;
+  border-radius: $borderRadiusSmall;
+}
+
+.content {
+  display: flex;
+  height: 400px;
+  padding: 10px 15px;
+}
+
+.todoListHeader {
+  border-bottom: 2px solid $gray;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.contentLeft {
+  flex: 1;
+  margin-right: 30px;
+}
+
+.todos {
+  overflow-y: scroll;
+  max-height: 150px;
+  li {
+    margin-bottom: 5px;
+  }
+}
+
+.addTodo {
+  padding: 5px;
+  margin-top: 10px;
+  min-height: 70px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $gray;
+  textarea {
+    @extend .s14;
+    width: 100%;
+  }
+
+  img {
+    cursor: pointer;
+  }
+}
+
+.menu {
+  margin-top: 30px;
+}
+
+.sendFile {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contentRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    @extend .s16;
+    padding: 10px;
+    border: 1px solid $gray;
+    border-radius: $borderRadiusSmall;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.save {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 15px;
+}

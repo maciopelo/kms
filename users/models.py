@@ -81,3 +81,16 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
+
+class Todo(models.Model):
+    text = models.CharField(max_length=200)
+    date = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.text
+

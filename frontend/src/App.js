@@ -17,27 +17,30 @@ import About from "./pages/About/About";
 import Files from "./pages/Files/Files";
 import PrivateRoute from "./utils/PrivateRoute";
 import { AuthProvider } from "./store/contexts/AuthContext";
+import { ModalProvider } from "./store/contexts/ModalContext";
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/login" />
-          </Route>
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <PrivateRoute path="/home" component={Home} />
-          <PrivateRoute path="/news" component={News} />
-          <PrivateRoute path="/kids" component={Kids} />
-          <PrivateRoute path="/groups" component={Groups} />
-          <PrivateRoute path="/employees" component={Employees} />
-          <PrivateRoute path="/chat" component={Chat} />
-          <PrivateRoute path="/about" component={About} />
-          <PrivateRoute path="/files" component={Files} />
-        </Switch>
-      </Router>
+      <ModalProvider>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/login" />
+            </Route>
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <PrivateRoute path="/home" component={Home} />
+            <PrivateRoute path="/news" component={News} />
+            <PrivateRoute path="/kids" component={Kids} />
+            <PrivateRoute path="/groups" component={Groups} />
+            <PrivateRoute path="/employees" component={Employees} />
+            <PrivateRoute path="/chat" component={Chat} />
+            <PrivateRoute path="/about" component={About} />
+            <PrivateRoute path="/files" component={Files} />
+          </Switch>
+        </Router>
+      </ModalProvider>
     </AuthProvider>
   );
 }
