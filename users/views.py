@@ -27,6 +27,7 @@ class RegisterView(APIView):
         return Response(serializer.data, status=201)
 
 
+
 class LoginView(APIView):
 
     permission_classes = [AllowAny]
@@ -37,10 +38,6 @@ class LoginView(APIView):
         password = request.data['password']
 
         user = User.objects.filter(email=email).first()
-
-        print(user)
-        print(user.password)
-        print(user.check_password("julka123"))
 
         if user is None:
             raise AuthenticationFailed({'msg':'nieprawidłowy email lub hasło'})
@@ -133,8 +130,7 @@ class TodoView(APIView):
         
         if serializer.is_valid():
             serializer.save()
-            print(serializer.data)
-            return Response(serializer.data)
+            return Response(serializer.data, status=201)
         
         return Response({'msg':"empty task"}, 400)
 
