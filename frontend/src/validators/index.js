@@ -21,7 +21,6 @@ export const registerSchema = Yup.object({
 export const loginSchema = Yup.object({
   email: Yup.string()
     .email("niepoprawny email")
-    .max(20, "max 20 znaków")
     .required("to pole jest wymagane"),
 
   password: Yup.string().required("to pole jest wymagane"),

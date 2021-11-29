@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
-const useFetch = (url, method = "GET", options = null, body = null) => {
+const useFetch = () => {
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
+  const callAPI = useCallback(
+    async (url, method = "GET", body = null, options = null) => {
       try {
-        const res = await fetch(url, { ...options, credentials: "include" });
+        setIsLoading(true);
+        const res = await fetch(url, {
+          ...options,
+          method: method,
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: body,
+        });
         const json = await res.json();
 
-        setData(json);
+        if (method === "GET") setData(json);
         setIsLoading(false);
+        return json;
       } catch (error) {
-        setError(error);
+        console.log(error);
       }
-    };
+    },
+    []
+  );
 
-    fetchData();
-  }, []);
-
-  return { data, error, isLoading, setData };
+  return { data, isLoading, setData, callAPI };
 };
 
 export default useFetch;

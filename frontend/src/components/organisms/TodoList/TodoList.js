@@ -6,7 +6,7 @@ import { getCalendarDate, getDBDateFormat } from "../../../utils/dateHelpers";
 
 const date = new Date();
 
-const TodoList = ({ todos, isLoading }) => {
+const TodoList = ({ todos }) => {
   return (
     <div className={styles.todoWrapper}>
       <header className={styles.header}>
@@ -14,7 +14,8 @@ const TodoList = ({ todos, isLoading }) => {
           {`zadania - ${getCalendarDate(date)}`}
         </Text>
       </header>
-      {todos && !isLoading ? (
+
+      {todos && (
         <ul className={styles.todos}>
           {todos
             .filter((todo) => todo.date === getDBDateFormat(date))
@@ -27,10 +28,6 @@ const TodoList = ({ todos, isLoading }) => {
               </li>
             ))}
         </ul>
-      ) : (
-        <Text s28 rouge fMedium>
-          Loading...
-        </Text>
       )}
     </div>
   );

@@ -2,35 +2,29 @@ import React from "react";
 import styles from "./TodoItem.module.scss";
 import binIcon from "../../../assets/icons/bin.svg";
 import { API } from "../../../api/urls";
+import useFetch from "../../../hooks/useFetch";
 
-const TodoItem = ({ todo: { id, text }, setTodos, setChosenDayTodos }) => {
-  const deleteRequest = async (id) => {
-    try {
-      const res = await fetch(API.USER.TODOS, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: id }),
-        credentials: "include",
-      });
+const TodoItem = ({
+  todo: { id, text },
+  setHomepageTodos,
+  setCurrDayTodos,
+}) => {
+  const { callAPI } = useFetch();
 
-      if (!res.ok) {
-        const message = `An error has occured: ${res.status} - ${res.statusText}`;
-        throw new Error(message);
-      }
-
-      setTodos((prevData) => [...prevData.filter((todo) => todo.id !== id)]);
-      setChosenDayTodos((prevData) => [
-        ...prevData.filter((todo) => todo.id !== id),
-      ]);
-    } catch (err) {
-      console.log(err);
-    }
+  const deleteTodo = async (id) => {
+    const data = await callAPI(`${API.USER.TODOS}${id}`, "DELETE");
+    return data;
   };
 
-  const handleTodoRemove = () => {
-    deleteRequest(id);
+  const handleTodoRemove = async () => {
+    const data = await deleteTodo(id);
+    console.log(data);
+    setHomepageTodos((prevData) => [
+      ...prevData.filter((todo) => todo.id !== data.id),
+    ]);
+    setCurrDayTodos((prevData) => [
+      ...prevData.filter((todo) => todo.id !== data.id),
+    ]);
   };
 
   return (

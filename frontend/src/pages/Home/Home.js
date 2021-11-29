@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import GenericPage from "../GenericPage/GenericPage";
 import { useAuthContext } from "../../store/contexts/AuthContext";
 import DailyInfoPanel from "../../components/molecules/DailyInfoPanel/DailyInfoPanel";
@@ -7,23 +7,35 @@ import styles from "./Home.module.scss";
 import Calendar from "../../components/organisms/Calendar/Calendar";
 import useFetch from "../../hooks/useFetch";
 import { API } from "../../api/urls";
+import { USER } from "../../utils/enums";
+import ChildrenTile from "../../components/organisms/ChildrenTile/ChildrenTile";
 
 const Home = () => {
   const {
     authState: { user },
   } = useAuthContext();
 
-  const { data, error, isLoading, setData } = useFetch(API.USER.TODOS);
+  const { data, error, isLoading, callAPI, setData } = useFetch();
+
+  useEffect(() => {
+    if (user.type === USER.PARENT) {
+      callAPI(API.USER.CHILDREN);
+    } else callAPI(API.USER.TODOS);
+  }, []);
 
   return (
     <GenericPage>
       <div className={styles.homeContainer}>
         <div className={styles.leftSide}>
           <DailyInfoPanel />
-          <TodoList todos={data} isLoading={isLoading} />
+          {user.type === USER.PARENT && data && !isLoading ? (
+            <ChildrenTile children={data} />
+          ) : (
+            <TodoList todos={data} error={error} />
+          )}
         </div>
         <div className={styles.rightSide}>
-          <Calendar todos={data} setTodos={setData} isLoading={isLoading} />
+          <Calendar data={data} setData={setData} />
         </div>
       </div>
     </GenericPage>

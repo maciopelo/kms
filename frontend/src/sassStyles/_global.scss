@@ -17,6 +17,7 @@ body {
 }
 
 .modal-bg {
+  z-index: 100000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,6 +57,29 @@ a {
   color: inherit;
   text-decoration: inherit;
 
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+option {
   &:hover {
     cursor: pointer;
   }

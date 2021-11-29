@@ -1,11 +1,22 @@
 @import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
 
 .calendar {
   display: grid;
   background-color: $beige;
-  grid-template-columns: repeat(7, minmax(75px, 125px));
-  grid-template-rows: repeat(5, minmax(75px, 125px));
+  grid-template-columns: repeat(7, minmax(65px, 125px));
+  grid-template-rows: repeat(5, minmax(65px, 125px));
   box-shadow: 0 0 8px 2px rgba(62, 60, 61, 0.7);
+
+  @include default {
+    margin-top: 50px;
+  }
+
+  @include tiny {
+    margin-top: 25px;
+    grid-template-columns: repeat(5, minmax(60px, 125px));
+    grid-template-rows: repeat(7, minmax(60px, 125px));
+  }
 }
 
 .month {
@@ -52,6 +63,10 @@
   max-height: 120px;
   img {
     max-height: 100%;
+  }
+
+  @include default {
+    display: none;
   }
 }
 

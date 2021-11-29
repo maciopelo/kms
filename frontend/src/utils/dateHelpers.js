@@ -8,6 +8,12 @@ export const getCurrentDayObject = (date) => {
   };
 };
 
+export const getUrlDateFormat = (date) => {
+  let result;
+  result = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}/`;
+  return result;
+};
+
 export const getDBDateFormat = (date) => {
   let result;
   result = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;

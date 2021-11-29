@@ -5,11 +5,17 @@ import { useModalContext } from "../../../store/contexts/ModalContext";
 import CalendarModal from "../modals/CalendarModal/CalendarModal";
 import kids from "../../../assets/images/home_kids.png";
 import { days, months } from "../../../utils/dateHelpers";
+import ParentCalendarModal from "../modals/ParentCalendarModal/ParentCalendarModal";
+import { useAuthContext } from "../../../store/contexts/AuthContext";
+import { USER } from "../../../utils/enums";
 
 const date = new Date();
 
-const Calendar = ({ todos, setTodos, isLoading }) => {
+const Calendar = ({ data, setData }) => {
   const { handleModal } = useModalContext();
+  const {
+    authState: { user },
+  } = useAuthContext();
 
   const generateCalendarTiles = () => {
     const currMonth = date.getMonth();
@@ -29,12 +35,15 @@ const Calendar = ({ todos, setTodos, isLoading }) => {
             }`}
             onClick={() =>
               handleModal(
-                <CalendarModal
-                  date={singleDay}
-                  todos={todos}
-                  setTodos={setTodos}
-                  isLoading={isLoading}
-                />
+                user.type === USER.PARENT ? (
+                  <ParentCalendarModal date={singleDay} children={data} />
+                ) : (
+                  <CalendarModal
+                    date={singleDay}
+                    homepageTodos={data}
+                    setHomepageTodos={setData}
+                  />
+                )
               )
             }
           >

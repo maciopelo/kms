@@ -61,7 +61,7 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=50)
     type = models.CharField(max_length=255, choices=UserType.choices(), default=UserType.HEADMASTER.value[0])
-    #TODO child = models.ForeignKey(Child, on_delete=models.CASCADE, null=True)
+    children = models.ManyToManyField('kindergarten.Child', blank=True)
 
     
 
@@ -86,7 +86,7 @@ class User(AbstractBaseUser):
 
 class Todo(models.Model):
     text = models.CharField(max_length=200)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(auto_now_add=False, editable=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     objects = models.Manager()

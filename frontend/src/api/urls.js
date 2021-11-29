@@ -7,5 +7,8 @@ export const API = {
   LOGOUT: `${BASE_URL}/logout/`,
   USER: {
     TODOS: `${BASE_URL}/todo/`,
+    CHILDREN: `${BASE_URL}/parent/children/`,
   },
+  GROUP: `${BASE_URL}/group/`,
+  ANNOUNCEMENT: `${BASE_URL}/announcement/`,
 };

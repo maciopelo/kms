@@ -2,7 +2,7 @@ import Text from "../../atoms/Text/Text";
 import { useModalContext } from "../../../store/contexts/ModalContext";
 import styles from "./ModalHeader.module.scss";
 import Cross from "../../atoms/Cross/Cross";
-import { days } from "../../../utils/dateHelpers";
+import { days, months } from "../../../utils/dateHelpers";
 
 const ModalHeader = ({ date }) => {
   const { handleModal } = useModalContext();
@@ -10,7 +10,7 @@ const ModalHeader = ({ date }) => {
   return (
     <div className={styles.topDateHeader}>
       <Text s44 gray fMedium>
-        Październik
+        {months[date.getMonth()].name}
       </Text>
       <div className={styles.dayTile}>
         <Text gray fMedium s24>

@@ -27,14 +27,14 @@ const DailyInfoPanel = () => {
 
       <div className={styles.dayInfo}>
         <Text s24 rouge fMedium>
-          Dzień Kubusia Puchatka Dzień Kubusia Puchatka
+          Wybrane Święto Nietypowe :)
         </Text>
       </div>
 
       <div className={styles.nameDay}>
         <Text s24 gray fMedium>
           Imieniny:
-          <Text fRegular> Tomasz, Aleksandra, Dominika, Marek</Text>
+          <Text fRegular> Tomasz, Aleksandra, Dominika</Text>
         </Text>
       </div>
     </div>

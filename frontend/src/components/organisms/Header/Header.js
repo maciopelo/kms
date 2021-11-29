@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Header.module.scss";
 import { NavLink } from "react-router-dom";
 import logout from "../../../assets/icons/logout.svg";
@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 import { logoutUser } from "../../../store/actions";
 import { v4 as uuidv4 } from "uuid";
 import loginKids from "../../../assets/images/login-kids.png";
+import Text from "../../atoms/Text/Text";
 
 const NAV = {
   HEADMASTER: [
@@ -45,6 +46,8 @@ const Header = () => {
     dispatch,
   } = useAuthContext();
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleLogout = async () => {
     await logoutUser(dispatch);
     history.push("/login");
@@ -55,38 +58,70 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <nav className={styles.layout}>
-        <img
-          onClick={redirectHome}
-          draggable="false"
-          className={styles.logo}
-          src={loginKids}
-          alt={`Logo`}
-        />
+    <>
+      <header className={styles.header}>
+        <nav className={styles.layout}>
+          <img
+            onClick={redirectHome}
+            draggable="false"
+            className={styles.logo}
+            src={loginKids}
+            alt={`Logo`}
+          />
 
-        <ul className={styles.list}>
+          <ul className={styles.list}>
+            {NAV[type].map((link) => {
+              return (
+                <li className={styles.item} key={uuidv4()}>
+                  <NavLink to={link.path} className={styles.link}>
+                    {link.name}
+                  </NavLink>
+                </li>
+              );
+            })}
+
+            <li className={styles.item}>
+              <img
+                onClick={handleLogout}
+                src={logout}
+                alt="Logout Icon"
+                className={styles.logout}
+              />
+            </li>
+          </ul>
+          <div
+            className={styles.hamburger}
+            data-open={isOpen}
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            <span className={styles.line}></span>
+            <span className={styles.line}></span>
+            <span className={styles.line}></span>
+          </div>
+        </nav>
+      </header>
+      <div className={styles.mobileMenu} data-open={isOpen}>
+        <ul className={styles.mobileMenuList} data-open={isOpen}>
           {NAV[type].map((link) => {
             return (
-              <li className={styles.item} key={uuidv4()}>
+              <li className={styles.mobileItem} key={uuidv4()}>
                 <NavLink to={link.path} className={styles.link}>
-                  {link.name}
+                  <Text s44 gray fMedium>
+                    {link.name}
+                  </Text>
                 </NavLink>
               </li>
             );
           })}
 
-          <li className={styles.item}>
-            <img
-              onClick={handleLogout}
-              src={logout}
-              alt="Logout Icon"
-              className={styles.logout}
-            />
+          <li className={styles.mobileItem} onClick={handleLogout}>
+            <Text s44 gray fMedium>
+              Wyloguj
+            </Text>
           </li>
         </ul>
-      </nav>
-    </header>
+      </div>
+    </>
   );
 };
 

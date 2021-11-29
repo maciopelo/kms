@@ -6,49 +6,43 @@ import { v4 as uuidv4 } from "uuid";
 import TodoItem from "../../../molecules/TodoItem/TodoItem";
 import add from "../../../../assets/icons/add.svg";
 import Button from "../../../atoms/Button/Button";
-import { getDBDateFormat } from "../../../../utils/dateHelpers";
+import {
+  getDBDateFormat,
+  getUrlDateFormat,
+} from "../../../../utils/dateHelpers";
 import { API } from "../../../../api/urls";
+import useFetch from "../../../../hooks/useFetch";
+import GroupsAnnouncements from "../../GroupsAnnouncements/GroupsAnnouncements";
 
-const CalendarModal = ({ date, todos, setTodos, isLoading }) => {
-  const [chosenDayTodos, setChosenDayTodos] = useState(
-    todos.filter((todo) => todo.date === getDBDateFormat(date))
-  );
+const CalendarModal = ({ date, setHomepageTodos }) => {
   const [newTodo, setNewTodo] = useState("");
+  const { data, isLoading, callAPI, setData } = useFetch();
 
-  const postRequest = async () => {
-    try {
-      const res = await fetch(API.USER.TODOS, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: newTodo, date: getDBDateFormat(date) }),
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        const message = `An error has occured: ${res.status} - ${res.statusText}`;
-        throw new Error(message);
-      }
-
-      const data = await res.json();
-
-      if (getDBDateFormat(new Date()) === getDBDateFormat(date)) {
-        setTodos((prevData) => [...prevData, data]);
-      }
-
-      setChosenDayTodos((prevData) => [...prevData, data]);
-    } catch (err) {
-      console.log(err);
-    }
+  const postNewTodo = async () => {
+    const data = await callAPI(
+      API.USER.TODOS,
+      "POST",
+      JSON.stringify({ text: newTodo, date: getDBDateFormat(date) })
+    );
+    return data;
   };
 
-  const handleNewTodoAdd = () => {
+  const getCurrentDayTodos = () => {
+    callAPI(`${API.USER.TODOS}${getUrlDateFormat(date)}`);
+  };
+
+  const handleNewTodoAdd = async () => {
     if (newTodo) {
-      postRequest();
+      const data = await postNewTodo();
+      setData((prevData) => [...prevData, data]);
+      setHomepageTodos((prevData) => [...prevData, data]);
       setNewTodo("");
     }
   };
+
+  useEffect(() => {
+    getCurrentDayTodos();
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -62,26 +56,26 @@ const CalendarModal = ({ date, todos, setTodos, isLoading }) => {
               </Text>
             </header>
 
-            {todos && !isLoading ? (
+            {data && !isLoading ? (
               <ul className={styles.todos}>
-                {chosenDayTodos.map((todo) => (
+                {data.map((todo) => (
                   <TodoItem
                     key={uuidv4()}
                     todo={todo}
-                    todos={todos}
-                    setTodos={setTodos}
-                    setChosenDayTodos={setChosenDayTodos}
+                    setHomepageTodos={setHomepageTodos}
+                    setCurrDayTodos={setData}
                   />
                 ))}
               </ul>
             ) : (
               <Text s28 rouge fMedium>
-                Loading...
+                {isLoading ? "Loading..." : "Something went wrong"}
               </Text>
             )}
 
             <div className={styles.addTodo}>
               <textarea
+                className={styles.newTodoTextarea}
                 placeholder="Nowe zadanie..."
                 maxLength={200}
                 onChange={(e) => setNewTodo(e.target.value)}
@@ -91,6 +85,7 @@ const CalendarModal = ({ date, todos, setTodos, isLoading }) => {
             </div>
           </div>
 
+          {/* TODO: prepare functionality when uploading files in backedn ready*/}
           <div className={styles.menu}>
             <Text s28 rouge fMedium>
               Jadłospis (15.10 - 20.10)
@@ -105,22 +100,8 @@ const CalendarModal = ({ date, todos, setTodos, isLoading }) => {
         </div>
 
         <div className={styles.contentRight}>
-          <div>
-            <Text s28 rouge fMedium>
-              Informacje
-            </Text>
-            <select>
-              <option>Grupa1</option>
-            </select>
-          </div>
-          <textarea
-            placeholder="Co dzieci mają zrobić 15.10 ..."
-            maxLength={500}
-          />
+          <GroupsAnnouncements date={date} />
         </div>
-      </div>
-      <div className={styles.save}>
-        <Button>zapisz</Button>
       </div>
     </div>
   );
