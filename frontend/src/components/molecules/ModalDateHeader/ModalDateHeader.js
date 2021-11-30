@@ -1,10 +1,10 @@
 import Text from "../../atoms/Text/Text";
 import { useModalContext } from "../../../store/contexts/ModalContext";
-import styles from "./ModalHeader.module.scss";
+import styles from "./ModalDateHeader.module.scss";
 import Cross from "../../atoms/Cross/Cross";
 import { days, months } from "../../../utils/dateHelpers";
 
-const ModalHeader = ({ date }) => {
+const ModalDateHeader = ({ date }) => {
   const { handleModal } = useModalContext();
 
   return (
@@ -27,4 +27,4 @@ const ModalHeader = ({ date }) => {
   );
 };
 
-export default ModalHeader;
+export default ModalDateHeader;

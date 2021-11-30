@@ -1,0 +1,67 @@
+@import "../../../../sassStyles/variables";
+@import "../../../atoms/Text/Text.module.scss";
+
+.wrapper {
+  width: 750px;
+  background-color: $beige;
+  border: 1px solid $gray;
+  border-radius: $borderRadiusSmall;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: $defaultModalPadding;
+}
+
+.desc {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  span:nth-of-type(2) {
+    margin-top: 2px;
+    margin-left: 10px;
+  }
+}
+
+.descTextarea {
+  @extend .s16;
+  margin-top: 15px;
+  border: 1px solid $gray;
+  width: 100%;
+  border-radius: $borderRadiusSmall;
+  padding: 10px;
+  height: 200px;
+
+  &[data-invalid="true"] {
+    border-color: $errorRed;
+  }
+}
+
+.info {
+  display: flex;
+  margin-top: 25px;
+}
+
+.uploads {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.date {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  div {
+    margin-top: 5px;
+  }
+}
+
+.save {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}

@@ -2,11 +2,11 @@ import React from "react";
 import styles from "./Input.module.scss";
 import Text from "../../atoms/Text/Text";
 
-const Input = ({ name, type, touched, error, placeholder, ...rest }) => {
+const Input = ({ name, type, touched, error, placeholder, kind, ...rest }) => {
   return (
     <div className={styles.wrapper}>
       <input
-        className={styles.input}
+        className={`${styles.input} ${kind ? styles[kind] : ""}`}
         data-invalid={Boolean(error)}
         name={name}
         type={type}
