@@ -1,4 +1,6 @@
 from rest_framework.exceptions import AuthenticationFailed,ValidationError
+
+
 from users.models import User
 import jwt
 
@@ -17,3 +19,5 @@ def authenticate_user(request):
         raise AuthenticationFailed("błąd uwierzytelniania")
     
     return User.objects.get(pk=payload['id'])
+
+
