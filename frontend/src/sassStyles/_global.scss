@@ -16,8 +16,18 @@ body {
   width: 100%;
 }
 
-main {
-  @extend .default-layout;
+.modal-bg {
+  z-index: 100000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  background-color: rgba(62, 60, 61, 0.6);
 }
 
 input {
@@ -50,4 +60,38 @@ a {
   &:hover {
     cursor: pointer;
   }
+}
+
+select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+option {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+textarea {
+  background-color: transparent;
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
 }

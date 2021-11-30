@@ -1,0 +1,35 @@
+@import "../../../sassStyles/variables";
+@import "../../atoms/Text/Text.module.scss";
+
+.todo {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid $gray;
+  padding: 5px;
+  min-height: 70px;
+}
+
+.checkbox {
+  align-self: center;
+}
+
+.text {
+  @extend .s14;
+  width: 100%;
+  text-align: justify;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.removeTodo {
+  align-self: center;
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

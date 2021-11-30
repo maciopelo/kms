@@ -1,0 +1,7 @@
+@import "../../sassStyles/mixins";
+@import "../../sassStyles/variables";
+
+.container {
+  padding: $defaultLayoutTopBottomPadding 0;
+  @extend .default-layout;
+}

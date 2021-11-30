@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework import serializers
-from .models import User
+from .models import User, Todo
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,3 +24,11 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         
         return instance
+
+
+class TodoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Todo
+        fields = '__all__'
+  

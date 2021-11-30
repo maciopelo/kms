@@ -1,0 +1,27 @@
+@import "../../../sassStyles/variables";
+
+.cross {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+}
+.cross:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+.cross:before,
+.cross:after {
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 33px;
+  width: 2px;
+  background-color: $gray;
+}
+.cross:before {
+  transform: rotate(45deg);
+}
+.cross:after {
+  transform: rotate(-45deg);
+}

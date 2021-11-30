@@ -29,6 +29,7 @@ class UserLoginTest(APITestCase):
             "email":"tony@mail.com",
             "password":"tony"
         }
+
         response = self.client.post("/api/login/", payload)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         
@@ -40,5 +41,6 @@ class UserLoginTest(APITestCase):
             "email":"tony@mail.com",
             "password":"ppp"
         }
+
         response = self.client.post("/api/login/", payload)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

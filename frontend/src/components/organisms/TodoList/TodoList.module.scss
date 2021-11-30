@@ -1,0 +1,51 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+@import "../../atoms/Text/Text.module.scss";
+
+$todosHeight: 400px;
+
+.todoWrapper {
+  height: 500px;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: $beige;
+  border-radius: $borderRadiusSmall;
+  border: rgba(62, 60, 61, 0.7) solid 2px;
+  box-shadow: 0 0 8px 2px rgba(62, 60, 61, 0.7);
+
+  @include default {
+    padding: 10px;
+    margin-top: 30px;
+  }
+}
+
+.header {
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid $gray;
+}
+
+.todos {
+  overflow-y: auto;
+  max-height: $todosHeight;
+  & li:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}
+
+.todo {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid $gray;
+  padding: 5px;
+  min-height: 70px;
+
+  & > span {
+    margin-right: 10px;
+  }
+}
+
+.text {
+  @extend .s16;
+  width: 100%;
+}

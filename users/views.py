@@ -1,11 +1,15 @@
 from django.shortcuts import render
-from rest_framework import serializers
+from backend.utils import *
+from rest_framework import serializers, status
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
-from .serializers import UserSerializer
+from .serializers import UserSerializer,TodoSerializer
 from rest_framework.response import Response
-from rest_framework.exceptions import AuthenticationFailed
-from .models import User
+from rest_framework.exceptions import AuthenticationFailed,ValidationError
+from .models import User, Todo
+from kindergarten.models import Child
+from kindergarten.serializers import ChildSerializer
+from django.db.models import Q
 import datetime
 import jwt
 
@@ -23,6 +27,7 @@ class RegisterView(APIView):
         return Response(serializer.data, status=201)
 
 
+
 class LoginView(APIView):
 
     permission_classes = [AllowAny]
@@ -34,8 +39,6 @@ class LoginView(APIView):
 
         user = User.objects.filter(email=email).first()
 
-        
-
         if user is None:
             raise AuthenticationFailed({'msg':'nieprawidłowy email lub hasło'})
 
@@ -45,14 +48,14 @@ class LoginView(APIView):
 
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=20),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=48),
             'iat': datetime.datetime.utcnow()
         }
 
         token = jwt.encode(payload, 'secret_key', algorithm='HS256')
 
         response = Response()
-        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.set_cookie(key='jwt', value=token, httponly=True, secure=True, samesite='None')
         response.data = {
             'id':user.id,
             'type':user.type,
@@ -66,18 +69,8 @@ class LoginView(APIView):
 class AuthView(APIView):
     
     def post(self, request):
-        token = request.COOKIES.get('jwt')
 
-        if not token:
-            raise AuthenticationFailed("błąd uwierzytelniania")
-
-        try:
-            payload = jwt.decode(token, 'secret_key', algorithms=['HS256'])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("błąd uwierzytelniania")
-       
-        user = User.objects.get(pk=payload['id'])
+        user = authenticate_user(request)
 
         response = Response()
         response.data = {
@@ -97,24 +90,81 @@ class LogoutView(APIView):
         return response
 
 
-# class UserView(APIView):
+
+class TodoView(APIView):
+
+
+    def get(self, request, day=None, month=None, year=None):
+
+        user = authenticate_user(request)
+        curr_month = datetime.date.today().month
+
+        # default from current month
+        todos = Todo.objects.filter(Q(user=user) & Q(date__month=curr_month))
+
+
+        # if given then from single day
+        if day and month and year:
+            today = f"{year}-{month}-{day}"
+            todos = Todo.objects.filter(Q(user=user) & Q(date=today))
+        
+
+        serializer = TodoSerializer(todos, many=True)
+
+        return Response(serializer.data)
+
     
-#     def get(self, request):
-#         token = request.COOKIES.get('jwt')
+    def post(self, request):
 
-#         if not token:
-#             raise AuthenticationFailed("Unauthenticated!")
+        user = authenticate_user(request)
 
-#         try:
-#             payload = jwt.decode(token, 'secret_key', algorithms=['HS256'])
-#         except jwt.ExpiredSignatureError:
-#             raise AuthenticationFailed("Unauthenticated!")
-       
-#         user = User.objects.get(pk=payload['id'])
-#         serializer = UserSerializer(user)
+        new_todo = {
+            "text":request.data['text'],
+            "date":request.data['date'],
+            'user':getattr(user,'id')
+        }
 
-#         return Response(serializer.data)
 
+        serializer = TodoSerializer(data=new_todo)
+        
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        
+        return Response({'msg':"empty task"}, 400)
+
+    
+    def delete(self, request, pk):
+
+        user = authenticate_user(request)
+        
+        try:
+            todo = Todo.objects.get(Q(user=user) & Q(id=pk))
+            serializer = TodoSerializer({"id":todo.id, "text":todo.text, "date":todo.date, "user":todo.user})
+            todo.delete()
+        except (Todo.DoesNotExist, ValidationError):
+            return Response({'msg':"Todo of given id does not exist"}, 400) 
+            
+            
+        return Response(serializer.data)
+
+
+
+class ParentChildrenView(APIView):
+
+    def get(self, request):
+
+        user = authenticate_user(request)
+        children = Child.objects.filter(Q(user=user))
+        serializer = ChildSerializer(children,many=True)
+
+        return Response(serializer.data)
+            
+
+        
+
+  
 
 
 

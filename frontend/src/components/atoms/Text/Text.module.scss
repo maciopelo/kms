@@ -47,6 +47,10 @@
 
 .s24 {
   font-size: 2.4rem;
+
+  @include default {
+    font-size: 2rem;
+  }
 }
 
 .s28 {
@@ -67,14 +71,44 @@
 
 .s34 {
   font-size: 3.4rem;
+
+  @include large {
+    font-size: 3rem;
+  }
+
+  @include default {
+    font-size: 2.6rem;
+  }
 }
 
 .s40 {
   font-size: 4rem;
+  @include large {
+    font-size: 3.2rem;
+  }
+
+  @include default {
+    font-size: 3rem;
+  }
+
+  @include medium {
+    font-size: 2.8rem;
+  }
 }
 
 .s44 {
-  font-size: 4.4rem;
+  font-size: 4rem;
+  @include large {
+    font-size: 3.4rem;
+  }
+
+  @include default {
+    font-size: 3.2rem;
+  }
+
+  @include medium {
+    font-size: 3rem;
+  }
 }
 
 .s96 {
@@ -95,6 +129,14 @@
   @include tiny {
     font-size: 4rem;
   }
+}
+
+.fLight {
+  font-weight: 300;
+}
+
+.fRegular {
+  font-weight: 400;
 }
 
 .fMedium {

@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "../../components/organisms/Header/Header";
+import styles from "./GenericPage.module.scss";
 
 const GenericPage = ({ children }) => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className={styles.container}>{children}</main>
     </>
   );
 };

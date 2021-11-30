@@ -1,0 +1,39 @@
+@import "../../../../sassStyles/variables";
+@import "../../../atoms/Text/Text.module.scss";
+.wrapper {
+  width: 750px;
+  background-color: $beige;
+  border: 1px solid $gray;
+  border-radius: $borderRadiusSmall;
+}
+
+.content {
+  padding: 20px 15px;
+  height: 350px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.announcements {
+  margin-top: 15px;
+  height: 70%;
+  border: solid $gray 1px;
+  border-radius: $borderRadiusSmall;
+  padding: 10px;
+}
+
+.attendance {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  img {
+    margin-left: 10px;
+  }
+}
+
+.dropdown {
+  @extend .s16;
+}
