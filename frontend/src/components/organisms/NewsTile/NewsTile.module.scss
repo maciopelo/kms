@@ -1,0 +1,92 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+@import "../../../sassStyles/global";
+
+.newsTileWrapper {
+  display: flex;
+  background-color: $beige;
+  padding: 15px 10px;
+  border-radius: $borderRadiusSmall;
+  box-shadow: 0 0 8px 2px rgba(62, 60, 61, 0.4);
+  margin-bottom: 40px;
+
+  @include medium {
+    flex-direction: column;
+  }
+}
+
+.newsTileContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.newsTileDesc {
+  margin-top: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @include medium {
+    display: none;
+  }
+
+  span:nth-of-type(2) {
+    margin: 10px 0;
+  }
+}
+
+.newsTileHeader {
+  max-width: 70%;
+
+  @include default {
+    max-width: initial;
+  }
+
+  @include medium {
+    margin-top: 20px;
+  }
+}
+
+.mainImage {
+  margin-right: 50px;
+  min-width: 450px;
+  min-height: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left;
+
+  @include default {
+    margin-right: 25px;
+  }
+
+  @include medium {
+    margin-right: 0;
+  }
+
+  @include small {
+    min-width: initial;
+    width: 100%;
+  }
+
+  div {
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(62, 60, 61, 0.4);
+    div {
+      background-color: rgba(62, 60, 61, 0.4);
+    }
+  }
+}
+
+.readMore {
+  position: relative;
+  padding: 2px;
+  align-self: baseline;
+
+  @extend .underline;
+}

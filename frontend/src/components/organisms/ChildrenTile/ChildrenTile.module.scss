@@ -1,3 +1,4 @@
+@import "../../../sassStyles/global";
 @import "../../../sassStyles/variables";
 @import "../../../sassStyles/mixins";
 @import "../../atoms/Text/Text.module.scss";
@@ -86,23 +87,7 @@
     margin-right: 10px;
   }
 
-  &::after {
-    transition: width 0.3s ease;
-    position: absolute;
-    bottom: -2px;
-    content: "";
-    width: 0;
-    height: 2px;
-    background-color: $gray;
-  }
-
-  &:hover {
-    cursor: pointer;
-
-    &::after {
-      width: 100%;
-    }
-  }
+  @extend .underline;
 
   @include small {
     padding: 10px 5px;

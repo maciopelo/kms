@@ -6,9 +6,9 @@ import jwt
 
 def authenticate_user(request):
     
-    print(request.COOKIES)
     token = request.COOKIES.get('jwt')
 
+    print(token)
     if not token:
         raise AuthenticationFailed("błąd uwierzytelniania")
 

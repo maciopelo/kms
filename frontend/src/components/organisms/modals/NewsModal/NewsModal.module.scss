@@ -47,6 +47,11 @@
 .uploads {
   flex: 1;
   margin-right: 20px;
+
+  span:nth-of-type(2) {
+    display: block;
+    margin-top: 5px;
+  }
 }
 
 .date {

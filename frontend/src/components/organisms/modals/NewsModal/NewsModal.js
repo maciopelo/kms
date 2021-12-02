@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./NewsModal.module.scss";
 import ModalInputHeader from "../../../molecules/ModalInputHeader/ModalInputHeader";
 import Text from "../../../atoms/Text/Text";
@@ -7,29 +7,33 @@ import Button from "../../../atoms/Button/Button";
 import FileInput from "../../../molecules/FileInput/FileInput";
 import { useFormik } from "formik";
 import { newsSchema } from "../../../../validators";
+import useFetch from "../../../../hooks/useFetch";
+import { API } from "../../../../api/urls";
+import { useModalContext } from "../../../../store/contexts/ModalContext";
 
 const NewsModal = () => {
+  const { handleModal } = useModalContext();
+  const { callAPI } = useFetch();
   const [files, setFiles] = useState({
     main: [],
-    rest: [],
+    error: false,
   });
 
   const handleAddMainImage = ({ target: { files } }) => {
     const mainImg = files;
     setFiles((prev) => ({ ...prev, main: mainImg }));
+    setFiles((prev) => ({ ...prev, error: false }));
   };
 
   const handleRemoveMainImage = () => {
     setFiles((prev) => ({ ...prev, main: [] }));
+    setFiles((prev) => ({ ...prev, error: true }));
   };
 
-  const handleAddRestImages = ({ target: { files } }) => {
-    const restImages = files;
-    setFiles((prev) => ({ ...prev, rest: restImages }));
-  };
-
-  const handleRemoveRestImages = () => {
-    setFiles((prev) => ({ ...prev, rest: [] }));
+  const checkFileField = () => {
+    if (files.main.length === 0) {
+      setFiles((prev) => ({ ...prev, error: true }));
+    }
   };
 
   const formik = useFormik({
@@ -40,8 +44,30 @@ const NewsModal = () => {
     },
 
     validationSchema: newsSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      if (files.main.length === 0) {
+        setFiles((prev) => ({ ...prev, error: true }));
+        return;
+      }
+
+      const payload = {
+        ...values,
+        date: `2021-11-11T00:00`,
+        main_image: files.main[0],
+      };
+
+      const formData = new FormData();
+
+      Object.keys(payload).forEach((key) => {
+        formData.append(key, payload[key]);
+      });
+
+      const res = await callAPI(`${API.NEWS}`, "POST", formData, null, {});
+
+      if (res) {
+        formik.resetForm();
+        handleModal();
+      }
     },
   });
 
@@ -79,14 +105,11 @@ const NewsModal = () => {
                 handleOnChange={handleAddMainImage}
                 handleRemove={handleRemoveMainImage}
               />
-
-              <FileInput
-                files={files.rest}
-                text="Główne"
-                multiple={true}
-                handleOnChange={handleAddRestImages}
-                handleRemove={handleRemoveRestImages}
-              />
+              {files.error && (
+                <Text s11 error fRegular>
+                  wymagane
+                </Text>
+              )}
             </div>
             <div className={styles.date}>
               <Text s28 rouge fMedium>
@@ -95,7 +118,7 @@ const NewsModal = () => {
               <Input
                 name="date"
                 type="text"
-                placeholder="dd/mm/rrrr"
+                placeholder="dd-mm-rrrr"
                 error={formik.errors.date}
                 touched={formik.touched.date}
                 {...formik.getFieldProps("date")}
@@ -103,7 +126,7 @@ const NewsModal = () => {
             </div>
           </div>
           <div className={styles.save}>
-            <Button form="news-form" type="submit">
+            <Button form="news-form" type="submit" onClick={checkFileField}>
               zapisz
             </Button>
           </div>

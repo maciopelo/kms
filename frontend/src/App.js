@@ -16,6 +16,7 @@ import Chat from "./pages/Chat/Chat";
 import About from "./pages/About/About";
 import Files from "./pages/Files/Files";
 import PrivateRoute from "./utils/PrivateRoute";
+import NewsTemplate from "./pages/NewsTemplate/NewsTemplate";
 import { AuthProvider } from "./store/contexts/AuthContext";
 import { ModalProvider } from "./store/contexts/ModalContext";
 
@@ -31,7 +32,8 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <PrivateRoute path="/home" component={Home} />
-            <PrivateRoute path="/news" component={News} />
+            <PrivateRoute exact path="/news" component={News} />
+            <PrivateRoute path="/news/:id" component={NewsTemplate} />
             <PrivateRoute path="/kids" component={Kids} />
             <PrivateRoute path="/groups" component={Groups} />
             <PrivateRoute path="/employees" component={Employees} />

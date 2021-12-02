@@ -109,6 +109,10 @@
   @include medium {
     font-size: 3rem;
   }
+
+  @include small {
+    font-size: 2.4rem;
+  }
 }
 
 .s96 {
@@ -129,6 +133,18 @@
   @include tiny {
     font-size: 4rem;
   }
+}
+
+.lh24 {
+  line-height: 24px;
+}
+
+.lh40 {
+  line-height: 40px;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .fLight {
