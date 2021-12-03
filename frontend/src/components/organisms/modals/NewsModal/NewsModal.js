@@ -10,12 +10,15 @@ import { newsSchema } from "../../../../validators";
 import useFetch from "../../../../hooks/useFetch";
 import { API } from "../../../../api/urls";
 import { useModalContext } from "../../../../store/contexts/ModalContext";
+import { getDBDateFormat } from "../../../../utils/dateHelpers";
 
-const NewsModal = () => {
+const NewsModal = ({ update }) => {
   const { handleModal } = useModalContext();
   const { callAPI } = useFetch();
+
   const [files, setFiles] = useState({
     main: [],
+    rest: [],
     error: false,
   });
 
@@ -28,6 +31,15 @@ const NewsModal = () => {
   const handleRemoveMainImage = () => {
     setFiles((prev) => ({ ...prev, main: [] }));
     setFiles((prev) => ({ ...prev, error: true }));
+  };
+
+  const handleAddRestImage = ({ target: { files } }) => {
+    const restImage = files;
+    setFiles((prev) => ({ ...prev, rest: restImage }));
+  };
+
+  const handleRemoveRestImage = () => {
+    setFiles((prev) => ({ ...prev, rest: [] }));
   };
 
   const checkFileField = () => {
@@ -52,7 +64,7 @@ const NewsModal = () => {
 
       const payload = {
         ...values,
-        date: `2021-11-11T00:00`,
+        date: `${getDBDateFormat(new Date(values.date))}T00:00`,
         main_image: files.main[0],
       };
 
@@ -62,11 +74,15 @@ const NewsModal = () => {
         formData.append(key, payload[key]);
       });
 
+      Object.keys(files.rest).forEach((key) => {
+        formData.append(`img_${key}`, files.rest[key]);
+      });
       const res = await callAPI(`${API.NEWS}`, "POST", formData, null, {});
 
       if (res) {
         formik.resetForm();
         handleModal();
+        update(`${API.NEWS}`);
       }
     },
   });
@@ -98,18 +114,33 @@ const NewsModal = () => {
                 Zdjęcia
               </Text>
 
-              <FileInput
-                files={files.main}
-                text="Główne"
-                multiple={false}
-                handleOnChange={handleAddMainImage}
-                handleRemove={handleRemoveMainImage}
-              />
-              {files.error && (
-                <Text s11 error fRegular>
-                  wymagane
+              <div>
+                <FileInput
+                  files={files.main}
+                  text="Główne"
+                  multiple={false}
+                  handleOnChange={handleAddMainImage}
+                  handleRemove={handleRemoveMainImage}
+                />
+                {files.error && (
+                  <Text s11 error fRegular>
+                    wymagane
+                  </Text>
+                )}
+              </div>
+
+              <div>
+                <FileInput
+                  files={files.rest}
+                  text="Pozostałe"
+                  multiple={true}
+                  handleOnChange={handleAddRestImage}
+                  handleRemove={handleRemoveRestImage}
+                />
+                <Text s11 fRegular>
+                  max. 20
                 </Text>
-              )}
+              </div>
             </div>
             <div className={styles.date}>
               <Text s28 rouge fMedium>

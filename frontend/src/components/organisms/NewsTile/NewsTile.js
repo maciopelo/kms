@@ -3,9 +3,27 @@ import styles from "./NewsTile.module.scss";
 import { BASE_URL } from "../../../api/urls";
 import Text from "../../atoms/Text/Text";
 import { Link } from "react-router-dom";
+import bin from "../../../assets/icons/bin.svg";
+import { useModalContext } from "../../../store/contexts/ModalContext";
+import AreYouSureModal from "../modals/AreYouSureModal/AreYouSureModal";
+import { useAuthContext } from "../../../store/contexts/AuthContext";
+import { USER } from "../../../utils/enums";
+import { API } from "../../../api/urls";
 
-const NewsTile = ({ news }) => {
+const NewsTile = ({ news, update }) => {
+  const {
+    authState: { user },
+  } = useAuthContext();
+  const { handleModal } = useModalContext();
   const { id, main_image, header, date, description } = news;
+
+  const handleNewsRemove = async () => {
+    const res = await fetch(`${API.NEWS}${news.id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    update(`${API.NEWS}`);
+  };
 
   return (
     <div className={styles.newsTileWrapper}>
@@ -19,6 +37,22 @@ const NewsTile = ({ news }) => {
       </div>
 
       <div className={styles.newsTileContent}>
+        {user.type !== USER.PARENT && (
+          <img
+            className={styles.removeNewsButton}
+            onClick={() =>
+              handleModal(
+                <AreYouSureModal
+                  onYes={handleNewsRemove}
+                  question="Czy na pewno chcesz usunąć ten post?"
+                />
+              )
+            }
+            src={bin}
+            alt="Bin Icon"
+          />
+        )}
+
         <header className={styles.newsTileHeader}>
           <Text s44 gray fMedium uppercase>
             {header}

@@ -21,16 +21,24 @@ class NewsView(APIView):
 
         news_serializer = NewsSerializer(news, many=True)
 
+        res_data = {
+            "news":news_serializer.data,
+        }
+
         if pk is not None:
 
             news = News.objects.get(id=pk)
+            news_files = NewsFile.objects.filter(Q(news=news))
 
-            print(news)
             news_serializer = NewsSerializer(news)
+            news_files_serializer = NewsFileSerializer(news_files, many=True)
 
+            res_data = {
+                "news":news_serializer.data,
+                "news_files":news_files_serializer.data
+            }
 
-
-        return Response(news_serializer.data)
+        return Response(res_data)
 
 
 
@@ -39,13 +47,52 @@ class NewsView(APIView):
 
         parser_classes = [MultiPartParser, FormParser]
 
-        news_serializer = NewsSerializer(data=request.data)
+        news_data = {
+            "header":request.data["header"],
+            "description":request.data["description"],
+            "main_image":request.data["main_image"],
+            "date":request.data["date"],
+        }
+
+  
+        news_serializer = NewsSerializer(data=news_data)
 
         if news_serializer.is_valid():
-            news_serializer.save()
+            news = news_serializer.save()
+           
+
+            for i in range(len(request.FILES)-1):
+
+                news_file_data = {
+                    "news":news.id,
+                    "file": request.FILES.getlist(f'img_{i}')[0]
+                }
+
+                news_file_serializer = NewsFileSerializer(data=news_file_data)
+
+                if news_file_serializer.is_valid():
+                    news_file_serializer.save()
+                else:
+                    return Response(news_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
             return Response(news_serializer.data,status=status.HTTP_201_CREATED)
         else:
             return Response(news_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def delete(self, request, pk=None):
+        
+        authenticate_user(request)
+
+        try:
+            news = News.objects.get(id=pk)
+            serializer = NewsSerializer(news)
+            news.delete()
+        except (News.DoesNotExist, ValidationError):
+            return Response({'msg':"Todo of given id does not exist"}, 400) 
+
+        
+        return Response(serializer.data)
 
         
         
@@ -71,7 +118,7 @@ class NewsFileView(APIView):
         parser_classes = [MultiPartParser, FormParser]
 
         news_id = request.data['id']
-        files = request.FILES.getlist("files")
+        files = request.FILES.getlist("rest_image")
 
         news = News.objects.filter(Q(id=news_id))
 

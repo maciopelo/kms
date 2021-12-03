@@ -29,15 +29,6 @@
     min-width: 50%;
     min-height: 400px;
   }
-
-  //   @include medium {
-  //     margin-right: 0;
-  //   }
-
-  //   @include small {
-  //     min-width: initial;
-  //     width: 100%;
-  //   }
 }
 
 .newsTemplateDate {
@@ -48,4 +39,37 @@
 
 .newsTemplateDescription {
   margin-top: 100px;
+}
+
+.gallery {
+  margin-top: 100px;
+  display: grid;
+  background-color: $beige;
+  grid-template-columns: repeat(3, minmax(100px, auto));
+  grid-row-gap: 40px;
+  grid-column-gap: 20px;
+
+  @include default {
+    grid-template-columns: repeat(2, minmax(100px, auto));
+  }
+
+  @include small {
+    grid-template-columns: repeat(1, minmax(100px, auto));
+  }
+
+  .singleImg {
+    min-height: 300px;
+    border-radius: $borderRadiusSmall;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    box-shadow: 0 0 8px 2px rgba(62, 60, 61, 0.7);
+
+    img {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+  }
 }

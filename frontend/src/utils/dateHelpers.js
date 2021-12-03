@@ -17,7 +17,7 @@ export const getUrlDateFormat = (date) => {
 export const getDBDateFormat = (date) => {
   let result;
   result = `${date.getFullYear()}-${
-    date.getMonth() < 10 ? "0" + date.getMonth() + 1 : date.getMonth() + 1
+    date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
   }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
   return result;
 };

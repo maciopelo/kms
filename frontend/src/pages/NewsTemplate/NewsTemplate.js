@@ -21,22 +21,39 @@ const NewsTemplate = () => {
         <div className={styles.newsTemplateWrapper}>
           <header className={styles.newsTemplateHeader}>
             <Text s44 gray fMedium uppercase>
-              {data.header}
+              {data.news.header}
             </Text>
             <div
               className={styles.newsTemplateMainImage}
-              style={{ backgroundImage: `url(${BASE_URL}${data.main_image})` }}
+              style={{
+                backgroundImage: `url(${BASE_URL}${data.news.main_image})`,
+              }}
             />
             <div className={styles.newsTemplateDate}>
               <Text s20 gray fBold>
-                {`${data.date.substring(0, 10)} r.`}
+                {`${data.news.date.substring(0, 10)} r.`}
               </Text>
             </div>
           </header>
           <div className={styles.newsTemplateDescription}>
             <Text lh40 gray fRegular s24>
-              {data.description}
+              {data.news.description}
             </Text>
+          </div>
+          <div className={styles.gallery}>
+            {data.news_files.map((img, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className={styles.singleImg}
+                  style={{
+                    backgroundImage: `url(${BASE_URL}${img.file})`,
+                  }}
+                >
+                  <img src={`${BASE_URL}${img.file}`} alt="Gallery" />
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

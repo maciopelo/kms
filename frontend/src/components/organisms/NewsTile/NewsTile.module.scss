@@ -16,6 +16,7 @@
 }
 
 .newsTileContent {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -89,4 +90,16 @@
   align-self: baseline;
 
   @extend .underline;
+}
+
+.removeNewsButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 40px;
+  width: 40px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }

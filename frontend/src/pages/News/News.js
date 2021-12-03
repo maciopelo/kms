@@ -9,6 +9,7 @@ import useFetch from "../../hooks/useFetch";
 import { API } from "../../api/urls";
 import NewsTile from "../../components/organisms/NewsTile/NewsTile";
 import { v4 as uuidv4 } from "uuid";
+import { USER } from "../../utils/enums";
 
 const News = () => {
   const { handleModal } = useModalContext();
@@ -22,14 +23,18 @@ const News = () => {
     callAPI(`${API.NEWS}`);
   }, []);
 
-  console.log(data);
-
   return (
     <GenericPage>
       {data &&
         !isLoading &&
-        data.map((news) => <NewsTile key={uuidv4()} news={news} />)}
-      <PlusButton onClick={() => handleModal(<NewsModal />)} />
+        data.news.map((n) => (
+          <NewsTile key={uuidv4()} news={n} update={callAPI} />
+        ))}
+      {user.type !== USER.PARENT && (
+        <PlusButton
+          onClick={() => handleModal(<NewsModal update={callAPI} />)}
+        />
+      )}
     </GenericPage>
   );
 };
