@@ -24,7 +24,14 @@ class UserRegistrationTest(APITestCase):
         }
 
         response = self.client.post("/api/register/", payload)
+        all_users = User.objects.all()
+        user = User.objects.get(id=response.data['id'])
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(all_users), 2)
+        self.assertEqual(user.name, response.data['name'])
+        self.assertEqual(user.email, response.data['email'])
+    
+    
 
     
     def test_user_invalid_data(self):

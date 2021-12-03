@@ -94,56 +94,54 @@ class NewsView(APIView):
         
         return Response(serializer.data)
 
+          
+
+
+# class NewsFileView(APIView):
+
+
+#     def get(self, request):
+#         authenticate_user(request)
+
+#         news_files = NewsFile.objects.all()
         
-        
-        
+#         news_file_serializer = NewsFileSerializer(news_files, many=True)
 
 
-class NewsFileView(APIView):
-
-
-    def get(self, request):
-        authenticate_user(request)
-
-        news_files = NewsFile.objects.all()
-        
-        news_file_serializer = NewsFileSerializer(news_files, many=True)
-
-
-        return Response(news_file_serializer.data)
+#         return Response(news_file_serializer.data)
     
 
-    def post(self, request):
-        authenticate_user(request)
-        parser_classes = [MultiPartParser, FormParser]
+#     def post(self, request):
+#         authenticate_user(request)
+#         parser_classes = [MultiPartParser, FormParser]
 
-        news_id = request.data['id']
-        files = request.FILES.getlist("rest_image")
+#         news_id = request.data['id']
+#         files = request.FILES.getlist("rest_image")
 
-        news = News.objects.filter(Q(id=news_id))
+#         news = News.objects.filter(Q(id=news_id))
 
-        if len(news) > 0:
+#         if len(news) > 0:
 
-            for f in files:
+#             for f in files:
 
-                news_file_data = {
-                    "news":news_id,
-                    "file": f
-                }
+#                 news_file_data = {
+#                     "news":news_id,
+#                     "file": f
+#                 }
 
-                news_file_serializer = NewsFileSerializer(data=news_file_data)
+#                 news_file_serializer = NewsFileSerializer(data=news_file_data)
 
-                if news_file_serializer.is_valid():
-                    news_file_serializer.save()
-                else:
-                    return Response(news_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#                 if news_file_serializer.is_valid():
+#                     news_file_serializer.save()
+#                 else:
+#                     return Response(news_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        else:
-            return Response({"msg":f"No news of id {news_id}"}, status=status.HTTP_400_BAD_REQUEST)
+#         else:
+#             return Response({"msg":f"No news of id {news_id}"}, status=status.HTTP_400_BAD_REQUEST)
         
 
 
-        return Response({"msg":f"Succesfully added {len(files)} files"},status=status.HTTP_201_CREATED)
+#         return Response({"msg":f"Succesfully added {len(files)} files"},status=status.HTTP_201_CREATED)
 
         
 
