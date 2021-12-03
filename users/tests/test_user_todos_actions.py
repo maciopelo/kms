@@ -5,10 +5,14 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from ..serializers import TodoSerializer
 from django.db.models import Q
+from datetime import date
 
 
 
-class UserTodosActions(APITestCase):
+
+
+
+class UserTodosActionsTest(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(email="tony@mail.com", username="tony", name="tony", surname="tony", password="tony")
@@ -34,11 +38,11 @@ class UserTodosActions(APITestCase):
     def test_get_all_todos_from_curr_month(self):
         self.login()
         res = self.client.get("/api/todo/")
-        result = Todo.objects.filter(Q(date__month=11))
+        today = date.today()
+        result = Todo.objects.filter(Q(date__month=today.month))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(len(res.data), len(result))
-        self.assertEqual(res.data[0]['text'], result[0].text)
-        self.assertEqual(res.data[1]['text'], result[1].text)
+
     
 
     def test_get_all_todos_from_given_day(self):

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./CalendarModal.module.scss";
-import ModalHeader from "../../../molecules/ModalHeader/ModalHeader";
+import ModalDateHeader from "../../../molecules/ModalDateHeader/ModalDateHeader";
 import Text from "../../../atoms/Text/Text";
 import { v4 as uuidv4 } from "uuid";
 import TodoItem from "../../../molecules/TodoItem/TodoItem";
@@ -46,7 +46,7 @@ const CalendarModal = ({ date, setHomepageTodos }) => {
 
   return (
     <div className={styles.wrapper}>
-      <ModalHeader date={date} />
+      <ModalDateHeader date={date} />
       <div className={styles.content}>
         <div className={styles.contentLeft}>
           <div className={styles.todoList}>

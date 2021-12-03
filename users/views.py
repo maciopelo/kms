@@ -55,7 +55,8 @@ class LoginView(APIView):
         token = jwt.encode(payload, 'secret_key', algorithm='HS256')
 
         response = Response()
-        response.set_cookie(key='jwt', value=token, httponly=True, secure=True, samesite='None')
+        # response.set_cookie(key='jwt', value=token, httponly=True, secure=True, samesite='None')
+        response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
             'id':user.id,
             'type':user.type,
@@ -97,6 +98,7 @@ class TodoView(APIView):
     def get(self, request, day=None, month=None, year=None):
 
         user = authenticate_user(request)
+        
         curr_month = datetime.date.today().month
 
         # default from current month

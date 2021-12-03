@@ -1,0 +1,23 @@
+@import "../../../sassStyles/variables";
+
+.topInputHeader {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 20px;
+  align-items: flex-end;
+  height: 125px;
+  background-color: $lightRouge;
+  border-top-left-radius: $borderRadiusSmall;
+  border-top-right-radius: $borderRadiusSmall;
+}
+
+.inputWrapper {
+  width: 90%;
+}
+
+.close {
+  position: absolute;
+  right: 37px;
+  top: 4px;
+}

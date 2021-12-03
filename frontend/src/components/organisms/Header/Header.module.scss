@@ -5,6 +5,7 @@
 .header {
   position: sticky;
   position: -webkit-sticky;
+  z-index: 100;
   top: 0;
   height: $headerHeight;
   background-color: $beige;
@@ -155,6 +156,7 @@
   opacity: 0;
   height: 0;
   width: 100%;
+  z-index: 100;
 
   &[data-open="true"] {
     height: 100%;

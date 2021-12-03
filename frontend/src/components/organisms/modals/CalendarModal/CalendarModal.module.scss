@@ -11,9 +11,8 @@
 
 .content {
   display: flex;
-  padding: 20px 15px;
+  padding: $defaultModalPadding;
   min-height: 350px;
-
   @include default {
     flex-direction: column;
   }

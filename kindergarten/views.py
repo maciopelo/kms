@@ -14,7 +14,6 @@ import jwt
 
 class GroupView(APIView):
 
-
     def get(self, request):
         authenticate_user(request)
 
@@ -22,6 +21,7 @@ class GroupView(APIView):
         serializer = GroupSerializer(groups, many=True)
 
         return Response(serializer.data)
+
 
 
 class AnnouncementView(APIView):
@@ -67,6 +67,7 @@ class AnnouncementView(APIView):
 
         authenticate_user(request)
 
+        print(pk)
         try:
             ann = Announcement.objects.get(id=pk)
             serializer = AnnouncementSerializer(ann, data=request.data)
@@ -78,6 +79,6 @@ class AnnouncementView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Announcement.DoesNotExist:
-           raise status.HTTP_404_NOT_FOUND
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         

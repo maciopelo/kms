@@ -5,16 +5,20 @@ const useFetch = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const callAPI = useCallback(
-    async (url, method = "GET", body = null, options = null) => {
+    async (
+      url,
+      method = "GET",
+      body = null,
+      options = null,
+      headers = { "Content-Type": "application/json" }
+    ) => {
       try {
         setIsLoading(true);
         const res = await fetch(url, {
           ...options,
           method: method,
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { ...headers },
           body: body,
         });
         const json = await res.json();

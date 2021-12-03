@@ -1,0 +1,26 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+
+.wrapper {
+  position: fixed;
+  right: 40px;
+  bottom: 30px;
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+
+  @include medium {
+    right: 20px;
+    bottom: 15px;
+    height: 75px;
+    width: 75px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}

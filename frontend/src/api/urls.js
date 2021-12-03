@@ -1,14 +1,17 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+export const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 
 export const API = {
-  REGISTER: `${BASE_URL}/register/`,
-  LOGIN: `${BASE_URL}/login/`,
-  AUTH: `${BASE_URL}/auth/`,
-  LOGOUT: `${BASE_URL}/logout/`,
+  REGISTER: `${BASE_API_URL}/register/`,
+  LOGIN: `${BASE_API_URL}/login/`,
+  AUTH: `${BASE_API_URL}/auth/`,
+  LOGOUT: `${BASE_API_URL}/logout/`,
   USER: {
-    TODOS: `${BASE_URL}/todo/`,
-    CHILDREN: `${BASE_URL}/parent/children/`,
+    TODOS: `${BASE_API_URL}/todo/`,
+    CHILDREN: `${BASE_API_URL}/parent/children/`,
   },
-  GROUP: `${BASE_URL}/group/`,
-  ANNOUNCEMENT: `${BASE_URL}/announcement/`,
+  GROUP: `${BASE_API_URL}/group/`,
+  ANNOUNCEMENT: `${BASE_API_URL}/announcement/`,
+  NEWS: `${BASE_API_URL}/news/`,
+  NEWS_FILE: `${BASE_API_URL}/news/file/`,
 };

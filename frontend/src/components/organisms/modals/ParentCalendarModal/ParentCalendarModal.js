@@ -5,7 +5,7 @@ import tik from "../../../../assets/icons/tik.svg";
 import cross from "../../../../assets/icons/cross.svg";
 import { getUrlDateFormat } from "../../../../utils/dateHelpers";
 import Text from "../../../atoms/Text/Text";
-import ModalHeader from "../../../molecules/ModalHeader/ModalHeader";
+import ModalDateHeader from "../../../molecules/ModalDateHeader/ModalDateHeader";
 import styles from "./ParentCalendarModal.module.scss";
 
 const ParentCalendarModal = ({ date, children }) => {
@@ -26,7 +26,7 @@ const ParentCalendarModal = ({ date, children }) => {
   console.log(children);
   return (
     <div className={styles.wrapper}>
-      <ModalHeader date={date} />
+      <ModalDateHeader date={date} />
       <div className={styles.content}>
         <div className={styles.header}>
           <Text s28 rouge fMedium>
