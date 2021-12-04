@@ -39,7 +39,7 @@ class Child(models.Model):
     surname = models.CharField(max_length=50)
     gender = models.CharField(max_length=10, choices=[("M","MALE"),("F","FEMALE")], default="M")
     date_of_birth = models.DateField()
-    pesel = models.CharField(max_length=11)
+    pesel = models.CharField(max_length=11, unique=True)
     eats_breakfast = models.BooleanField(default=False)
     eats_dinner = models.BooleanField(default=False)
     eats_supper = models.BooleanField(default=False)
@@ -52,6 +52,10 @@ class Child(models.Model):
     extra_info = models.TextField(max_length=200, null=True, blank=True)
 
     objects = models.Manager()
+
+    class Meta:
+        verbose_name = "Child"
+        verbose_name_plural = "Children"
 
     def __str__(self):
         return f'{self.name} {self.surname}'

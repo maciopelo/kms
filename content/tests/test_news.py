@@ -55,7 +55,6 @@ class NewsTest(TestCase):
         res = self.client.get("/api/news/")
         data = res.data['news']
         result = News.objects.all()
-        print(data)
         self.assertEqual(len(data), len(result))
         self.assertEqual(data[0]['header'], result[0].header)
         self.assertEqual(data[0]['main_image'].split('/')[-1], self.main_img_mock.name)
