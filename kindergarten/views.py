@@ -4,8 +4,8 @@ from rest_framework import serializers, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed,ValidationError
-from .models import Announcement, Group
-from .serializers import AnnouncementSerializer,GroupSerializer
+from .models import Announcement, Child, Group
+from .serializers import AnnouncementSerializer, GroupSerializer, ChildSerializer
 from users.models import User
 from django.db.models import Q
 import datetime
@@ -67,7 +67,6 @@ class AnnouncementView(APIView):
 
         authenticate_user(request)
 
-        print(pk)
         try:
             ann = Announcement.objects.get(id=pk)
             serializer = AnnouncementSerializer(ann, data=request.data)
@@ -81,4 +80,80 @@ class AnnouncementView(APIView):
         except Announcement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+
+class ChildrenView(APIView):
+
+
+    def get(self,request):
+
+        authenticate_user(request)
+
+        children = Child.objects.all()
+        serializer = ChildSerializer(children, many=True)
+
+        return Response(serializer.data)
+
+
+
+    def post(self,request):
+
+        authenticate_user(request)
+
+        serializer = ChildSerializer(data=request.data) 
+
+
+
+        if serializer.is_valid() and len(request.data['pesel']) == 11:
+            serializer.save()
+            return Response(serializer.data)
+
+
+        errors = {**serializer.errors}
+
+        if len(request.data['pesel']) != 11:
+            errors['pesel'] = ['Pesel must consists of 11 characters.']
+ 
+        return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self,request,pk):
+
+        authenticate_user(request)
+
+        try:
+            child = Child.objects.get(id=pk)
+            serializer = ChildSerializer(child)
+            child.delete()
+            
+            return Response(serializer.data)
+
+        except Child.DoesNotExist:
+
+            return Response({'msg':"Child with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+
+    
+    def put(self,request, pk):
+
+        authenticate_user(request)
+
+        try:
+            child = Child.objects.get(id=pk)
+            serializer = ChildSerializer(child, data=request.data)
+
+            if serializer.is_valid() and len(request.data['pesel']) == 11:
+                serializer.save()
+                return Response(serializer.data)
+            
+            errors = {**serializer.errors}
+            
+            if len(request.data['pesel']) != 11:
+                errors['pesel'] = ['Pesel must consists of 11 characters.']
+
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Child.DoesNotExist:
+
+            return Response({'msg':"Child with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
         

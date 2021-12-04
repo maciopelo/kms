@@ -8,7 +8,6 @@ def authenticate_user(request):
     
     token = request.COOKIES.get('jwt')
 
-    print(token)
     if not token:
         raise AuthenticationFailed("błąd uwierzytelniania")
 
