@@ -1,0 +1,47 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+
+.childTileWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 530px;
+  width: 335px;
+  margin-right: 20px;
+  background-color: $lightRouge;
+  border-radius: $borderRadiusSmall;
+  box-shadow: $defaultShadowBox;
+  overflow: hidden;
+
+  img {
+    max-width: 200px;
+  }
+
+  @include small {
+    margin-right: 0;
+    height: auto;
+    width: 300px;
+    img {
+      display: none;
+    }
+  }
+}
+
+.childTileName {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-top: 10px;
+  span {
+    margin-bottom: 10px;
+  }
+}
+
+.male {
+  background-color: $lightBlue;
+  img {
+    align-self: flex-end;
+  }
+}

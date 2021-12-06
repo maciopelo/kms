@@ -9,7 +9,10 @@ function Text(props) {
     .join(" ");
 
   return (
-    <span className={parseStyleProps.length > 0 ? parseStyleProps : ""}>
+    <span
+      className={parseStyleProps.length > 0 ? parseStyleProps : ""}
+      onClick={props.onClick}
+    >
       {props.children}
     </span>
   );

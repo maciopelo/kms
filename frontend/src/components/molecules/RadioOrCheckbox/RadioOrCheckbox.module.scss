@@ -1,0 +1,50 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/helpers";
+
+.checkboxOrRadioContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+  @extend .no-select;
+}
+
+.input {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+  font: inherit;
+  height: 18px;
+  width: 18px;
+  border: 2px solid $gray;
+  display: grid;
+  place-content: center;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &::before {
+    cursor: pointer;
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: $gray;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+  }
+
+  &:checked::before {
+    transform: scale(1);
+  }
+}
+
+.input[type="radio"] {
+  border-radius: 10px;
+
+  &::before {
+    border-radius: 10px;
+  }
+}

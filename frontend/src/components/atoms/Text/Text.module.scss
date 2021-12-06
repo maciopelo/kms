@@ -166,3 +166,9 @@
 .fBold {
   font-weight: 700;
 }
+
+.hover {
+  &:hover {
+    cursor: pointer;
+  }
+}

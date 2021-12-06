@@ -1,0 +1,11 @@
+@import "../../sassStyles/variables";
+@import "../../sassStyles/mixins";
+
+.kidsPageContainer {
+  display: flex;
+  justify-content: space-between;
+
+  @include medium {
+    flex-direction: column;
+  }
+}

@@ -1,15 +1,35 @@
 import React, { useEffect, useState } from "react";
 import GenericPage from "../GenericPage/GenericPage";
-import { useAuthContext } from "../../store/contexts/AuthContext";
+import useFetch from "../../hooks/useFetch";
+import { API } from "../../api/urls";
+import FilterPanel from "../../components/organisms/FilterPanel/FilterPanel";
+import ChildrenList from "../../components/organisms/ChildrenList/ChildrenList";
+import styles from "./Kids.module.scss";
+import PlusButton from "../../components/atoms/PlusButton/PlusButton";
+import { useModalContext } from "../../store/contexts/ModalContext";
 
 const Kids = () => {
-  const {
-    authState: { user },
-  } = useAuthContext();
+  const { handleModal } = useModalContext();
+  const { data, setData, isLoading, callAPI } = useFetch();
+  const [children, setChildren] = useState(data);
+
+  useEffect(() => {
+    callAPI(API.CHILDREN);
+  }, []);
+
+  useEffect(() => {
+    setChildren(data);
+  }, [data]);
 
   return (
     <GenericPage>
-      <span>{JSON.stringify(user)}</span>
+      <div className={styles.kidsPageContainer}>
+        <FilterPanel data={data} setChildren={setChildren} />
+        {data && !isLoading && (
+          <ChildrenList children={children} setChildren={setChildren} />
+        )}
+        <PlusButton onClick={() => handleModal(<div />)} />
+      </div>
     </GenericPage>
   );
 };

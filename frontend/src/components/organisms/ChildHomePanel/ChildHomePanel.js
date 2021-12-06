@@ -1,39 +1,20 @@
 import React, { useState } from "react";
-import styles from "./ChildrenTile.module.scss";
-import girl from "../../../assets/images/girl.png";
-import boy from "../../../assets/images/boy.png";
+import styles from "./ChildHomePanel.module.scss";
 import money from "../../../assets/icons/money.svg";
 import cutlery from "../../../assets/icons/cutlery.svg";
 import Text from "../../atoms/Text/Text";
+import ChildTile from "../../molecules/ChildTile/ChildTile";
 
-const ChildrenTile = ({ children }) => {
+const ChildHomePanel = ({ children }) => {
   const [currChild, setCurrChild] = useState(children[0]);
 
   const handleChildrenChange = ({ target: { value } }) => {
     setCurrChild(children.filter((child) => child.id === parseInt(value))[0]);
   };
+
   return (
     <div className={styles.childrenWrappper}>
-      <div
-        className={`${styles.child} ${
-          currChild.gender === "M" ? styles.male : ""
-        }`}
-      >
-        <div className={styles.name}>
-          <Text s44 gray fMedium>
-            {currChild.name}
-          </Text>
-          <Text s44 gray fMedium>
-            {currChild.surname}
-          </Text>
-        </div>
-
-        {currChild.gender === "M" ? (
-          <img src={boy} alt="Boy Icon" />
-        ) : (
-          <img src={girl} alt="Girl Icon" />
-        )}
-      </div>
+      <ChildTile child={currChild} />
 
       <div className={styles.info}>
         {children.length > 1 && (
@@ -67,4 +48,4 @@ const ChildrenTile = ({ children }) => {
   );
 };
 
-export default ChildrenTile;
+export default ChildHomePanel;
