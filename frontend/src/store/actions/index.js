@@ -51,7 +51,7 @@ export const loginUser = async (dispatch, loginPayload) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      email: loginPayload.email,
+      username: loginPayload.username,
       password: loginPayload.password,
     }),
   };

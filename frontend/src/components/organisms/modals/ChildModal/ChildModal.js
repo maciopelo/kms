@@ -10,9 +10,13 @@ import ChildFormRightPart from "./ChildFormRightPart";
 import { useFormik } from "formik";
 import { childSchema } from "../../../../validators";
 import SvgIcon from "../../../atoms/SvgIcon/SvgIcon";
+import { getDBDateFormat } from "../../../../utils/dateHelpers";
+import useFetch from "../../../../hooks/useFetch";
+import { API } from "../../../../api/urls";
 
-const ChildModal = () => {
+const ChildModal = ({ update }) => {
   const { handleModal } = useModalContext();
+  const { callAPI } = useFetch();
 
   const [childGender, setChosenGender] = useState("M");
   const [meals, setMeals] = useState({
@@ -30,6 +34,7 @@ const ChildModal = () => {
       startHour: "",
       finishHour: "",
       street: "",
+      number: "",
       city: "",
       parentOne: "",
       parentOnePhone: "",
@@ -43,8 +48,52 @@ const ChildModal = () => {
 
     validationSchema: childSchema,
 
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async ({
+      childName,
+      childSurname,
+      birth,
+      pesel,
+      startHour,
+      finishHour,
+      street,
+      number,
+      city,
+      parentOne,
+      parentOnePhone,
+      parentTwo,
+      parentTwoPhone,
+      personOne,
+      personOneRelationship,
+      personTwo,
+      personTwoRelationship,
+    }) => {
+      const newChild = {
+        name: childName,
+        surname: childSurname,
+        gender: childGender,
+        date_of_birth: getDBDateFormat(new Date(birth)),
+        pesel: pesel,
+        eats_breakfast: meals.breakfast,
+        eats_dinner: meals.dinner,
+        eats_supper: meals.supper,
+        street: street,
+        house_number: number,
+        city: city,
+        coming_hour: startHour,
+        leaving_hour: finishHour,
+        parent_one: `${parentOne}, ${parentOnePhone}`,
+        parent_two: `${parentTwo}, ${parentTwoPhone}`,
+        authorized_person_one: `${personOne}, ${personOneRelationship}`,
+        authorized_person_two: `${personTwo}, ${personTwoRelationship}`,
+      };
+
+      const res = await callAPI(API.CHILDREN, "POST", JSON.stringify(newChild));
+
+      if (res) {
+        formik.resetForm();
+        handleModal();
+        update(API.CHILDREN);
+      }
     },
   });
 

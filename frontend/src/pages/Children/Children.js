@@ -4,12 +4,12 @@ import useFetch from "../../hooks/useFetch";
 import { API } from "../../api/urls";
 import FilterPanel from "../../components/organisms/FilterPanel/FilterPanel";
 import ChildrenList from "../../components/organisms/ChildrenList/ChildrenList";
-import styles from "./Kids.module.scss";
+import styles from "./Children.module.scss";
 import PlusButton from "../../components/atoms/PlusButton/PlusButton";
 import { useModalContext } from "../../store/contexts/ModalContext";
 import ChildModal from "../../components/organisms/modals/ChildModal/ChildModal";
 
-const Kids = () => {
+const Children = () => {
   const { handleModal } = useModalContext();
   const { data, setData, isLoading, callAPI } = useFetch();
   const [children, setChildren] = useState([]);
@@ -34,10 +34,12 @@ const Kids = () => {
             setChildren={setChildren}
           />
         )}
-        <PlusButton onClick={() => handleModal(<ChildModal />)} />
+        <PlusButton
+          onClick={() => handleModal(<ChildModal update={callAPI} />)}
+        />
       </div>
     </GenericPage>
   );
 };
 
-export default Kids;
+export default Children;

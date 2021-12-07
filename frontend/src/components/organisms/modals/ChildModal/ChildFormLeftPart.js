@@ -108,10 +108,19 @@ const ChildFormLeftPart = ({ formik, meals, setMeals }) => {
             id="street"
             name="street"
             type="text"
-            placeholder="ulica, numer"
+            placeholder="ulica"
             error={formik.errors.street}
             touched={formik.touched.street}
             {...formik.getFieldProps("street")}
+          />
+          <Input
+            id="number"
+            name="number"
+            type="text"
+            placeholder="numer"
+            error={formik.errors.number}
+            touched={formik.touched.number}
+            {...formik.getFieldProps("number")}
           />
           <Input
             id="city"

@@ -14,7 +14,7 @@ const NAV = {
     { name: "Aktualności", path: "/news" },
     { name: "Dzieci", path: "/kids" },
     { name: "Grupy", path: "/groups" },
-    { name: "Pracownicy", path: "/employees" },
+    // TODO: in future  { name: "Pracownicy", path: "/employees" },
     { name: "Chat", path: "/chat" },
     // TODO: in future { name: "O przedszkolu", path: "/about" },
     { name: "Pliki", path: "/files" },
@@ -23,7 +23,7 @@ const NAV = {
   TEACHER: [
     { name: "Aktualności", path: "/news" },
     { name: "Grupy", path: "/groups" },
-    { name: "Pracownicy", path: "/employees" },
+    // TODO: in future  { name: "Pracownicy", path: "/employees" },
     { name: "Chat", path: "/chat" },
     // TODO: in future  { name: "O przedszkolu", path: "/about" },
     { name: "Pliki", path: "/files" },

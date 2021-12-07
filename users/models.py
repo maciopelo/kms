@@ -6,7 +6,7 @@ from .enums import UserType
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, username, name, surname, password=None):
+    def create_user(self, email, username, name, surname, type, password=None):
 
         if not email:
             raise ValueError("Users must have an email")
@@ -20,6 +20,7 @@ class UserManager(BaseUserManager):
             username=username,
             name=name,
             surname=surname,
+            type=type
         )
 
         user.set_password(password)
@@ -28,7 +29,7 @@ class UserManager(BaseUserManager):
         return user
 
     
-    def create_superuser(self, email, username, name, surname, password):
+    def create_superuser(self, email, username, name, surname, password, type):
 
         user = self.create_user(
             email=self.normalize_email(email),
@@ -36,6 +37,7 @@ class UserManager(BaseUserManager):
             name=name,
             surname=surname,
             password=password,
+            type=type
         )
 
         user.is_staff=True

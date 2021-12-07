@@ -19,7 +19,7 @@ const LoginForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
 
@@ -45,12 +45,12 @@ const LoginForm = () => {
         id="login-form"
       >
         <Input
-          name="email"
-          type="email"
-          placeholder="email"
-          error={formik.errors.email}
-          touched={formik.touched.email}
-          {...formik.getFieldProps("email")}
+          name="username"
+          type="text"
+          placeholder="użytkownik"
+          error={formik.errors.username}
+          touched={formik.touched.username}
+          {...formik.getFieldProps("username")}
         />
 
         <Input

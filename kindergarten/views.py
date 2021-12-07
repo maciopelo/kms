@@ -7,6 +7,7 @@ from rest_framework.exceptions import AuthenticationFailed,ValidationError
 from .models import Announcement, Child, Group
 from .serializers import AnnouncementSerializer, GroupSerializer, ChildSerializer
 from users.models import User
+from users.enums import UserType
 from django.db.models import Q
 import datetime
 import jwt
@@ -100,13 +101,32 @@ class ChildrenView(APIView):
 
         authenticate_user(request)
 
+
         serializer = ChildSerializer(data=request.data) 
 
 
 
         if serializer.is_valid() and len(request.data['pesel']) == 11:
-            serializer.save()
+            new_child = serializer.save()
+            
+       
+            parent_name = request.data['parent_one'].split(',')[0].split(' ')[0]
+            parent_surname = request.data['parent_one'].split(',')[0].split(' ')[1]
+
+            new_child_parent_user = User.objects.create_user(
+                username=f"parent{new_child.id}", 
+                email=f"parent{request.data['pesel']}@mail.com", 
+                name=parent_name, 
+                surname=parent_surname,
+                password=request.data['pesel'],
+                type=UserType.PARENT.value[0]
+            )
+
+            new_child_parent_user.children.add(Child.objects.get(id=new_child.id))
+
+
             return Response(serializer.data)
+ 
 
 
         errors = {**serializer.errors}

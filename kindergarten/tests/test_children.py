@@ -21,6 +21,7 @@ class AnnouncementsTest(TestCase):
             name="Twitch",
             surname="Twitch",
             gender= "M",
+            additional_info="bbbb",
             date_of_birth= "1673-01-03",
             pesel= "12927999238",
             eats_breakfast= True,
@@ -31,7 +32,6 @@ class AnnouncementsTest(TestCase):
             city= "Zaun",
             coming_hour= "04:00:00",
             leaving_hour= "18:30:00",
-            extra_info="loves mould",
             group=self.group1
         )
 
@@ -49,12 +49,12 @@ class AnnouncementsTest(TestCase):
             city= "Kraków",
             coming_hour= "07:00:00",
             leaving_hour= "13:30:00",
-            extra_info="loves chocolate",
             group= self.group1
         )
 
         Child.objects.create(
             name="Kate",
+            additional_info="aaaaa",
             surname="Kate",
             gender= "F",
             date_of_birth= "1999-01-03",
@@ -67,14 +67,14 @@ class AnnouncementsTest(TestCase):
             city= "Xinox",
             coming_hour= "07:30:00",
             leaving_hour= "12:30:00",
-            extra_info="loves apples",
-            group= self.group2
+            group= self.group2,
+ 
         )
 
     def login(self):
 
         payload = {
-            "email":"teacher1@mail.com",
+            "username":"teacher1",
             "password":"teacher1",
         }
 
@@ -121,7 +121,6 @@ class AnnouncementsTest(TestCase):
             "city": "Zaun",
             "coming_hour": "04:00:00",
             "leaving_hour": "18:30:00",
-            "extra_info":"loves mould",
             "group": self.group1.id
         }
 
@@ -152,7 +151,6 @@ class AnnouncementsTest(TestCase):
             "city": "Zaun",
             "coming_hour": "04:00:00",
             "leaving_hour": "18:30:00",
-            "extra_info":"loves mould",
             "group": self.group1.id
         }
 
@@ -182,7 +180,7 @@ class AnnouncementsTest(TestCase):
             "city": "Zaun",
             "coming_hour": "04:00:00",
             "leaving_hour": "18:30:00",
-            "extra_info":"loves mould",
+            "additional_info":"loves mould",
             "group": self.group1.id
         }
 
@@ -240,7 +238,6 @@ class AnnouncementsTest(TestCase):
             "city": "Zaun",
             "coming_hour": "04:00:00",
             "leaving_hour": "12:30:00",
-            "extra_info":"loves mouldssss",
             "group": self.group1.id
         }
 
@@ -274,7 +271,6 @@ class AnnouncementsTest(TestCase):
             "city": "Zaun",
             "coming_hour": "04:00:00",
             "leaving_hour": "12:30:00",
-            "extra_info":"loves mouldssss",
             "group": self.group1.id
         }
 
@@ -305,7 +301,6 @@ class AnnouncementsTest(TestCase):
             "city": "Zaun",
             "coming_hour": "04:00:00",
             "leaving_hour": "12:30:00",
-            "extra_info":"loves mouldssss",
             "group": self.group1.id
         }
 

@@ -25,15 +25,9 @@ export const registerSchema = Yup.object({
 });
 
 export const loginSchema = Yup.object({
-  email: Yup.string()
-    .email("niepoprawny email")
-    .required("to pole jest wymagane"),
+  username: Yup.string().required("to pole jest wymagane"),
 
   password: Yup.string().required("to pole jest wymagane"),
-  // .matches(
-  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/,
-  //   "min 8 znaków, 1 wielka i mala litera, 1 znak specjalny"
-  // ),
 });
 
 export const newsSchema = Yup.object({
@@ -70,27 +64,35 @@ export const childSchema = Yup.object({
     .min(11, "pesel składa sie z 11 znaków")
     .max(11, "pesel składa sie z 11 znaków"),
 
-  startHour: Yup.string().required("to pole jest wymagane"),
+  startHour: Yup.string()
+    .required("to pole jest wymagane")
+    .matches(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, "gg:mm"),
 
-  finishHour: Yup.string().required("to pole jest wymagane"),
+  finishHour: Yup.string()
+    .required("to pole jest wymagane")
+    .matches(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, "gg:mm"),
 
   street: Yup.string().required("to pole jest wymagane"),
 
   city: Yup.string().required("to pole jest wymagane"),
 
-  parentOne: Yup.string().required("to pole jest wymagane"),
+  parentOne: Yup.string()
+    .required("to pole jest wymagane")
+    .matches(/^[a-zA-Z]* [a-zA-Z]*$/, "imię i nazwisko"),
 
   parentOnePhone: Yup.number().required("to pole jest wymagane"),
 
-  parentTwo: Yup.string().required("to pole jest wymagane"),
+  parentTwo: Yup.string()
+    .required("to pole jest wymagane")
+    .matches(/^[a-zA-Z]* [a-zA-Z]*$/, "imię i nazwisko"),
 
   parentTwoPhone: Yup.number().required("to pole jest wymagane"),
 
-  personOne: Yup.string().required("to pole jest wymagane"),
+  personOne: Yup.string(),
 
-  personOneRelationship: Yup.string().required("to pole jest wymagane"),
+  personOneRelationship: Yup.string(),
 
-  personTwo: Yup.string().required("to pole jest wymagane"),
+  personTwo: Yup.string(),
 
-  personTwoRelationship: Yup.string().required("to pole jest wymagane"),
+  personTwoRelationship: Yup.string(),
 });
