@@ -8,7 +8,7 @@ import Calendar from "../../components/organisms/Calendar/Calendar";
 import useFetch from "../../hooks/useFetch";
 import { API } from "../../api/urls";
 import { USER } from "../../utils/enums";
-import ChildrenTile from "../../components/organisms/ChildrenTile/ChildrenTile";
+import ChildHomePanel from "../../components/organisms/ChildHomePanel/ChildHomePanel";
 
 const Home = () => {
   const {
@@ -29,7 +29,7 @@ const Home = () => {
         <div className={styles.leftSide}>
           <DailyInfoPanel />
           {user.type === USER.PARENT && data && !isLoading ? (
-            <ChildrenTile children={data} />
+            <ChildHomePanel children={data} />
           ) : (
             <TodoList todos={data} error={error} />
           )}

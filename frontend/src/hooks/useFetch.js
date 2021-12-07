@@ -21,6 +21,7 @@ const useFetch = () => {
           headers: { ...headers },
           body: body,
         });
+
         const json = await res.json();
 
         if (method === "GET") setData(json);

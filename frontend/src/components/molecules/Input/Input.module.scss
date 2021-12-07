@@ -30,7 +30,6 @@
 
 .input {
   width: 100%;
-  background-color: $beige;
   padding: 18px 20px 16px 20px;
   border: 1px solid $gray;
   border-radius: $borderRadiusBig;
@@ -91,4 +90,14 @@
   border: none;
   padding: 0;
   border-radius: 0;
+}
+
+.find {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+
+  @include tiny {
+    top: 10px;
+  }
 }

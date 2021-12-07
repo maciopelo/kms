@@ -1,13 +1,27 @@
 import React from "react";
 import styles from "./Input.module.scss";
 import Text from "../../atoms/Text/Text";
+import findIcon from "../../../assets/icons/find.svg";
 
-const Input = ({ name, type, touched, error, placeholder, kind, ...rest }) => {
+const icons = {
+  find: findIcon,
+};
+
+const Input = ({
+  name,
+  type,
+  touched,
+  error,
+  placeholder,
+  kind,
+  icon,
+  ...rest
+}) => {
   return (
     <div className={styles.wrapper}>
       <input
         className={`${styles.input} ${kind ? styles[kind] : ""}`}
-        data-invalid={Boolean(error)}
+        data-invalid={Boolean(error) && Boolean(touched)}
         name={name}
         type={type}
         placeholder={placeholder}
@@ -18,10 +32,17 @@ const Input = ({ name, type, touched, error, placeholder, kind, ...rest }) => {
         {placeholder}
       </Text>
 
-      {error && (
+      {error && touched && (
         <Text s10 error>
           {error}
         </Text>
+      )}
+      {icons[icon] && (
+        <img
+          className={icon ? styles[icon] : ""}
+          src={icons[icon]}
+          alt="Find Icon"
+        />
       )}
     </div>
   );

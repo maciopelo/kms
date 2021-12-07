@@ -26,7 +26,7 @@ class UserLoginTest(APITestCase):
         """Test proper user login"""
 
         payload = {
-            "email":"tony@mail.com",
+            "username":"tony",
             "password":"tony"
         }
 
@@ -38,7 +38,7 @@ class UserLoginTest(APITestCase):
         """Test wrong user password"""
 
         payload = {
-            "email":"tony@mail.com",
+            "username":"tony",
             "password":"ppp"
         }
 

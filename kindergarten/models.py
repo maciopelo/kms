@@ -34,7 +34,7 @@ class Announcement(models.Model):
 
 class Child(models.Model):
 
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=50)
     gender = models.CharField(max_length=10, choices=[("M","MALE"),("F","FEMALE")], default="M")
@@ -48,8 +48,12 @@ class Child(models.Model):
     city = models.CharField(max_length=50)
     coming_hour = models.TimeField()
     leaving_hour = models.TimeField()
-    sicknesses = models.TextField(max_length=200, null=True, blank=True)
-    extra_info = models.TextField(max_length=200, null=True, blank=True)
+    sicknesses = models.TextField(max_length=200, null=True, blank=True, default="")
+    additional_info=models.TextField(max_length=200, null=True, blank=True, default="")
+    parent_one = models.CharField(max_length=50, default="")
+    parent_two = models.CharField(max_length=50, default="")
+    authorized_person_one = models.CharField(max_length=50, null=True, blank=True, default="")
+    authorized_person_two = models.CharField(max_length=50, null=True, blank=True, default="")
 
     objects = models.Manager()
 

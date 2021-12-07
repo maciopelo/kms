@@ -5,6 +5,11 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  margin: 0 20px;
+
+  @include small {
+    margin: 0 10px;
+  }
 
   @include medium {
     flex-direction: column;

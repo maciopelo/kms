@@ -1,0 +1,47 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+
+.filterPanelWrapper {
+  width: 330px;
+  margin-right: 50px;
+
+  @include medium {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 40px;
+  }
+}
+
+.filterPanel {
+  position: fixed;
+  width: 330px;
+  padding: 30px 20px;
+  background-color: $beige;
+  border-radius: $borderRadiusSmall;
+  box-shadow: $defaultShadowBox;
+
+  @include medium {
+    padding: 15px;
+    position: static;
+  }
+
+  @include tiny {
+    width: 100%;
+  }
+}
+
+.filterCategory {
+  margin-top: 35px;
+}
+
+.filterItems {
+  margin-top: 10px;
+}
+.filterBottom {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

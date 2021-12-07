@@ -15,7 +15,7 @@ class UserAuthTest(APITestCase):
         """Test user authorized"""
 
         payload = {
-            "email":"tony@mail.com",
+            "username":"tony",
             "password":"tony",
         }
 
@@ -38,7 +38,7 @@ class UserAuthTest(APITestCase):
         """Test user login logout"""
         
         payload = {
-            "email":"tony@mail.com",
+            "username":"tony",
             "password":"tony",
         }
 

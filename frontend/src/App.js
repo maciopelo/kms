@@ -9,7 +9,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
 import News from "./pages/News/News";
-import Kids from "./pages/Kids/Kids";
+import Children from "./pages/Children/Children";
 import Groups from "./pages/Groups/Groups";
 import Employees from "./pages/Employees/Employees";
 import Chat from "./pages/Chat/Chat";
@@ -34,7 +34,7 @@ function App() {
             <PrivateRoute path="/home" component={Home} />
             <PrivateRoute exact path="/news" component={News} />
             <PrivateRoute path="/news/:id" component={NewsTemplate} />
-            <PrivateRoute path="/kids" component={Kids} />
+            <PrivateRoute path="/kids" component={Children} />
             <PrivateRoute path="/groups" component={Groups} />
             <PrivateRoute path="/employees" component={Employees} />
             <PrivateRoute path="/chat" component={Chat} />

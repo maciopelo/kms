@@ -6,7 +6,7 @@ from .enums import UserType
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, username, name, surname, password=None):
+    def create_user(self, email, username, name, surname,password=None):
 
         if not email:
             raise ValueError("Users must have an email")

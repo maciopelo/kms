@@ -51,7 +51,7 @@ class UserChildrenTest(APITestCase):
     def login(self):
 
         payload = {
-            "email":"tony@mail.com",
+            "username":"tony",
             "password":"tony",
         }
 

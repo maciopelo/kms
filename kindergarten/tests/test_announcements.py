@@ -24,7 +24,7 @@ class AnnouncementsTest(TestCase):
     def login(self):
 
         payload = {
-            "email":"teacher1@mail.com",
+            "username":"teacher1",
             "password":"teacher1",
         }
 
