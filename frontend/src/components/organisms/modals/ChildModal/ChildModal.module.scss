@@ -1,0 +1,109 @@
+@import "../../../../sassStyles/variables";
+@import "../../../../sassStyles/mixins";
+@import "../../../atoms/Text/Text.module.scss";
+
+.childModalWrapper {
+  background-color: $beige;
+  border-radius: $borderRadiusSmall;
+  border: 1px solid $gray;
+  height: 95vh;
+  overflow-y: auto;
+}
+
+.childModalTop {
+  display: flex;
+  position: relative;
+  height: 180px;
+  background-color: $lightRouge;
+  border-top-left-radius: $borderRadiusSmall;
+  border-top-right-radius: $borderRadiusSmall;
+}
+
+.childNameSurname {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 300px;
+  padding-left: 23px;
+  margin-right: 40px;
+}
+
+.childGender {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  div:nth-of-type(2) {
+    svg {
+      margin-top: 10px;
+      padding-right: 10px;
+      height: 55px;
+      width: 50px;
+    }
+  }
+
+  div {
+    &[data-gender="true"] {
+      svg {
+        path {
+          fill: $rouge;
+        }
+      }
+    }
+  }
+}
+
+.childModalClose {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+}
+
+.childModalBottom {
+  padding: 20px;
+  padding-bottom: 0;
+  background-color: $beige;
+
+  display: flex;
+  justify-content: space-between;
+
+  & > div:nth-of-type(1) {
+    margin-right: 20px;
+  }
+  & > div:nth-of-type(2) {
+    margin-right: 20px;
+  }
+}
+
+.childModalInputs {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.childModalFormSegment {
+  margin-bottom: 10px;
+  & > span {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+.textarea {
+  border: 1px solid $gray;
+  border-radius: $borderRadiusSmall;
+  padding: 10px;
+  color: $gray;
+  width: 100%;
+  height: 250px;
+  margin-bottom: 10px;
+  @extend .s16;
+}
+
+.childModalSave {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}

@@ -21,7 +21,7 @@ const Input = ({
     <div className={styles.wrapper}>
       <input
         className={`${styles.input} ${kind ? styles[kind] : ""}`}
-        data-invalid={Boolean(error)}
+        data-invalid={Boolean(error) && Boolean(touched)}
         name={name}
         type={type}
         placeholder={placeholder}
@@ -32,7 +32,7 @@ const Input = ({
         {placeholder}
       </Text>
 
-      {error && (
+      {error && touched && (
         <Text s10 error>
           {error}
         </Text>

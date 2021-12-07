@@ -35,7 +35,7 @@ const LoginForm = () => {
       }
     },
   });
-
+  console.log(formik.errors);
   return (
     <div className={styles.loginFormWrapper}>
       <LoginRegisterSwitch />

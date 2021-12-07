@@ -7,11 +7,12 @@ import ChildrenList from "../../components/organisms/ChildrenList/ChildrenList";
 import styles from "./Kids.module.scss";
 import PlusButton from "../../components/atoms/PlusButton/PlusButton";
 import { useModalContext } from "../../store/contexts/ModalContext";
+import ChildModal from "../../components/organisms/modals/ChildModal/ChildModal";
 
 const Kids = () => {
   const { handleModal } = useModalContext();
   const { data, setData, isLoading, callAPI } = useFetch();
-  const [children, setChildren] = useState(data);
+  const [children, setChildren] = useState([]);
 
   useEffect(() => {
     callAPI(API.CHILDREN);
@@ -21,14 +22,19 @@ const Kids = () => {
     setChildren(data);
   }, [data]);
 
+  console.log(children);
   return (
     <GenericPage>
       <div className={styles.kidsPageContainer}>
         <FilterPanel data={data} setChildren={setChildren} />
         {data && !isLoading && (
-          <ChildrenList children={children} setChildren={setChildren} />
+          <ChildrenList
+            data={data}
+            children={children}
+            setChildren={setChildren}
+          />
         )}
-        <PlusButton onClick={() => handleModal(<div />)} />
+        <PlusButton onClick={() => handleModal(<ChildModal />)} />
       </div>
     </GenericPage>
   );

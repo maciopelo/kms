@@ -4,7 +4,7 @@ import ChildTile from "../../molecules/ChildTile/ChildTile";
 import Text from "../../atoms/Text/Text";
 import arrow from "../../../assets/icons/arrow.svg";
 
-const ChildrenList = ({ children, setChildren }) => {
+const ChildrenList = ({ data, children, setChildren }) => {
   const [layout, setLayout] = useState(true);
   const [sortOrder, setSortOrder] = useState(false);
 
@@ -18,9 +18,9 @@ const ChildrenList = ({ children, setChildren }) => {
 
   useEffect(() => {
     setChildren(
-      children.sort((a, b) => (sortOrder && a.name > b.name ? 1 : -1))
+      [...data].sort((a, b) => (sortOrder && a.name > b.name ? 1 : -1))
     );
-  }, [sortOrder, children]);
+  }, [sortOrder]);
 
   return (
     <div className={styles.childrenListWrapper}>
