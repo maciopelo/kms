@@ -119,8 +119,10 @@ class ChildrenView(APIView):
                 name=parent_name, 
                 surname=parent_surname,
                 password=request.data['pesel'],
-                type=UserType.PARENT.value[0]
             )
+
+            new_child_parent_user.type = UserType.PARENT.value[0]
+            new_child_parent_user.save()
 
             new_child_parent_user.children.add(Child.objects.get(id=new_child.id))
 

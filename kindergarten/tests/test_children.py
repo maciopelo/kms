@@ -121,6 +121,8 @@ class AnnouncementsTest(TestCase):
             "city": "Zaun",
             "coming_hour": "04:00:00",
             "leaving_hour": "18:30:00",
+            "parent_one": "Josh Travolta, as12312312",
+            "parent_two": "Burna Brua, 12321312",
             "group": self.group1.id
         }
 
