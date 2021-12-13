@@ -62,9 +62,10 @@ const NewsModal = ({ update }) => {
         return;
       }
 
+      const [day, month, year] = values.date.split("-");
       const payload = {
         ...values,
-        date: `${getDBDateFormat(new Date(values.date))}T00:00`,
+        date: `${getDBDateFormat(new Date(year, month - 1, day))}T00:00`,
         main_image: files.main[0],
       };
 
