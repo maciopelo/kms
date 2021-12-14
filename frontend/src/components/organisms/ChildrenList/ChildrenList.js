@@ -3,6 +3,8 @@ import styles from "./ChildrenList.module.scss";
 import ChildTile from "../../molecules/ChildTile/ChildTile";
 import Text from "../../atoms/Text/Text";
 import arrow from "../../../assets/icons/arrow.svg";
+import { Link } from "react-router-dom";
+import { API } from "../../../api/urls";
 
 const ChildrenList = ({ data, children, setChildren }) => {
   const [layout, setLayout] = useState(true);

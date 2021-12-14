@@ -86,12 +86,19 @@ class AnnouncementView(APIView):
 class ChildrenView(APIView):
 
 
-    def get(self,request):
+    def get(self,request,pk=None):
 
         authenticate_user(request)
-
         children = Child.objects.all()
-        serializer = ChildSerializer(children, many=True)
+
+        if pk is not None:
+            try:
+                children = Child.objects.get(id=pk)
+            
+            except Child.DoesNotExist:
+                return Response({'msg':"Child with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ChildSerializer(children, many = True if pk is None else False)
 
         return Response(serializer.data)
 

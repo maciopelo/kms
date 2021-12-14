@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import GenericPage from "../GenericPage/GenericPage";
+import GenericPage from "../../templates/GenericPage/GenericPage";
 import useFetch from "../../hooks/useFetch";
 import { API } from "../../api/urls";
 import FilterPanel from "../../components/organisms/FilterPanel/FilterPanel";
@@ -22,7 +22,6 @@ const Children = () => {
     setChildren(data);
   }, [data]);
 
-  console.log(children);
   return (
     <GenericPage>
       <div className={styles.kidsPageContainer}>

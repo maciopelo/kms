@@ -12,7 +12,7 @@ import Text from "../../atoms/Text/Text";
 const NAV = {
   HEADMASTER: [
     { name: "Aktualności", path: "/news" },
-    { name: "Dzieci", path: "/kids" },
+    { name: "Dzieci", path: "/children" },
     { name: "Grupy", path: "/groups" },
     // TODO: in future  { name: "Pracownicy", path: "/employees" },
     { name: "Chat", path: "/chat" },
