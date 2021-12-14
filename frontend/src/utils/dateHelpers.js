@@ -22,6 +22,11 @@ export const getDBDateFormat = (date) => {
   return result;
 };
 
+export const getFormDateFormat = (dateString) => {
+  const [year, month, day] = dateString.split("-");
+  return `${day}-${month}-${year}`;
+};
+
 export const getCalendarDate = (date) => {
   let result;
   result = `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}.${

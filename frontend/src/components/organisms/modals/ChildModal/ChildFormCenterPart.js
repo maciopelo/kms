@@ -22,7 +22,7 @@ const ChildFormCenterPart = ({ formik }) => {
         <Input
           id="parentOnePhone"
           name="parentOnePhone"
-          type="number"
+          type="text"
           placeholder="telefon"
           error={formik.errors.parentOnePhone}
           touched={formik.touched.parentOnePhone}
@@ -41,7 +41,7 @@ const ChildFormCenterPart = ({ formik }) => {
         <Input
           id="parentTwoPhone"
           name="parentTwoPhone"
-          type="number"
+          type="text"
           placeholder="telefon"
           error={formik.errors.parentTwoPhone}
           touched={formik.touched.parentTwoPhone}

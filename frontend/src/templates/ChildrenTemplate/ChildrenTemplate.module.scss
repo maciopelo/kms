@@ -1,0 +1,75 @@
+@import "../../sassStyles/variables";
+@import "../../sassStyles/mixins";
+
+.childInfoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include small {
+    flex-direction: column;
+  }
+}
+
+.childTile {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include small {
+    flex-direction: row;
+  }
+
+  & > img {
+    margin-bottom: 20px;
+
+    @include small {
+      margin-bottom: 0;
+      margin-right: 20px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  & > div {
+    width: auto;
+    height: 300px;
+    margin: 0;
+    @include small {
+      height: auto;
+    }
+  }
+}
+.childInfoColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  @include small {
+    margin: 20px 0;
+    width: 100%;
+  }
+}
+
+.childSingleInfo {
+  margin-bottom: 40px;
+
+  & > span {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      display: block;
+      margin-bottom: 5px;
+    }
+  }
+}

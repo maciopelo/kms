@@ -42,7 +42,7 @@ export const newsSchema = Yup.object({
   date: Yup.string()
     .required("to pole jest wymagane")
     .matches(
-      /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+      /^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}$/,
       "dd-mm-rrrr format"
     ),
 });
@@ -55,7 +55,7 @@ export const childSchema = Yup.object({
   birth: Yup.string()
     .required("to pole jest wymagane")
     .matches(
-      /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+      /^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}$/,
       "dd-mm-rrrr format"
     ),
 
@@ -80,13 +80,13 @@ export const childSchema = Yup.object({
     .required("to pole jest wymagane")
     .matches(/^[a-zA-Z]* [a-zA-Z]*$/, "imię i nazwisko"),
 
-  parentOnePhone: Yup.number().required("to pole jest wymagane"),
+  parentOnePhone: Yup.string().required("to pole jest wymagane"),
 
   parentTwo: Yup.string()
     .required("to pole jest wymagane")
     .matches(/^[a-zA-Z]* [a-zA-Z]*$/, "imię i nazwisko"),
 
-  parentTwoPhone: Yup.number().required("to pole jest wymagane"),
+  parentTwoPhone: Yup.string().required("to pole jest wymagane"),
 
   personOne: Yup.string(),
 
@@ -95,4 +95,8 @@ export const childSchema = Yup.object({
   personTwo: Yup.string(),
 
   personTwoRelationship: Yup.string(),
+
+  sicknesses: Yup.string(),
+
+  additionalInfo: Yup.string(),
 });

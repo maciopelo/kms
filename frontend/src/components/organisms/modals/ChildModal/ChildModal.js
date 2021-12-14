@@ -10,40 +10,53 @@ import ChildFormRightPart from "./ChildFormRightPart";
 import { useFormik } from "formik";
 import { childSchema } from "../../../../validators";
 import SvgIcon from "../../../atoms/SvgIcon/SvgIcon";
-import { getDBDateFormat } from "../../../../utils/dateHelpers";
+import {
+  getDBDateFormat,
+  getFormDateFormat,
+} from "../../../../utils/dateHelpers";
 import useFetch from "../../../../hooks/useFetch";
 import { API } from "../../../../api/urls";
 
-const ChildModal = ({ update }) => {
+const ChildModal = ({ child = null, update }) => {
   const { handleModal } = useModalContext();
   const { callAPI } = useFetch();
 
   const [childGender, setChosenGender] = useState("M");
   const [meals, setMeals] = useState({
-    breakfast: false,
-    dinner: false,
-    supper: false,
+    breakfast: Boolean(child) ? child.eats_breakfast : false,
+    dinner: Boolean(child) ? child.eats_dinner : false,
+    supper: Boolean(child) ? child.eats_supper : false,
   });
 
   const formik = useFormik({
     initialValues: {
-      childName: "",
-      childSurname: "",
-      birth: "",
-      pesel: "",
-      startHour: "",
-      finishHour: "",
-      street: "",
-      number: "",
-      city: "",
-      parentOne: "",
-      parentOnePhone: "",
-      parentTwo: "",
-      parentTwoPhone: "",
-      personOne: "",
-      personOneRelationship: "",
-      personTwo: "",
-      personTwoRelationship: "",
+      childName: Boolean(child) ? child.name : "",
+      childSurname: Boolean(child) ? child.surname : "",
+      birth: Boolean(child) ? getFormDateFormat(child.date_of_birth) : "",
+      pesel: Boolean(child) ? child.pesel : "",
+      startHour: Boolean(child) ? child.coming_hour.substring(0, 5) : "",
+      finishHour: Boolean(child) ? child.leaving_hour.substring(0, 5) : "",
+      street: Boolean(child) ? child.street : "",
+      number: Boolean(child) ? child.house_number : "",
+      city: Boolean(child) ? child.city : "",
+      parentOne: Boolean(child) ? child.parent_one.split(",")[0] : "",
+      parentOnePhone: Boolean(child) ? child.parent_one.split(",")[1] : "",
+      parentTwo: Boolean(child) ? child.parent_two.split(",")[0] : "",
+      parentTwoPhone: Boolean(child) ? child.parent_two.split(",")[1] : "",
+      personOne: Boolean(child)
+        ? child.authorized_person_one.split(",")[0]
+        : "",
+      personOneRelationship: Boolean(child)
+        ? child.authorized_person_one.split(",")[1]
+        : "",
+      personTwo: Boolean(child)
+        ? child.authorized_person_two.split(",")[0]
+        : "",
+      personTwoRelationship: Boolean(child)
+        ? child.authorized_person_two.split(",")[1]
+        : "",
+      sicknesses: Boolean(child) ? child.sicknesses : "",
+      additionalInfo: Boolean(child) ? child.additional_info : "",
     },
 
     validationSchema: childSchema,
@@ -66,12 +79,15 @@ const ChildModal = ({ update }) => {
       personOneRelationship,
       personTwo,
       personTwoRelationship,
+      sicknesses,
+      additionalInfo,
     }) => {
+      const [day, month, year] = birth.split("-");
       const newChild = {
         name: childName,
         surname: childSurname,
         gender: childGender,
-        date_of_birth: getDBDateFormat(new Date(birth)),
+        date_of_birth: getDBDateFormat(new Date(year, month - 1, day)),
         pesel: pesel,
         eats_breakfast: meals.breakfast,
         eats_dinner: meals.dinner,
@@ -83,16 +99,28 @@ const ChildModal = ({ update }) => {
         leaving_hour: finishHour,
         parent_one: `${parentOne}, ${parentOnePhone}`,
         parent_two: `${parentTwo}, ${parentTwoPhone}`,
-        authorized_person_one: `${personOne}, ${personOneRelationship}`,
-        authorized_person_two: `${personTwo}, ${personTwoRelationship}`,
+        authorized_person_one:
+          personOne && personOneRelationship
+            ? `${personOne}, ${personOneRelationship}`
+            : "",
+        authorized_person_two:
+          personOne && personOneRelationship
+            ? `${personTwo}, ${personTwoRelationship}`
+            : "",
+        sicknesses: sicknesses,
+        additional_info: additionalInfo,
       };
 
-      const res = await callAPI(API.CHILDREN, "POST", JSON.stringify(newChild));
+      const res = await callAPI(
+        Boolean(child) ? `${API.CHILDREN}${child.id}` : API.CHILDREN,
+        Boolean(child) ? "PUT" : "POST",
+        JSON.stringify(newChild)
+      );
 
       if (res) {
         formik.resetForm();
         handleModal();
-        update(API.CHILDREN);
+        update(Boolean(child) ? `${API.CHILDREN}${child.id}` : API.CHILDREN);
       }
     },
   });
@@ -148,11 +176,11 @@ const ChildModal = ({ update }) => {
       <div className={styles.childModalBottom}>
         <ChildFormLeftPart formik={formik} meals={meals} setMeals={setMeals} />
         <ChildFormCenterPart formik={formik} />
-        <ChildFormRightPart />
+        <ChildFormRightPart formik={formik} />
       </div>
       <div className={styles.childModalSave}>
         <Button form="child-form" type="submit">
-          dodaj
+          zapisz
         </Button>
       </div>
     </form>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import GenericPage from "../GenericPage/GenericPage";
+import GenericPage from "../../templates/GenericPage/GenericPage";
 import { useAuthContext } from "../../store/contexts/AuthContext";
 import styles from "./News.module.scss";
 import PlusButton from "../../components/atoms/PlusButton/PlusButton";

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import GenericPage from "../GenericPage/GenericPage";
+import GenericPage from "../../templates/GenericPage/GenericPage";
 import { useAuthContext } from "../../store/contexts/AuthContext";
 import DailyInfoPanel from "../../components/molecules/DailyInfoPanel/DailyInfoPanel";
 import TodoList from "../../components/organisms/TodoList/TodoList";
