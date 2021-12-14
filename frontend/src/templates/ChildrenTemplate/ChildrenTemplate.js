@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import { API } from "../../api/urls";
 import ChildTile from "../../components/molecules/ChildTile/ChildTile";
 import useFetch from "../../hooks/useFetch";
@@ -7,8 +7,10 @@ import styles from "./ChildrenTemplate.module.scss";
 import GenericPage from "../GenericPage/GenericPage";
 import Text from "../../components/atoms/Text/Text";
 import edit from "../../assets/icons/edit.svg";
+import bin from "../../assets/icons/bin.svg";
 import { useModalContext } from "../../store/contexts/ModalContext";
 import ChildModal from "../../components/organisms/modals/ChildModal/ChildModal";
+import AreYouSureModal from "../../components/organisms/modals/AreYouSureModal/AreYouSureModal";
 
 const ChildrenTemplate = () => {
   const { id } = useParams();
@@ -16,6 +18,7 @@ const ChildrenTemplate = () => {
   const { data, setData, isLoading, callAPI } = useFetch();
   const { handleModal } = useModalContext();
   const [child, setChildren] = useState([]);
+  let history = useHistory();
 
   useEffect(() => {
     callAPI(`${API.CHILDREN}${id}`);
@@ -25,6 +28,11 @@ const ChildrenTemplate = () => {
     setChildren(data);
   }, [data]);
 
+  const handleChildDataRemove = () => {
+    callAPI(`${API.CHILDREN}${id}`, "DELETE");
+    history.push("/children");
+  };
+
   console.log(child);
   return (
     <GenericPage>
@@ -32,13 +40,28 @@ const ChildrenTemplate = () => {
         {data && !isLoading && (
           <>
             <div className={styles.childTile}>
-              <img
-                onClick={() =>
-                  handleModal(<ChildModal child={child} update={callAPI} />)
-                }
-                src={edit}
-                alt="Edit Icon"
-              />
+              <div>
+                <img
+                  onClick={() =>
+                    handleModal(<ChildModal child={child} update={callAPI} />)
+                  }
+                  src={edit}
+                  alt="Edit Icon"
+                />
+                <img
+                  onClick={() =>
+                    handleModal(
+                      <AreYouSureModal
+                        question="Czy usunąć dane dziecka z systemu?"
+                        onYes={handleChildDataRemove}
+                      />
+                    )
+                  }
+                  src={bin}
+                  alt="Bin Icon"
+                />
+              </div>
+
               <ChildTile child={child} clickable={false} />
             </div>
 
