@@ -13,14 +13,25 @@ Project implemented as a practical (project) part of BCs Thesis at the AGH Unive
 
 ---
 
+### Required
+- Node v. 16.10
+- Docker
+- Docker-compose
+- Python 3.8
+
 ### How to run dev version?
+
+Database
+1. docker-compose up
 
 Backend
 
 1. Download repo and `cd into project dir`
 2. `python3 -m venv my-venv`
-3. `pip install -r requirements.txt`
-4. `python manage.py runserver`
+3. `source my-venv/bin/activate`
+4. `pip install -r requirements.txt`
+5. `python manage.py migrate`
+6. `python manage.py runserver`
 
 Frontend
 
