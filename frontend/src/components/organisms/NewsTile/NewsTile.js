@@ -9,6 +9,7 @@ import AreYouSureModal from "../modals/AreYouSureModal/AreYouSureModal";
 import { useAuthContext } from "../../../store/contexts/AuthContext";
 import { USER } from "../../../utils/enums";
 import { API } from "../../../api/urls";
+import { parseUTCDateString } from "../../../utils/dateHelpers";
 
 const NewsTile = ({ news, update }) => {
   const {
@@ -24,7 +25,7 @@ const NewsTile = ({ news, update }) => {
     });
     update(`${API.NEWS}`);
   };
-
+  console.log(date);
   return (
     <div className={styles.newsTileWrapper}>
       <div
@@ -44,7 +45,7 @@ const NewsTile = ({ news, update }) => {
               handleModal(
                 <AreYouSureModal
                   onYes={handleNewsRemove}
-                  question="Czy na pewno chcesz usunąć ten post?"
+                  question="Czy na pewno chcesz usunąć ten post?"
                 />
               )
             }
@@ -61,7 +62,7 @@ const NewsTile = ({ news, update }) => {
 
         <div className={styles.newsTileDesc}>
           <Text s20 gray fMedium>
-            {`${date.substring(0, 10)} r.`}
+            {`${parseUTCDateString(date)} r.`}
           </Text>
           <Text s16 gray fRegular lh24>
             {description.length > 500

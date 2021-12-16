@@ -9,6 +9,7 @@ import { API } from "../../../api/urls";
 const ChildrenList = ({ data, children, setChildren }) => {
   const [layout, setLayout] = useState(true);
   const [sortOrder, setSortOrder] = useState(false);
+  const [groups, setGroups] = useState([]);
 
   const handleSort = () => {
     setSortOrder((prev) => !prev);
@@ -23,6 +24,16 @@ const ChildrenList = ({ data, children, setChildren }) => {
       [...data].sort((a, b) => (sortOrder && a.name > b.name ? 1 : -1))
     );
   }, [sortOrder]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      const res = await fetch(API.GROUP, { credentials: "include" });
+      const data = await res.json();
+      setGroups(data);
+    };
+
+    fetchGroups();
+  }, []);
 
   return (
     <div className={styles.childrenListWrapper}>
@@ -59,7 +70,12 @@ const ChildrenList = ({ data, children, setChildren }) => {
       <div className={styles.childrenList} data-linear={!layout}>
         {children &&
           children.map((child) => (
-            <ChildTile key={child.pesel} child={child} />
+            <ChildTile
+              key={child.pesel}
+              child={child}
+              groups={groups}
+              layout={layout}
+            />
           ))}
       </div>
     </div>

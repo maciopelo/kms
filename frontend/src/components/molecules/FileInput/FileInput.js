@@ -31,7 +31,9 @@ const FileInput = ({
 
       {files.length === 1 && (
         <Text s12 gray fRegular>
-          {`${files[0].name.substring(0, 10)}...`}
+          {files[0].name.length > 15
+            ? `${files[0].name.substring(0, 10)}...`
+            : files[0].name}
         </Text>
       )}
       {files.length > 1 && (

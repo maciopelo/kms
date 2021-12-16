@@ -14,17 +14,29 @@
   box-shadow: $defaultShadowBox;
   overflow: hidden;
 
-  img {
-    max-width: 200px;
-  }
-
   @include small {
     margin-right: 0;
     height: auto;
     width: 300px;
-    img {
-      display: none;
-    }
+  }
+}
+
+.childImage {
+  max-width: 200px;
+
+  @include small {
+    display: none;
+  }
+}
+
+.genderIcon {
+  display: none;
+
+  &[data-linear="true"] {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 8px;
   }
 }
 
@@ -34,7 +46,7 @@
   height: 100%;
 }
 
-.childTileName {
+.childTileInfo {
   height: 150px;
   display: flex;
   flex-direction: column;
@@ -44,6 +56,11 @@
   span {
     margin-bottom: 10px;
   }
+}
+
+.childTileName {
+  display: flex;
+  flex-direction: column;
 }
 
 .male {

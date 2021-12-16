@@ -62,7 +62,8 @@ const NewsModal = ({ update }) => {
         return;
       }
 
-      const [day, month, year] = values.date.split("-");
+      const [day, month, year] = values.date.split(".");
+
       const payload = {
         ...values,
         date: `${getDBDateFormat(new Date(year, month - 1, day))}T00:00`,
@@ -150,7 +151,7 @@ const NewsModal = ({ update }) => {
               <Input
                 name="date"
                 type="text"
-                placeholder="dd-mm-rrrr"
+                placeholder="dd.mm.rrrr"
                 error={formik.errors.date}
                 touched={formik.touched.date}
                 {...formik.getFieldProps("date")}

@@ -33,8 +33,22 @@
       width: auto;
       height: 115px;
       margin: 0;
-      img {
+      img:nth-of-type(2) {
         display: none;
+      }
+
+      & > div {
+        justify-content: flex-start;
+        text-align: left;
+        margin: 0;
+        padding: 5px;
+        & > div {
+          flex-direction: row;
+
+          span {
+            margin-right: 10px;
+          }
+        }
       }
     }
   }

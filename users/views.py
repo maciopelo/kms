@@ -12,6 +12,7 @@ from kindergarten.serializers import ChildSerializer
 from django.db.models import Q
 import datetime
 import jwt
+from users.enums import UserType
 
 
 class RegisterView(APIView):
@@ -160,6 +161,18 @@ class ParentChildrenView(APIView):
         user = authenticate_user(request)
         children = Child.objects.filter(Q(user=user))
         serializer = ChildSerializer(children,many=True)
+
+        return Response(serializer.data)
+
+
+
+class TeacherView(APIView):
+
+    def get(self, request):
+    
+        authenticate_user(request)
+        teachers = User.objects.filter(Q(type=UserType.TEACHER.value[0]))
+        serializer = UserSerializer(teachers,many=True)
 
         return Response(serializer.data)
             

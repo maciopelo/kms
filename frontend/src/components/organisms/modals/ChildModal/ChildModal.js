@@ -12,13 +12,15 @@ import { childSchema } from "../../../../validators";
 import SvgIcon from "../../../atoms/SvgIcon/SvgIcon";
 import {
   getDBDateFormat,
-  getFormDateFormat,
+  getDateFromDateString,
 } from "../../../../utils/dateHelpers";
 import useFetch from "../../../../hooks/useFetch";
 import { API } from "../../../../api/urls";
+import Text from "../../../atoms/Text/Text";
 
 const ChildModal = ({ child = null, update }) => {
   const { handleModal } = useModalContext();
+  const [error, setError] = useState(false);
   const { callAPI } = useFetch();
 
   const [childGender, setChosenGender] = useState("M");
@@ -32,7 +34,7 @@ const ChildModal = ({ child = null, update }) => {
     initialValues: {
       childName: Boolean(child) ? child.name : "",
       childSurname: Boolean(child) ? child.surname : "",
-      birth: Boolean(child) ? getFormDateFormat(child.date_of_birth) : "",
+      birth: Boolean(child) ? getDateFromDateString(child.date_of_birth) : "",
       pesel: Boolean(child) ? child.pesel : "",
       startHour: Boolean(child) ? child.coming_hour.substring(0, 5) : "",
       finishHour: Boolean(child) ? child.leaving_hour.substring(0, 5) : "",
@@ -118,9 +120,19 @@ const ChildModal = ({ child = null, update }) => {
       );
 
       if (res) {
+        const err = res.pesel !== undefined;
+        if (!err) {
+          setError(false);
+          formik.resetForm();
+          handleModal();
+          update(Boolean(child) ? `${API.CHILDREN}${child.id}` : API.CHILDREN);
+          return;
+        }
+        setError(true);
         formik.resetForm();
-        handleModal();
-        update(Boolean(child) ? `${API.CHILDREN}${child.id}` : API.CHILDREN);
+        setTimeout(() => {
+          setError(false);
+        }, 5000);
       }
     },
   });
@@ -179,6 +191,12 @@ const ChildModal = ({ child = null, update }) => {
         <ChildFormRightPart formik={formik} />
       </div>
       <div className={styles.childModalSave}>
+        <div data-visible={error}>
+          <Text s16 rouge fBold>
+            Dziecko o takim peselu już istnieje w systemie!
+          </Text>
+        </div>
+
         <Button form="child-form" type="submit">
           zapisz
         </Button>

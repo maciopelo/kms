@@ -21,9 +21,6 @@ const ParentCalendarModal = ({ date, children }) => {
     setCurrChild(children.filter((child) => child.id === parseInt(value))[0]);
   };
 
-  console.log(Boolean(data));
-  console.log(data);
-  console.log(children);
   return (
     <div className={styles.wrapper}>
       <ModalDateHeader date={date} />

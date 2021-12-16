@@ -5,6 +5,7 @@ import useFetch from "../../hooks/useFetch";
 import { API, BASE_URL } from "../../api/urls";
 import Text from "../../components/atoms/Text/Text";
 import GenericPage from "../GenericPage/GenericPage";
+import { parseUTCDateString } from "../../utils/dateHelpers";
 
 const NewsTemplate = () => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const NewsTemplate = () => {
             />
             <div className={styles.newsTemplateDate}>
               <Text s20 gray fBold>
-                {`${data.news.date.substring(0, 10)} r.`}
+                {`${parseUTCDateString(data.news.date)} r.`}
               </Text>
             </div>
           </header>

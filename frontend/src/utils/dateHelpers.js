@@ -1,13 +1,5 @@
 const DATE = new Date();
 
-export const getCurrentDayObject = (date) => {
-  return {
-    day: date.getDate(),
-    month: date.getMonth() + 1,
-    year: date.getFullYear(),
-  };
-};
-
 export const getUrlDateFormat = (date) => {
   let result;
   result = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}/`;
@@ -22,12 +14,17 @@ export const getDBDateFormat = (date) => {
   return result;
 };
 
-export const getFormDateFormat = (dateString) => {
+export const parseUTCDateString = (dateString) => {
+  const [year, month, day] = dateString.substring(0, 10).split("-");
+  return `${day}.${month}.${year}`;
+};
+
+export const getDateFromDateString = (dateString) => {
   const [year, month, day] = dateString.split("-");
   return `${day}-${month}-${year}`;
 };
 
-export const getCalendarDate = (date) => {
+export const getDateFromDateObj = (date) => {
   let result;
   result = `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}.${
     date.getMonth() < 10 ? "0" + date.getMonth() + 1 : date.getMonth() + 1
@@ -45,7 +42,7 @@ export const getTime = (date) => {
 };
 
 export const getDateAndTimeString = (date) => {
-  return getCalendarDate(date) + " | " + getTime(date);
+  return getDateFromDateObj(date) + " | " + getTime(date);
 };
 
 const isLeapYear = (year) => {
