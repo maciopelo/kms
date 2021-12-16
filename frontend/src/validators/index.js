@@ -42,8 +42,8 @@ export const newsSchema = Yup.object({
   date: Yup.string()
     .required("to pole jest wymagane")
     .matches(
-      /^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}$/,
-      "dd-mm-rrrr format"
+      /^([0-2][0-9]|(3)[0-1])(\.)(((0)[0-9])|((1)[0-2]))(\.)\d{4}$/,
+      "dd.mm.rrrr format"
     ),
 });
 

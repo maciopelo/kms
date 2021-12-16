@@ -11,7 +11,6 @@ import Home from "./pages/Home/Home";
 import News from "./pages/News/News";
 import Children from "./pages/Children/Children";
 import Groups from "./pages/Groups/Groups";
-import Employees from "./pages/Employees/Employees";
 import Chat from "./pages/Chat/Chat";
 import About from "./pages/About/About";
 import Files from "./pages/Files/Files";
@@ -43,7 +42,6 @@ function App() {
             <PrivateRoute path="/children" component={Children} />
             <PrivateRoute path="/news/:id" component={NewsTemplate} />
             <PrivateRoute path="/groups" component={Groups} />
-            <PrivateRoute path="/employees" component={Employees} />
             <PrivateRoute path="/chat" component={Chat} />
             <PrivateRoute path="/about" component={About} />
             <PrivateRoute path="/files" component={Files} />

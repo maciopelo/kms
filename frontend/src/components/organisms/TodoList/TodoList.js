@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import styles from "./TodoList.module.scss";
 import Text from "../../atoms/Text/Text";
 import { v4 as uuidv4 } from "uuid";
-import { getCalendarDate, getDBDateFormat } from "../../../utils/dateHelpers";
+import {
+  getDateFromDateObj,
+  getDBDateFormat,
+} from "../../../utils/dateHelpers";
 
 const date = new Date();
 
@@ -11,7 +14,7 @@ const TodoList = ({ todos }) => {
     <div className={styles.todoWrapper}>
       <header className={styles.header}>
         <Text s40 rouge fMedium>
-          {`zadania - ${getCalendarDate(date)}`}
+          {`zadania - ${getDateFromDateObj(date)}`}
         </Text>
       </header>
 

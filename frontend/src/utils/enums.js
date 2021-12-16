@@ -3,3 +3,19 @@ export const USER = {
   PARENT: "PARENT",
   TEACHER: "TEACHER",
 };
+
+export const GROUPS = {
+  YOUNGERS: {
+    name: "Maluchy",
+    type: "YOUNGERS",
+  },
+  MIDDLES: {
+    name: "Średniaki",
+    type: "MIDDLES",
+  },
+
+  OLDERS: {
+    name: "Starszaki",
+    type: "OLDERS",
+  },
+};

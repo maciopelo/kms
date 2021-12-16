@@ -21,7 +21,17 @@ class GroupView(APIView):
         groups = Group.objects.all()
         serializer = GroupSerializer(groups, many=True)
 
-        return Response(serializer.data)
+        print(serializer.data)
+
+        response = []
+
+        for group in serializer.data:
+            
+            group['children_count'] = len(Child.objects.filter(group=group['id']))
+            group['teacher'] = User.objects.get(id=group['teacher']).name + " " + User.objects.get(id=group['teacher']).surname
+            response.append(group)
+        
+        return Response(response)
 
 
 
@@ -86,10 +96,19 @@ class AnnouncementView(APIView):
 class ChildrenView(APIView):
 
 
-    def get(self,request,pk=None):
+    def get(self, request,pk=None):
 
+
+        
         authenticate_user(request)
         children = Child.objects.all()
+        in_group = request.GET.get('in_group','')
+
+        if in_group == "false":
+            children = Child.objects.filter(group=None)
+        
+        if in_group == "true":
+            children = Child.objects.filter(~Q(group=None))
 
         if pk is not None:
             try:

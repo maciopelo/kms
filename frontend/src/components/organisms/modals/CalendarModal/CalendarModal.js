@@ -88,7 +88,7 @@ const CalendarModal = ({ date, setHomepageTodos }) => {
           {/* TODO: prepare functionality when uploading files in backedn ready*/}
           <div className={styles.menu}>
             <Text s28 rouge fMedium>
-              Jadłospis (15.10 - 20.10)
+              Jadłospis
             </Text>
             <div className={styles.sendFile}>
               <Button>prześlij</Button>

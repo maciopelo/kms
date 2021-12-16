@@ -8,20 +8,25 @@ const LoginRegisterSwitch = () => {
 
   return (
     <div className={styles.switchWrapper}>
-      <Link
+      {/* <Link
         to="/login"
         data-active={pathname === "/login"}
         className={styles.switchTile}
-      >
-        <Text s28>Logowanie</Text>
-      </Link>
-      <Link
+      > */}
+      <div className={styles.switchTile}>
+        <Text s28 gray fMedium>
+          Logowanie
+        </Text>
+      </div>
+
+      {/* </Link> */}
+      {/* <Link
         to="/register"
         data-active={pathname === "/register"}
         className={styles.switchTile}
       >
         <Text s28>Rejestracja</Text>
-      </Link>
+      </Link> */}
     </div>
   );
 };

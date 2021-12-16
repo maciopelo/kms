@@ -14,4 +14,5 @@ export const API = {
   ANNOUNCEMENT: `${BASE_API_URL}/announcement/`,
   NEWS: `${BASE_API_URL}/news/`,
   CHILDREN: `${BASE_API_URL}/children/`,
+  TEACHER: `${BASE_API_URL}/teacher/`,
 };
