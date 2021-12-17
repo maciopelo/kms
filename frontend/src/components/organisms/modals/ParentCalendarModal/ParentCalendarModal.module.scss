@@ -9,7 +9,7 @@
 
 .content {
   padding: $defaultModalPadding;
-  height: 350px;
+  min-height: 350px;
 }
 
 .header {
@@ -17,12 +17,25 @@
   justify-content: space-between;
 }
 
-.announcements {
+.announcementsWrapper {
   margin-top: 15px;
   height: 70%;
-  border: solid $gray 1px;
   border-radius: $borderRadiusSmall;
   padding: 10px;
+}
+
+.announcement {
+  position: relative;
+  margin-bottom: 30px;
+
+  &::before {
+    content: "■";
+    position: absolute;
+    left: -1em;
+    top: 2px;
+    font-size: 1.1em;
+    color: $gray;
+  }
 }
 
 .attendance {

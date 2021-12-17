@@ -1,5 +1,6 @@
 @import "../../../sassStyles/variables";
 @import "../../../sassStyles/mixins";
+@import "../../../sassStyles/helpers";
 @import "../../atoms/Text/Text.module.scss";
 
 $todosHeight: 400px;
@@ -26,7 +27,7 @@ $todosHeight: 400px;
 }
 
 .todos {
-  overflow-y: auto;
+  @extend .custom-scrollbar;
   max-height: $todosHeight;
   & li:not(:last-child) {
     margin-bottom: 20px;

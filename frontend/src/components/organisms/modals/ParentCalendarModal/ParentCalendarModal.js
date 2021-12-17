@@ -7,6 +7,7 @@ import { getUrlDateFormat } from "../../../../utils/dateHelpers";
 import Text from "../../../atoms/Text/Text";
 import ModalDateHeader from "../../../molecules/ModalDateHeader/ModalDateHeader";
 import styles from "./ParentCalendarModal.module.scss";
+import { parseText } from "../../../../utils/helpers";
 
 const ParentCalendarModal = ({ date, children }) => {
   const { data, isLoading, callAPI } = useFetch();
@@ -21,6 +22,7 @@ const ParentCalendarModal = ({ date, children }) => {
     setCurrChild(children.filter((child) => child.id === parseInt(value))[0]);
   };
 
+  console.log(data);
   return (
     <div className={styles.wrapper}>
       <ModalDateHeader date={date} />
@@ -38,27 +40,27 @@ const ParentCalendarModal = ({ date, children }) => {
             ))}
           </select>
         </div>
-        <div className={styles.announcements}>
+        <div className={styles.announcementsWrapper}>
           <ul>
             {!isLoading && Boolean(data)
               ? data
                   .filter((an) => an.is_for_all || an.group === currChild.group)
                   .map((an) => (
-                    <li>
+                    <li className={styles.announcement}>
                       <Text s16 gray>
-                        {an.text}
+                        {parseText(an.text)}
                       </Text>
                     </li>
                   ))
               : "Loading..."}
           </ul>
         </div>
-        <div className={styles.attendance}>
+        {/* <div className={styles.attendance}>
           <Text s16 gray fMedium>
             Obecny
           </Text>
           <img src={tik} alt="Attendance Icon" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

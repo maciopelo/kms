@@ -1,0 +1,33 @@
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+@import "../../../sassStyles/helpers";
+@import "../../atoms/Text/Text.module.scss";
+
+.todos {
+  @extend .custom-scrollbar;
+
+  max-height: 300px;
+  li {
+    margin-bottom: 5px;
+  }
+}
+
+.addTodo {
+  padding: 7px;
+  margin-top: 10px;
+  min-height: 100px;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid $gray;
+  border-radius: $borderRadiusSmall;
+
+  img {
+    cursor: pointer;
+  }
+}
+
+.newTodoTextarea {
+  @extend .s14;
+  width: 100%;
+}

@@ -2,47 +2,29 @@ import React, { useState, useEffect } from "react";
 import styles from "./CalendarModal.module.scss";
 import ModalDateHeader from "../../../molecules/ModalDateHeader/ModalDateHeader";
 import Text from "../../../atoms/Text/Text";
-import { v4 as uuidv4 } from "uuid";
-import TodoItem from "../../../molecules/TodoItem/TodoItem";
-import add from "../../../../assets/icons/add.svg";
 import Button from "../../../atoms/Button/Button";
-import {
-  getDBDateFormat,
-  getUrlDateFormat,
-} from "../../../../utils/dateHelpers";
 import { API } from "../../../../api/urls";
-import useFetch from "../../../../hooks/useFetch";
-import GroupsAnnouncements from "../../GroupsAnnouncements/GroupsAnnouncements";
+import EditableList from "../../EditableList/EditableList";
 
 const CalendarModal = ({ date, setHomepageTodos }) => {
-  const [newTodo, setNewTodo] = useState("");
-  const { data, isLoading, callAPI, setData } = useFetch();
+  const [chosenGroup, setChosenGroup] = useState(0);
+  const [groups, setGroups] = useState([]);
 
-  const postNewTodo = async () => {
-    const data = await callAPI(
-      API.USER.TODOS,
-      "POST",
-      JSON.stringify({ text: newTodo, date: getDBDateFormat(date) })
-    );
-    return data;
-  };
+  const fetchGroups = async () => {
+    const res = await fetch(API.GROUP, { credentials: "include" });
+    const data = await res.json();
 
-  const getCurrentDayTodos = () => {
-    callAPI(`${API.USER.TODOS}${getUrlDateFormat(date)}`);
-  };
-
-  const handleNewTodoAdd = async () => {
-    if (newTodo) {
-      const data = await postNewTodo();
-      setData((prevData) => [...prevData, data]);
-      setHomepageTodos((prevData) => [...prevData, data]);
-      setNewTodo("");
-    }
+    setGroups(data);
+    setChosenGroup(data[0].id);
   };
 
   useEffect(() => {
-    getCurrentDayTodos();
+    fetchGroups();
   }, []);
+
+  const handleGroupChange = ({ target: { value } }) => {
+    setChosenGroup(parseInt(value));
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -52,37 +34,14 @@ const CalendarModal = ({ date, setHomepageTodos }) => {
           <div className={styles.todoList}>
             <header className={styles.todoListHeader}>
               <Text s28 rouge fMedium>
-                Zadania
+                Lista zadań
               </Text>
             </header>
-
-            {data && !isLoading ? (
-              <ul className={styles.todos}>
-                {data.map((todo) => (
-                  <TodoItem
-                    key={uuidv4()}
-                    todo={todo}
-                    setHomepageTodos={setHomepageTodos}
-                    setCurrDayTodos={setData}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <Text s28 rouge fMedium>
-                {isLoading ? "Loading..." : "Something went wrong"}
-              </Text>
-            )}
-
-            <div className={styles.addTodo}>
-              <textarea
-                className={styles.newTodoTextarea}
-                placeholder="Nowe zadanie..."
-                maxLength={200}
-                onChange={(e) => setNewTodo(e.target.value)}
-                value={newTodo}
-              />
-              <img src={add} alt="Plus Icon" onClick={handleNewTodoAdd} />
-            </div>
+            <EditableList
+              date={date}
+              url={API.USER.TODOS}
+              setHomepageTodos={setHomepageTodos}
+            />
           </div>
 
           {/* TODO: prepare functionality when uploading files in backedn ready*/}
@@ -100,7 +59,28 @@ const CalendarModal = ({ date, setHomepageTodos }) => {
         </div>
 
         <div className={styles.contentRight}>
-          <GroupsAnnouncements date={date} />
+          <div className={styles.todoList}>
+            <header className={styles.todoListHeader}>
+              <Text s28 rouge fMedium>
+                Ogłoszenia dla grup
+              </Text>
+              <div className={styles.dropdown}>
+                <select value={chosenGroup} onChange={handleGroupChange}>
+                  {groups.map((group) => (
+                    <option key={group.id} value={group.id}>
+                      {group.name}
+                    </option>
+                  ))}
+                  <option value="-1">Wszystkie</option>
+                </select>
+              </div>
+            </header>
+            <EditableList
+              date={date}
+              url={API.ANNOUNCEMENT}
+              group={chosenGroup}
+            />
+          </div>
         </div>
       </div>
     </div>
