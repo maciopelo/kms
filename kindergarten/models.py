@@ -21,7 +21,7 @@ class Announcement(models.Model):
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
     text = models.TextField(blank=True)
-    date = models.DateTimeField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True, editable=True)
     is_for_all = models.BooleanField(default=False)
 
     objects = models.Manager()

@@ -64,6 +64,13 @@ class AnnouncementView(APIView):
         
         authenticate_user(request)
 
+        new_announcement = {
+      
+            "text":request.data['text'],
+            "date":request.data['date'],
+            'is_for_all':request.data['is_for_all']
+        }
+
         serializer = AnnouncementSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -90,6 +97,22 @@ class AnnouncementView(APIView):
 
         except Announcement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+    def delete(self, request, pk):
+    
+        authenticate_user(request)
+        
+        try:
+            announ = Announcement.objects.get(id=pk)
+            serializer = AnnouncementSerializer({"id":announ.id, "group":announ.group, "text":announ.text, "date":announ.date, "is_for_all":announ.is_for_all})
+            announ.delete()
+        except (Announcement.DoesNotExist, ValidationError):
+            return Response({'msg':"Announcement of given id does not exist"}, 400) 
+            
+            
+        return Response(serializer.data)
 
 
 

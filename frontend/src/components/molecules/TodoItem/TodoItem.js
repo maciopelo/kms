@@ -6,22 +6,24 @@ import useFetch from "../../../hooks/useFetch";
 
 const TodoItem = ({
   todo: { id, text },
-  setHomepageTodos,
+  setHomepageTodos = undefined,
   setCurrDayTodos,
+  url,
 }) => {
   const { callAPI } = useFetch();
 
   const deleteTodo = async (id) => {
-    const data = await callAPI(`${API.USER.TODOS}${id}`, "DELETE");
+    const data = await callAPI(`${url}${id}`, "DELETE");
     return data;
   };
 
   const handleTodoRemove = async () => {
     const data = await deleteTodo(id);
     console.log(data);
-    setHomepageTodos((prevData) => [
-      ...prevData.filter((todo) => todo.id !== data.id),
-    ]);
+    if (Boolean(setHomepageTodos))
+      setHomepageTodos((prevData) => [
+        ...prevData.filter((todo) => todo.id !== data.id),
+      ]);
     setCurrDayTodos((prevData) => [
       ...prevData.filter((todo) => todo.id !== data.id),
     ]);
