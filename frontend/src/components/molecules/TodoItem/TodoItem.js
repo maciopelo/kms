@@ -3,6 +3,7 @@ import styles from "./TodoItem.module.scss";
 import binIcon from "../../../assets/icons/bin.svg";
 import { API } from "../../../api/urls";
 import useFetch from "../../../hooks/useFetch";
+import { parseText } from "../../../utils/helpers";
 
 const TodoItem = ({
   todo: { id, text },
@@ -29,9 +30,11 @@ const TodoItem = ({
     ]);
   };
 
+  console.log(parseText(text));
+  console.log("asdsa");
   return (
     <li className={styles.todo}>
-      <p className={styles.text}> {text} </p>
+      <p className={styles.text}> {parseText(text)} </p>
       <img
         className={styles.removeTodo}
         src={binIcon}

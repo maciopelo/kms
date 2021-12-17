@@ -14,7 +14,7 @@ const EditableList = ({ date, url, setHomepageTodos, group }) => {
   const postNewTodo = async () => {
     const payload = group
       ? JSON.stringify({
-          group: group,
+          group: group === -1 ? null : group,
           text: newTodo,
           date: getDBDateFormat(date),
           is_for_all: group === -1,
