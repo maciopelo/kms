@@ -16,12 +16,11 @@ import jwt
 class GroupView(APIView):
 
     def get(self, request):
+
         authenticate_user(request)
 
         groups = Group.objects.all()
         serializer = GroupSerializer(groups, many=True)
-
-        print(serializer.data)
 
         response = []
 
@@ -32,6 +31,24 @@ class GroupView(APIView):
             response.append(group)
         
         return Response(response)
+
+
+
+    def delete(self,request, pk):
+
+        authenticate_user(request)
+
+        try:
+            group = Group.objects.get(id=pk)
+            serializer = GroupSerializer(group)
+            group.delete()
+
+            return Response({**serializer.data, "id":pk})
+
+        except Child.DoesNotExist:
+
+            return Response({'msg':"Group with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 

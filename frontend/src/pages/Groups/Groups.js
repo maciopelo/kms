@@ -24,10 +24,12 @@ const Groups = () => {
         data.map((group) => (
           <GroupTile
             key={group.id}
+            id={group.id}
             name={group.name}
             childrenCount={group.children_count}
             teacher={group.teacher}
             type={group.type}
+            update={callAPI}
           />
         ))}
 

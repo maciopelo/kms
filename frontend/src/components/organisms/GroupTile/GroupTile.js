@@ -3,8 +3,21 @@ import Text from "../../atoms/Text/Text";
 import styles from "./GroupTile.module.scss";
 import { GROUPS } from "../../../utils/enums";
 import edit from "../../../assets/icons/edit.svg";
+import bin from "../../../assets/icons/bin.svg";
+import AreYouSureModal from "../modals/AreYouSureModal/AreYouSureModal";
+import { useModalContext } from "../../../store/contexts/ModalContext";
+import useFetch from "../../../hooks/useFetch";
+import { API } from "../../../api/urls";
 
-const GroupTile = ({ name, childrenCount, teacher, type }) => {
+const GroupTile = ({ id, name, childrenCount, teacher, type, update }) => {
+  const { handleModal } = useModalContext();
+  const { callAPI } = useFetch();
+
+  const handleGroupRemove = async () => {
+    await callAPI(`${API.GROUP}${id}`, "DELETE");
+    update(`${API.GROUP}`);
+  };
+
   return (
     <div className={styles.groupTileWrapper} data-color={type}>
       <div className={styles.groupType}>
@@ -44,6 +57,19 @@ const GroupTile = ({ name, childrenCount, teacher, type }) => {
       </div>
 
       <img className={styles.editGroup} src={edit} alt="Edit Icon" />
+      <img
+        className={styles.removeGroup}
+        src={bin}
+        alt="Edit Icon"
+        onClick={() =>
+          handleModal(
+            <AreYouSureModal
+              question="Czy usunąć grupę z systemu? "
+              onYes={handleGroupRemove}
+            />
+          )
+        }
+      />
     </div>
   );
 };
