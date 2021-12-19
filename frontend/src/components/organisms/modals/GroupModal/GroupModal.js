@@ -27,6 +27,8 @@ export const GroupModal = ({
   const [children, setChildren] = useState({
     list: [],
     filtered: [],
+    filteredWithoutGroup: [],
+    withoutGroup: [],
     chosen: [],
   });
   const [error, setError] = useState({
@@ -54,6 +56,7 @@ export const GroupModal = ({
     const responses = await Promise.all([
       fetch(`${API.CHILDREN}?group=${id}`, { credentials: "include" }),
       fetch(API.TEACHER, { credentials: "include" }),
+      fetch(`${API.CHILDREN}?in_group=false`, { credentials: "include" }),
     ]);
     const jsons = responses.map((response) => {
       return response.json();
@@ -66,6 +69,8 @@ export const GroupModal = ({
       ...prev,
       list: data[0],
       filtered: data[0],
+      withoutGroup: data[2],
+      filteredWithoutGroup: data[2],
       chosen: data[0].map((child) => child.id),
     }));
     setTeachers({ list: data[1], chosen: teacher.id });
@@ -110,7 +115,12 @@ export const GroupModal = ({
       teachers
     );
     setError(errors);
-
+    console.log({
+      teacher: teachers.chosen,
+      name: groupName,
+      type: groupType,
+      children: children.chosen,
+    });
     if (isValid) {
       const payload = {
         teacher: teachers.chosen,
@@ -137,6 +147,14 @@ export const GroupModal = ({
   };
 
   useEffect(() => {
+    setChildren((prev) => ({
+      ...prev,
+      filteredWithoutGroup: prev.withoutGroup.filter(filterFunction),
+      filtered: prev.list.filter(filterFunction),
+    }));
+  }, [childKeyword]);
+
+  useEffect(() => {
     if (id) {
       fetchChildrenAndTeachersToEditGroup();
       const currGroupTeacher = {
@@ -148,24 +166,19 @@ export const GroupModal = ({
     } else fetchChildrenAndTeachersForNewGroup();
   }, []);
 
-  useEffect(() => {
-    setChildren((prev) => ({
-      ...prev,
-      filtered: prev.list.filter((child) => {
-        if (childKeyword.trim().length === 0) return true;
-        if (
-          child.name
-            .toLowerCase()
-            .includes(childKeyword.trim().toLocaleLowerCase()) ||
-          child.surname
-            .toLowerCase()
-            .includes(childKeyword.trim().toLocaleLowerCase())
-        )
-          return true;
-        return false;
-      }),
-    }));
-  }, [childKeyword]);
+  const filterFunction = (child) => {
+    if (childKeyword.trim().length === 0) return true;
+    if (
+      child.name
+        .toLowerCase()
+        .includes(childKeyword.trim().toLocaleLowerCase()) ||
+      child.surname
+        .toLowerCase()
+        .includes(childKeyword.trim().toLocaleLowerCase())
+    )
+      return true;
+    return false;
+  };
 
   return (
     <div className={styles.groupModalWrapper}>
@@ -219,6 +232,31 @@ export const GroupModal = ({
               </Text>
             </div>
           </div>
+
+          {id && (
+            <div className={styles.groupField}>
+              <Text rouge gray s28 fMedium>
+                Dzieci bez grupy
+              </Text>
+
+              <div className={styles.list}>
+                {children.withoutGroup.length > 0 &&
+                  children.filteredWithoutGroup.map((child) => (
+                    <RadioOrCheckbox
+                      key={child.id}
+                      value={child.id}
+                      type="checkbox"
+                      text={`${child.name} ${child.surname}`}
+                      checked={children.chosen.includes(child.id)}
+                      onChange={handleChildrenOnchange}
+                    />
+                  ))}
+                <Text s10 error>
+                  {error.children}
+                </Text>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className={styles.groupModalFields}>

@@ -105,7 +105,7 @@ class GroupView(APIView):
             # update children
             childre_in_group = Child.objects.filter(Q(group=group))
             children_in_group_ids = [child.id for child in childre_in_group]
-            children_intersection = list(set(children_in_group_ids).intersection(updated_children_in_group_ids))
+            # children_intersection = list(set(children_in_group_ids).intersection(updated_children_in_group_ids))
 
 
             for id in children_in_group_ids:
@@ -113,7 +113,7 @@ class GroupView(APIView):
                 child.group = None
                 child.save()
             
-            for id in children_intersection:
+            for id in updated_children_in_group_ids:
                 child = Child.objects.get(id=id)
                 child.group = group
                 child.save()
@@ -242,7 +242,7 @@ class ChildrenView(APIView):
         if in_group == "true":
             children = Child.objects.filter(~Q(group=None))
 
-        if group is not "":
+        if group != "":
             children = Child.objects.filter(Q(group=group))
 
         if pk is not None:

@@ -53,6 +53,7 @@
 }
 
 .groupField {
+  height: 200px;
   position: relative;
   margin-bottom: 30px;
   & > span:nth-of-type(1) {
@@ -68,7 +69,7 @@
 
 .list {
   @extend .custom-scrollbar;
-  height: 263px;
+  height: 125px;
 
   & > span {
     position: absolute;
