@@ -3,6 +3,7 @@ from .views import AnnouncementView, GroupView, ChildrenView
 
 urlpatterns = [
     path('group/', GroupView.as_view()),
+    path('group/<int:pk>', GroupView.as_view()),
     path('announcement/', AnnouncementView.as_view()),
     path('announcement/<int:pk>', AnnouncementView.as_view()),
     path('announcement/<int:day>/<int:month>/<int:year>/', AnnouncementView.as_view()),

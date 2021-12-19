@@ -1,6 +1,7 @@
 @import "../../../../sassStyles/variables";
 @import "../../../../sassStyles/mixins";
 @import "../../../../sassStyles/helpers";
+@import "../../../atoms/Text/Text.module.scss";
 
 .groupModalWrapper {
   width: 550px;
@@ -32,6 +33,10 @@
   padding: 25px 25px 0 25px;
   display: flex;
   justify-content: space-between;
+
+  & > div:nth-of-type(2) {
+    margin-left: 70px;
+  }
 }
 
 .save {
@@ -41,20 +46,56 @@
 }
 
 .groupModalFields {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .groupField {
+  height: 200px;
+  position: relative;
   margin-bottom: 30px;
   & > span:nth-of-type(1) {
     display: block;
     margin-bottom: 10px;
   }
+
+  & > span:nth-of-type(2) {
+    position: absolute;
+    bottom: -15px;
+  }
 }
 
 .list {
   @extend .custom-scrollbar;
-  max-height: 263px;
+  height: 125px;
+
+  & > span {
+    position: absolute;
+    bottom: -15px;
+  }
+}
+
+.search {
+  position: relative;
+  margin: 15px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+
+  & > div {
+    position: absolute;
+    right: 10%;
+    top: 40%;
+
+    & > span,
+    span::before,
+    span::after {
+      height: 13px;
+    }
+  }
+
+  input {
+    @extend .s16;
+  }
 }

@@ -24,14 +24,18 @@ const Groups = () => {
         data.map((group) => (
           <GroupTile
             key={group.id}
+            id={group.id}
             name={group.name}
             childrenCount={group.children_count}
-            teacher={group.teacher}
+            teacher={{ name: group.teacher, id: group.teacher_id }}
             type={group.type}
+            update={callAPI}
           />
         ))}
 
-      <PlusButton onClick={() => handleModal(<GroupModal />)} />
+      <PlusButton
+        onClick={() => handleModal(<GroupModal update={callAPI} />)}
+      />
     </GenericPage>
   );
 };

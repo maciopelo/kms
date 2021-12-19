@@ -7,7 +7,7 @@ from .serializers import UserSerializer,TodoSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed,ValidationError
 from .models import User, Todo
-from kindergarten.models import Child
+from kindergarten.models import Child, Group
 from kindergarten.serializers import ChildSerializer
 from django.db.models import Q
 import datetime
@@ -171,8 +171,24 @@ class TeacherView(APIView):
     def get(self, request):
     
         authenticate_user(request)
+
+        has_group = request.GET.get('has_group','')
+
         teachers = User.objects.filter(Q(type=UserType.TEACHER.value[0]))
-        serializer = UserSerializer(teachers,many=True)
+
+
+        if has_group == "false":
+            groups = Group.objects.all()
+            group_ids = [group.teacher.id for group in groups if group.teacher is not None ]
+            teachers = User.objects.filter(Q(type=UserType.TEACHER.value[0]) & ~Q(pk__in=group_ids))
+        
+        if has_group == "true":
+            groups = Group.objects.all()
+            group_ids = [group.teacher.id for group in groups]
+            teachers = User.objects.filter(Q(type=UserType.TEACHER.value[0]) & Q(pk__in=group_ids))
+
+
+        serializer = UserSerializer(teachers, many=True)
 
         return Response(serializer.data)
             

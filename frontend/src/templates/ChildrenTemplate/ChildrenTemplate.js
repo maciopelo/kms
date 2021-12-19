@@ -33,7 +33,6 @@ const ChildrenTemplate = () => {
     history.push("/children");
   };
 
-  console.log(child);
   return (
     <GenericPage>
       <div className={styles.childInfoWrapper}>

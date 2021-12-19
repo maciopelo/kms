@@ -20,7 +20,7 @@ const TodoItem = ({
 
   const handleTodoRemove = async () => {
     const data = await deleteTodo(id);
-    console.log(data);
+
     if (Boolean(setHomepageTodos))
       setHomepageTodos((prevData) => [
         ...prevData.filter((todo) => todo.id !== data.id),
@@ -30,8 +30,6 @@ const TodoItem = ({
     ]);
   };
 
-  console.log(parseText(text));
-  console.log("asdsa");
   return (
     <li className={styles.todo}>
       <p className={styles.text}> {parseText(text)} </p>

@@ -100,3 +100,34 @@ export const childSchema = Yup.object({
 
   additionalInfo: Yup.string(),
 });
+
+export const groupModalValidation = (
+  groupName,
+  groupType,
+  children,
+  teachers
+) => {
+  const errors = {
+    name: "",
+    children: "",
+    type: "",
+    teacher: "",
+  };
+
+  if (!Boolean(groupName)) errors.name = "Nazwa jest wymagana.";
+
+  if (!Boolean(groupType)) errors.type = "Rodzaj grupy jest wymagany.";
+
+  if (!Boolean(children.list.length))
+    errors.children = "Brak dostępnych dzieci do przydzielnia.";
+  else if (!Boolean(children.chosen.length))
+    errors.children = "Nie wybrano żadnych dzieci.";
+
+  if (!Boolean(teachers.list.length))
+    errors.teacher = "Brak dostępnych nauczycieli do przydzielnia.";
+
+  return {
+    errors: errors,
+    isValid: Object.values(errors).every((i) => i === ""),
+  };
+};

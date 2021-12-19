@@ -33,9 +33,7 @@ const RegisterForm = () => {
         let response = await registerUser(dispatch, values);
         if (!response) return;
         history.push("/login");
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
   });
 

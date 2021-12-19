@@ -5,7 +5,7 @@ from .enums import GroupType
 
 class Group(models.Model):
 
-    teacher = models.OneToOneField("users.User", on_delete=models.SET_NULL, null=True)
+    teacher = models.OneToOneField("users.User", on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=30)
     type = models.CharField(max_length=255, choices=GroupType.choices(), default=GroupType.YOUNGERS.value[0])
 
@@ -34,7 +34,7 @@ class Announcement(models.Model):
 
 class Child(models.Model):
 
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=50)
     gender = models.CharField(max_length=10, choices=[("M","MALE"),("F","FEMALE")], default="M")

@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from backend.utils import *
 from rest_framework import serializers, status
@@ -15,23 +16,138 @@ import jwt
 
 class GroupView(APIView):
 
-    def get(self, request):
+    def get(self, request, pk=None):
+
         authenticate_user(request)
 
         groups = Group.objects.all()
-        serializer = GroupSerializer(groups, many=True)
 
-        print(serializer.data)
+        if pk is not None:
+            try:
+                groups = Group.objects.get(id=pk)
+            
+            except Group.DoesNotExist:
+                return Response({'msg':"Group with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = GroupSerializer(groups, many = True if pk is None else False)
 
         response = []
 
-        for group in serializer.data:
-            
+   
+        groups_list = serializer.data if pk is None else [serializer.data]
+
+        for group in groups_list:
             group['children_count'] = len(Child.objects.filter(group=group['id']))
-            group['teacher'] = User.objects.get(id=group['teacher']).name + " " + User.objects.get(id=group['teacher']).surname
+
+            if group['teacher'] is not None:
+                group['teacher_id'] = User.objects.get(id=group['teacher']).id
+                group['teacher'] = User.objects.get(id=group['teacher']).name + " " + User.objects.get(id=group['teacher']).surname
+            else:
+                group['teacher'] = 'nieprzydzielony'
+
             response.append(group)
         
         return Response(response)
+
+
+
+
+    def post(self, request):
+            
+        authenticate_user(request)
+
+        child_in_group_ids = request.data["children"]
+
+        payload ={
+            "teacher": request.data["teacher"], 
+            "name": request.data["name"], 
+            "type":request.data["type"], 
+        }
+
+
+        serializer = GroupSerializer(data=payload)
+
+        if serializer.is_valid():
+            new_group = serializer.save()
+
+            for id in child_in_group_ids:
+                child = Child.objects.get(id=id)
+                child.group = new_group
+                child.save()
+
+            return Response(serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+    def patch(self,request, pk):
+    
+        authenticate_user(request)
+
+        updated_children_in_group_ids = request.data["children"]
+
+        payload = {
+            "name": request.data["name"], 
+            "type":request.data["type"], 
+        }
+
+        try:
+            group = Group.objects.get(id=pk)
+
+
+            # update teacher
+            if group.teacher is None:
+                payload['teacher'] = request.data["teacher"]
+            else:
+                if group.teacher.id  != request.data["teacher"]:
+                    payload['teacher'] = request.data["teacher"]
+
+            # update children
+            childre_in_group = Child.objects.filter(Q(group=group))
+            children_in_group_ids = [child.id for child in childre_in_group]
+            # children_intersection = list(set(children_in_group_ids).intersection(updated_children_in_group_ids))
+
+
+            for id in children_in_group_ids:
+                child = Child.objects.get(id=id)
+                child.group = None
+                child.save()
+            
+            for id in updated_children_in_group_ids:
+                child = Child.objects.get(id=id)
+                child.group = group
+                child.save()
+
+            serializer = GroupSerializer(group, data=payload)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+
+        except Group.DoesNotExist:
+
+            return Response({'msg':"Group with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+    def delete(self,request, pk):
+
+        authenticate_user(request)
+
+        try:
+            group = Group.objects.get(id=pk)
+            serializer = GroupSerializer(group)
+            group.delete()
+
+            return Response({**serializer.data, "id":pk})
+
+        except Group.DoesNotExist:
+
+            return Response({'msg':"Group with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 
@@ -63,13 +179,6 @@ class AnnouncementView(APIView):
     def post(self, request):
         
         authenticate_user(request)
-
-        new_announcement = {
-      
-            "text":request.data['text'],
-            "date":request.data['date'],
-            'is_for_all':request.data['is_for_all']
-        }
 
         serializer = AnnouncementSerializer(data=request.data)
 
@@ -119,19 +228,22 @@ class AnnouncementView(APIView):
 class ChildrenView(APIView):
 
 
-    def get(self, request,pk=None):
-
+    def get(self, request, pk=None):
 
         
         authenticate_user(request)
         children = Child.objects.all()
         in_group = request.GET.get('in_group','')
+        group = request.GET.get('group','')
 
         if in_group == "false":
             children = Child.objects.filter(group=None)
         
         if in_group == "true":
             children = Child.objects.filter(~Q(group=None))
+
+        if group != "":
+            children = Child.objects.filter(Q(group=group))
 
         if pk is not None:
             try:

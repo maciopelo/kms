@@ -69,3 +69,15 @@
     cursor: pointer;
   }
 }
+
+.removeGroup {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  right: 10px;
+  bottom: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

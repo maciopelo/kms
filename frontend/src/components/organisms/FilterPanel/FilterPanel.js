@@ -68,9 +68,6 @@ const FilterPanel = ({ data, setChildren }) => {
         return true;
       })
       .filter((child) => {
-        console.log(chosenGroups);
-        console.log(child.group);
-        console.log(chosenGroups.includes(child.group));
         if (Boolean(chosenGroups.length)) {
           return chosenGroups.includes(child.group);
         }
