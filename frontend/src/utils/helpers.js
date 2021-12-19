@@ -4,8 +4,6 @@
 // 4. handles proper syntax such as one white space after comma  e.g. 'text, text'
 
 export const parseText = (text) => {
-  console.log(text.replace(/\s+/g, ""));
-  console.log(text.replace(/\s+/g, ""));
   return text
     .replace(/\s+!/g, "! ")
     .replace(/\s+\?/g, "? ")

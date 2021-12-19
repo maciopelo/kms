@@ -126,7 +126,7 @@ class AnnouncementsTest(TestCase):
             "group": self.group1.id
         }
 
-        res = self.client.post('/api/children/',data=new_child_payload,content_type='application/json')
+        res = self.client.post('/api/children/', data=new_child_payload, content_type='application/json')
         child = Child.objects.get(pesel=10027999238)
         children = Child.objects.all()
 
@@ -211,7 +211,7 @@ class AnnouncementsTest(TestCase):
 
         self.login()
 
-        res = self.client.delete(f'/api/children/1927')
+        res = self.client.delete('/api/children/1927')
 
         self.assertEqual(res.status_code, 404)
         self.assertEqual(res.data['msg'], "Child with given id does not exist.")

@@ -115,12 +115,7 @@ export const GroupModal = ({
       teachers
     );
     setError(errors);
-    console.log({
-      teacher: teachers.chosen,
-      name: groupName,
-      type: groupType,
-      children: children.chosen,
-    });
+
     if (isValid) {
       const payload = {
         teacher: teachers.chosen,

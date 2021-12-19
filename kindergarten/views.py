@@ -27,7 +27,7 @@ class GroupView(APIView):
                 groups = Group.objects.get(id=pk)
             
             except Group.DoesNotExist:
-                return Response({'msg':"Child with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'msg':"Group with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = GroupSerializer(groups, many = True if pk is None else False)
 
@@ -144,7 +144,7 @@ class GroupView(APIView):
 
             return Response({**serializer.data, "id":pk})
 
-        except Child.DoesNotExist:
+        except Group.DoesNotExist:
 
             return Response({'msg':"Group with given id does not exist."}, status=status.HTTP_404_NOT_FOUND)
 

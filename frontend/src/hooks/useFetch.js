@@ -27,9 +27,7 @@ const useFetch = () => {
         if (method === "GET") setData(json);
         setIsLoading(false);
         return json;
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     []
   );

@@ -30,12 +30,10 @@ const LoginForm = () => {
         let response = await loginUser(dispatch, values);
         if (!response) return;
         history.push("/home");
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
   });
-  console.log(formik.errors);
+
   return (
     <div className={styles.loginFormWrapper}>
       <LoginRegisterSwitch />

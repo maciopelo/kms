@@ -25,7 +25,7 @@ const NewsTile = ({ news, update }) => {
     });
     update(`${API.NEWS}`);
   };
-  console.log(date);
+
   return (
     <div className={styles.newsTileWrapper}>
       <div

@@ -26,7 +26,6 @@ export const registerUser = async (dispatch, registerPayload) => {
       return data;
     }
 
-    console.log(data.email);
     const error = {
       username: data.username ? "podany już login jest używany" : "",
       email: data.email ? ", podany email już jest używany" : "",
@@ -96,7 +95,6 @@ export const authUser = async (dispatch) => {
 
     dispatch({ type: ACTIONS.AUTH.ERROR, payload: false });
   } catch (err) {
-    console.log(err);
     dispatch({ type: ACTIONS.AUTH.ERROR, payload: false });
   }
 };
@@ -116,10 +114,6 @@ export const logoutUser = async (dispatch) => {
       return;
     }
 
-    console.log(response);
-
     return;
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
