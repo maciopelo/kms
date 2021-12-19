@@ -8,42 +8,53 @@ import styles from "./GroupModal.module.scss";
 import { GROUPS } from "../../../../utils/enums";
 import Input from "../../../molecules/Input/Input";
 import { API } from "../../../../api/urls";
+import useFetch from "../../../../hooks/useFetch";
+import { groupModalValidation } from "../../../../validators";
 
-export const GroupModal = () => {
+export const GroupModal = ({ update }) => {
+  const { callAPI } = useFetch();
+  const [childKeyword, setChildKeyword] = useState("");
   const { handleModal } = useModalContext();
+  const [groupName, setGroupName] = useState("");
   const [groupType, setGroupType] = useState(null);
   const [teachers, setTeachers] = useState({ list: [], chosen: null });
-  const [children, setChildren] = useState({ list: [], chosen: [] });
+  const [children, setChildren] = useState({
+    list: [],
+    filtered: [],
+    chosen: [],
+  });
+  const [error, setError] = useState({
+    name: "",
+    children: "",
+    type: "",
+    teacher: "",
+  });
 
   const fetchChildrenAndTeachers = async () => {
     const responses = await Promise.all([
       fetch(`${API.CHILDREN}?in_group=false`, { credentials: "include" }),
-      fetch(API.TEACHER, { credentials: "include" }),
+      fetch(`${API.TEACHER}?has_group=false`, { credentials: "include" }),
     ]);
     const jsons = responses.map((response) => {
       return response.json();
     });
     const data = await Promise.all(jsons);
 
-    setChildren((prev) => ({ ...prev, list: data[0] }));
+    setChildren((prev) => ({ ...prev, list: data[0], filtered: data[0] }));
     setTeachers((prev) => ({ ...prev, list: data[1] }));
   };
 
-  useEffect(() => {
-    fetchChildrenAndTeachers();
-  }, []);
-
   const handleChildrenOnchange = ({ target: { value } }) => {
-    if (children.chosen.includes(value)) {
+    if (children.chosen.includes(parseInt(value))) {
       setChildren((prev) => ({
         ...prev,
-        chosen: prev.chosen.filter((c) => c !== value),
+        chosen: prev.chosen.filter((c) => c !== parseInt(value)),
       }));
       return;
     }
     setChildren((prev) => ({
       ...prev,
-      chosen: [...prev.chosen, value],
+      chosen: [...prev.chosen, parseInt(value)],
     }));
   };
 
@@ -51,13 +62,74 @@ export const GroupModal = () => {
     setTeachers((prev) => ({ ...prev, chosen: parseInt(value) }));
   };
 
-  console.log(children);
-  console.log(teachers);
+  const handleGroupNameChange = ({ target: { value } }) => {
+    setGroupName(value);
+  };
 
+  const handleFilterInputChange = ({ target: { value } }) => {
+    setChildKeyword(value);
+  };
+
+  const handleNewGroupAddition = async () => {
+    const { errors, isValid } = groupModalValidation(
+      groupName,
+      groupType,
+      children,
+      teachers
+    );
+    console.log(errors);
+    setError(errors);
+
+    if (isValid) {
+      const payload = {
+        teacher: teachers.chosen,
+        name: groupName,
+        type: groupType,
+        children: children.chosen,
+      };
+      await callAPI(API.GROUP, "POST", JSON.stringify(payload));
+      handleModal();
+      update(API.GROUP);
+    }
+  };
+
+  useEffect(() => {
+    fetchChildrenAndTeachers();
+  }, []);
+
+  useEffect(() => {
+    setChildren((prev) => ({
+      ...prev,
+      filtered: prev.list.filter((child) => {
+        if (childKeyword.trim().length === 0) return true;
+        if (
+          child.name
+            .toLowerCase()
+            .includes(childKeyword.trim().toLocaleLowerCase()) ||
+          child.surname
+            .toLowerCase()
+            .includes(childKeyword.trim().toLocaleLowerCase())
+        )
+          return true;
+        return false;
+      }),
+    }));
+  }, [childKeyword]);
+
+  console.log(children.chosen);
   return (
     <div className={styles.groupModalWrapper}>
       <div className={styles.groupModalHeader}>
-        <Input kind="header" placeholder="Nazwa własna..." maxLength="40" />
+        <Input
+          kind="header"
+          placeholder="Nazwa własna..."
+          maxLength="40"
+          value={groupName}
+          onChange={handleGroupNameChange}
+          touched={true}
+          error={error.name}
+        />
+
         <div className={styles.close}>
           <Cross onClick={handleModal} />
         </div>
@@ -70,17 +142,31 @@ export const GroupModal = () => {
               Dzieci
             </Text>
 
+            <div className={styles.search}>
+              <input
+                type="text"
+                placeholder="szukaj ..."
+                value={childKeyword}
+                onChange={handleFilterInputChange}
+              />
+              <Cross onClick={() => setChildKeyword("")} />
+            </div>
+
             <div className={styles.list}>
               {children.list.length > 0 &&
-                children.list.map((child) => (
+                children.filtered.map((child) => (
                   <RadioOrCheckbox
                     key={child.id}
                     value={child.id}
                     type="checkbox"
                     text={`${child.name} ${child.surname}`}
+                    checked={children.chosen.includes(child.id)}
                     onChange={handleChildrenOnchange}
                   />
                 ))}
+              <Text s10 error>
+                {error.children}
+              </Text>
             </div>
           </div>
         </div>
@@ -109,6 +195,9 @@ export const GroupModal = () => {
               checked={groupType === GROUPS.OLDERS.type}
               onChange={() => setGroupType(GROUPS.OLDERS.type)}
             />
+            <Text s10 error>
+              {error.type}
+            </Text>
           </div>
 
           <div className={styles.groupField}>
@@ -116,7 +205,7 @@ export const GroupModal = () => {
               Wychowaca
             </Text>
 
-            <div className={styles.list}>
+            <div>
               {teachers.list.length > 0 &&
                 teachers.list.map((teacher) => (
                   <RadioOrCheckbox
@@ -128,12 +217,15 @@ export const GroupModal = () => {
                     onChange={handleTeacherOnchange}
                   />
                 ))}
+              <Text s10 error>
+                {error.teacher}
+              </Text>
             </div>
           </div>
         </div>
       </div>
       <div className={styles.save}>
-        <Button>zapisz</Button>
+        <Button onClick={handleNewGroupAddition}>zapisz</Button>
       </div>
     </div>
   );

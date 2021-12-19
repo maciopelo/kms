@@ -34,6 +34,36 @@ class GroupView(APIView):
 
 
 
+
+    def post(self, request):
+            
+        authenticate_user(request)
+
+        child_in_group_ids = request.data["children"]
+
+        payload ={
+            "teacher": request.data["teacher"], 
+            "name": request.data["name"], 
+            "type":request.data["type"], 
+        }
+
+
+        serializer = GroupSerializer(data=payload)
+
+        if serializer.is_valid():
+            new_group = serializer.save()
+
+            for id in child_in_group_ids:
+                child = Child.objects.get(id=id)
+                child.group = new_group
+                child.save()
+
+            return Response(serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
     def delete(self,request, pk):
 
         authenticate_user(request)
@@ -80,13 +110,6 @@ class AnnouncementView(APIView):
     def post(self, request):
         
         authenticate_user(request)
-
-        new_announcement = {
-      
-            "text":request.data['text'],
-            "date":request.data['date'],
-            'is_for_all':request.data['is_for_all']
-        }
 
         serializer = AnnouncementSerializer(data=request.data)
 
@@ -137,7 +160,6 @@ class ChildrenView(APIView):
 
 
     def get(self, request,pk=None):
-
 
         
         authenticate_user(request)

@@ -33,7 +33,9 @@ const Groups = () => {
           />
         ))}
 
-      <PlusButton onClick={() => handleModal(<GroupModal />)} />
+      <PlusButton
+        onClick={() => handleModal(<GroupModal update={callAPI} />)}
+      />
     </GenericPage>
   );
 };
