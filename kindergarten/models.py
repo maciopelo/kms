@@ -5,7 +5,7 @@ from .enums import GroupType
 
 class Group(models.Model):
 
-    teacher = models.OneToOneField("users.User", on_delete=models.SET_NULL, null=True)
+    teacher = models.OneToOneField("users.User", on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=30)
     type = models.CharField(max_length=255, choices=GroupType.choices(), default=GroupType.YOUNGERS.value[0])
 

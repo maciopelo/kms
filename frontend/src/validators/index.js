@@ -114,8 +114,6 @@ export const groupModalValidation = (
     teacher: "",
   };
 
-  console.log(teachers.list);
-  console.log(Boolean(teachers.list.length));
   if (!Boolean(groupName)) errors.name = "Nazwa jest wymagana.";
 
   if (!Boolean(groupType)) errors.type = "Rodzaj grupy jest wymagany.";
@@ -127,8 +125,6 @@ export const groupModalValidation = (
 
   if (!Boolean(teachers.list.length))
     errors.teacher = "Brak dostępnych nauczycieli do przydzielnia.";
-  else if (!Boolean(teachers.chosen))
-    errors.teacher = "Nie wybrano żadnego nauczyciela.";
 
   return {
     errors: errors,

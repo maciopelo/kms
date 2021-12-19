@@ -11,7 +11,13 @@ import { API } from "../../../../api/urls";
 import useFetch from "../../../../hooks/useFetch";
 import { groupModalValidation } from "../../../../validators";
 
-export const GroupModal = ({ update }) => {
+export const GroupModal = ({
+  update,
+  id = null,
+  name = null,
+  type = null,
+  teacher = null,
+}) => {
   const { callAPI } = useFetch();
   const [childKeyword, setChildKeyword] = useState("");
   const { handleModal } = useModalContext();
@@ -30,7 +36,7 @@ export const GroupModal = ({ update }) => {
     teacher: "",
   });
 
-  const fetchChildrenAndTeachers = async () => {
+  const fetchChildrenAndTeachersForNewGroup = async () => {
     const responses = await Promise.all([
       fetch(`${API.CHILDREN}?in_group=false`, { credentials: "include" }),
       fetch(`${API.TEACHER}?has_group=false`, { credentials: "include" }),
@@ -42,6 +48,27 @@ export const GroupModal = ({ update }) => {
 
     setChildren((prev) => ({ ...prev, list: data[0], filtered: data[0] }));
     setTeachers((prev) => ({ ...prev, list: data[1] }));
+  };
+
+  const fetchChildrenAndTeachersToEditGroup = async () => {
+    const responses = await Promise.all([
+      fetch(`${API.CHILDREN}?group=${id}`, { credentials: "include" }),
+      fetch(API.TEACHER, { credentials: "include" }),
+    ]);
+    const jsons = responses.map((response) => {
+      return response.json();
+    });
+    const data = await Promise.all(jsons);
+
+    setGroupName(name);
+    setGroupType(type);
+    setChildren((prev) => ({
+      ...prev,
+      list: data[0],
+      filtered: data[0],
+      chosen: data[0].map((child) => child.id),
+    }));
+    setTeachers({ list: data[1], chosen: teacher.id });
   };
 
   const handleChildrenOnchange = ({ target: { value } }) => {
@@ -58,8 +85,13 @@ export const GroupModal = ({ update }) => {
     }));
   };
 
-  const handleTeacherOnchange = ({ target: { value } }) => {
+  const handleTeacherOnChange = ({ target: { value } }) => {
     setTeachers((prev) => ({ ...prev, chosen: parseInt(value) }));
+  };
+
+  const handleTeacherOnClick = ({ target: { value } }) => {
+    if (teachers.chosen === parseInt(value))
+      setTeachers((prev) => ({ ...prev, chosen: null }));
   };
 
   const handleGroupNameChange = ({ target: { value } }) => {
@@ -77,7 +109,6 @@ export const GroupModal = ({ update }) => {
       children,
       teachers
     );
-    console.log(errors);
     setError(errors);
 
     if (isValid) {
@@ -87,14 +118,34 @@ export const GroupModal = ({ update }) => {
         type: groupType,
         children: children.chosen,
       };
-      await callAPI(API.GROUP, "POST", JSON.stringify(payload));
+      const res = await callAPI(
+        id ? `${API.GROUP}${id}` : API.GROUP,
+        id ? "PATCH" : "POST",
+        JSON.stringify(payload)
+      );
+
+      if (Boolean(res.teacher) && Boolean(res.teacher[0])) {
+        setError((prev) => ({
+          ...prev,
+          teacher: "Wybrany nauczyciel jest już przydzielony do grupy",
+        }));
+        return;
+      }
       handleModal();
       update(API.GROUP);
     }
   };
 
   useEffect(() => {
-    fetchChildrenAndTeachers();
+    if (id) {
+      fetchChildrenAndTeachersToEditGroup();
+      const currGroupTeacher = {
+        name: teacher.name,
+        surname: "",
+        id: teacher.id,
+      };
+      setTeachers({ list: [currGroupTeacher], chosen: teacher.id });
+    } else fetchChildrenAndTeachersForNewGroup();
   }, []);
 
   useEffect(() => {
@@ -116,7 +167,6 @@ export const GroupModal = ({ update }) => {
     }));
   }, [childKeyword]);
 
-  console.log(children.chosen);
   return (
     <div className={styles.groupModalWrapper}>
       <div className={styles.groupModalHeader}>
@@ -214,7 +264,8 @@ export const GroupModal = ({ update }) => {
                     type="radio"
                     text={`${teacher.name} ${teacher.surname}`}
                     checked={teachers.chosen === teacher.id}
-                    onChange={handleTeacherOnchange}
+                    onChange={handleTeacherOnChange}
+                    onClick={handleTeacherOnClick}
                   />
                 ))}
               <Text s10 error>

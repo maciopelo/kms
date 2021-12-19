@@ -179,7 +179,7 @@ class TeacherView(APIView):
 
         if has_group == "false":
             groups = Group.objects.all()
-            group_ids = [group.teacher.id for group in groups]
+            group_ids = [group.teacher.id for group in groups if group.teacher is not None ]
             teachers = User.objects.filter(Q(type=UserType.TEACHER.value[0]) & ~Q(pk__in=group_ids))
         
         if has_group == "true":

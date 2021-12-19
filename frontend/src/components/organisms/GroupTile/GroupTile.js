@@ -8,6 +8,7 @@ import AreYouSureModal from "../modals/AreYouSureModal/AreYouSureModal";
 import { useModalContext } from "../../../store/contexts/ModalContext";
 import useFetch from "../../../hooks/useFetch";
 import { API } from "../../../api/urls";
+import { GroupModal } from "../modals/GroupModal/GroupModal";
 
 const GroupTile = ({ id, name, childrenCount, teacher, type, update }) => {
   const { handleModal } = useModalContext();
@@ -52,11 +53,26 @@ const GroupTile = ({ id, name, childrenCount, teacher, type, update }) => {
         </Text>
 
         <Text fBold gray s24>
-          {teacher}
+          {teacher.name}
         </Text>
       </div>
 
-      <img className={styles.editGroup} src={edit} alt="Edit Icon" />
+      <img
+        className={styles.editGroup}
+        src={edit}
+        alt="Edit Icon"
+        onClick={() =>
+          handleModal(
+            <GroupModal
+              update={update}
+              id={id}
+              name={name}
+              type={type}
+              teacher={teacher}
+            />
+          )
+        }
+      />
       <img
         className={styles.removeGroup}
         src={bin}
