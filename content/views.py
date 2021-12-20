@@ -34,8 +34,8 @@ class FileView(APIView):
             file = File.objects.get(id=pk)
             serializer = FileSerializer(file)
             file.delete()
-        except (News.DoesNotExist, ValidationError):
-            return Response({'msg':"File of given id does not exist"}, 400) 
+        except (File.DoesNotExist, ValidationError):
+            return Response({'msg':"File of given id does not exist"}, status=status.HTTP_404_NOT_FOUND) 
 
         
         return Response({**serializer.data, "id":pk})
