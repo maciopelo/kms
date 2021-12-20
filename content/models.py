@@ -2,8 +2,21 @@ from django.db import models
 from django.db.models import FileField
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from users.enums import UserType
 
 
+
+class File(models.Model):
+    file = models.FileField(null=True, upload_to="files")
+    permission = models.CharField(max_length=255, choices=UserType.choices(), default=UserType.HEADMASTER.value[0])
+
+    def delete(self):
+        self.file.storage.delete(self.file.name)
+        File.objects.filter(file=self).delete()
+        super().delete()
+
+    def __str__(self):
+        return f"file id: {self.id} - name: {self.file.name}"
 
 
 

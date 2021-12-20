@@ -22,6 +22,7 @@ const NewsModal = ({ update }) => {
     error: false,
   });
 
+  console.log(files.rest);
   const handleAddMainImage = ({ target: { files } }) => {
     const mainImg = files;
     setFiles((prev) => ({ ...prev, main: mainImg }));

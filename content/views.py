@@ -1,14 +1,71 @@
 from datetime import date
 from django.shortcuts import render
 from rest_framework import serializers, status
+from rest_framework import response
 from rest_framework.views import APIView
 from backend.utils import *
-from .serializers import NewsSerializer, NewsFileSerializer
-from .models import News, NewsFile
+from .serializers import NewsSerializer, NewsFileSerializer, FileSerializer
+from .models import News, NewsFile, File
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.db.models import Q
 
+
+
+class FileView(APIView):
+
+    def get(self, request):
+
+        parser_classes = [MultiPartParser, FormParser]
+
+        authenticate_user(request)
+
+        files = File.objects.all()
+        serializer = FileSerializer(files, many=True)
+
+        return Response(serializer.data, content_type='application/pdf')
+
+    
+    def delete(self, request, pk=None):
+        
+        authenticate_user(request)
+
+        try:
+            file = File.objects.get(id=pk)
+            serializer = FileSerializer(file)
+            file.delete()
+        except (News.DoesNotExist, ValidationError):
+            return Response({'msg':"File of given id does not exist"}, 400) 
+
+        
+        return Response({**serializer.data, "id":pk})
+
+
+
+    def post(self, request, format=None):
+
+        parser_classes = [MultiPartParser, FormParser]
+
+        authenticate_user(request)
+        response = []
+        for i in range(len(request.FILES)):
+       
+            new_file = {
+                "permission":request.data['permission'],
+                "file": request.FILES.getlist(f'file_{i}')[0]
+            }
+
+            news_file_serializer = FileSerializer(data=new_file)
+
+            if news_file_serializer.is_valid():
+                news_file_serializer.save()
+                response.append(news_file_serializer.data)
+            else:
+                return Response(news_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(response, status=status.HTTP_201_CREATED)
+
+        
 
 
 class NewsView(APIView):
@@ -93,55 +150,6 @@ class NewsView(APIView):
 
         
         return Response(serializer.data)
-
-          
-
-
-# class NewsFileView(APIView):
-
-
-#     def get(self, request):
-#         authenticate_user(request)
-
-#         news_files = NewsFile.objects.all()
-        
-#         news_file_serializer = NewsFileSerializer(news_files, many=True)
-
-
-#         return Response(news_file_serializer.data)
-    
-
-#     def post(self, request):
-#         authenticate_user(request)
-#         parser_classes = [MultiPartParser, FormParser]
-
-#         news_id = request.data['id']
-#         files = request.FILES.getlist("rest_image")
-
-#         news = News.objects.filter(Q(id=news_id))
-
-#         if len(news) > 0:
-
-#             for f in files:
-
-#                 news_file_data = {
-#                     "news":news_id,
-#                     "file": f
-#                 }
-
-#                 news_file_serializer = NewsFileSerializer(data=news_file_data)
-
-#                 if news_file_serializer.is_valid():
-#                     news_file_serializer.save()
-#                 else:
-#                     return Response(news_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#         else:
-#             return Response({"msg":f"No news of id {news_id}"}, status=status.HTTP_400_BAD_REQUEST)
-        
-
-
-#         return Response({"msg":f"Succesfully added {len(files)} files"},status=status.HTTP_201_CREATED)
 
         
 
