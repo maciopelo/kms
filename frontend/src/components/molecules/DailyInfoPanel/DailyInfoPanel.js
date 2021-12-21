@@ -3,11 +3,30 @@ import styles from "./DailyInfoPanel.module.scss";
 import Text from "../../atoms/Text/Text";
 import clock from "../../../assets/icons/clock.png";
 import { getDateAndTimeString } from "../../../utils/dateHelpers";
+import { ATYPICAL_HOLY_DAYS_URL } from "../../../api/urls";
+import { useModalContext } from "../../../store/contexts/ModalContext";
+import HolydaysModal from "../../organisms/modals/HolydaysModal/HolydaysModal";
+
+const TODAY = new Date();
 
 const DailyInfoPanel = () => {
-  const [date, setDate] = useState(() => getDateAndTimeString(new Date()));
+  const [date, setDate] = useState(() => getDateAndTimeString(TODAY));
+  const { handleModal } = useModalContext();
+  const [atypicalHolydays, setAtypicalHolydays] = useState([]);
+  const [chosenAtypicalHolyday, setChosenAtypicalHolyday] = useState("");
 
   useEffect(() => {
+    const fetchAtypicalHoldyday = async () => {
+      const res = await fetch(
+        `${ATYPICAL_HOLY_DAYS_URL}${TODAY.getMonth() +
+          1}/${TODAY.getDate()}.json`,
+        { mode: "cors" }
+      );
+      const data = await res.json();
+      setAtypicalHolydays(data);
+      if (data.length > 0) setChosenAtypicalHolyday(data[0].name);
+    };
+    fetchAtypicalHoldyday();
     const interval = setInterval(() => {
       setDate(() => getDateAndTimeString(new Date()));
     }, 1000);
@@ -27,16 +46,21 @@ const DailyInfoPanel = () => {
 
       <div className={styles.dayInfo}>
         <Text s24 rouge fMedium>
-          Wybrane Święto Nietypowe :)
+          {chosenAtypicalHolyday}
         </Text>
       </div>
-
-      <div className={styles.nameDay}>
-        <Text s24 gray fMedium>
-          Imieniny:
-          <Text fRegular> Tomasz, Aleksandra, Dominika</Text>
-        </Text>
-      </div>
+      {atypicalHolydays.length > 1 && (
+        <div
+          className={styles.moreHolydays}
+          onClick={() =>
+            handleModal(<HolydaysModal holydays={atypicalHolydays} />)
+          }
+        >
+          <Text s12 gray>
+            więcej świąt...
+          </Text>
+        </div>
+      )}
     </div>
   );
 };

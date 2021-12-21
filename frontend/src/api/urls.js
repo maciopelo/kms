@@ -1,3 +1,5 @@
+export const ATYPICAL_HOLY_DAYS_URL =
+  "https://pniedzwiedzinski.github.io/kalendarz-swiat-nietypowych/";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 

@@ -1,5 +1,6 @@
 @import "../../../sassStyles/variables";
 @import "../../../sassStyles/mixins";
+@import "../../atoms/Text/Text.module.scss";
 
 $paddingTB: 5px;
 $paddingLR: 5px;
@@ -34,13 +35,16 @@ $paddingLR: 5px;
   flex: 3;
   display: flex;
   align-items: center;
-  span {
-    text-align: center;
-  }
-  margin-bottom: 10px;
+  text-align: center;
 }
 
-.nameDay {
+.moreHolydays {
   flex: 1;
-  align-self: flex-start;
+  display: flex;
+  align-self: flex-end;
+  justify-content: flex-end;
+  align-items: flex-end;
+  &:hover {
+    cursor: pointer;
+  }
 }
