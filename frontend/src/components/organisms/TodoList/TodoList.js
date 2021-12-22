@@ -27,7 +27,11 @@ const TodoList = ({ todos }) => {
                 <Text s24 gray>
                   {`${idx + 1}.`}
                 </Text>
-                <p className={styles.text}>{todo.text}</p>
+                <p className={styles.text}>
+                  <Text s16 gray>
+                    {todo.text}
+                  </Text>
+                </p>
               </li>
             ))}
         </ul>

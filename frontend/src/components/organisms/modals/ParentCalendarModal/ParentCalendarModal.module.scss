@@ -2,8 +2,8 @@
 @import "../../../atoms/Text/Text.module.scss";
 .wrapper {
   width: 750px;
-  background-color: $beige;
-  border: 1px solid $gray;
+  background-color: var(--beige);
+  border: 1px solid var(--gray);
   border-radius: $borderRadiusSmall;
 }
 
@@ -34,7 +34,7 @@
     left: -1em;
     top: 2px;
     font-size: 1.1em;
-    color: $gray;
+    color: var(--gray);
   }
 }
 

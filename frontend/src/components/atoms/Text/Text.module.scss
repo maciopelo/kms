@@ -2,15 +2,15 @@
 @import "../../../sassStyles/mixins";
 
 .gray {
-  color: $gray;
+  color: var(--gray);
 }
 
 .beige {
-  color: $beige;
+  color: var(--beige);
 }
 
 .rouge {
-  color: $rouge;
+  color: var(--rouge);
 }
 
 .error {

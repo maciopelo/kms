@@ -18,9 +18,9 @@
   position: fixed;
   width: 330px;
   padding: 30px 20px;
-  background-color: $beige;
+  background-color: var(--beige);
   border-radius: $borderRadiusSmall;
-  box-shadow: $defaultShadowBox;
+  box-shadow: var(--defaultShadowBox);
 
   @include medium {
     padding: 15px;

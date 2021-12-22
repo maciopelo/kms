@@ -3,14 +3,14 @@
 
 .holydaysModalWrapper {
   width: 450px;
-  background-color: $beige;
+  background-color: var(--beige);
   border-radius: $borderRadiusSmall;
-  border: 1px solid $gray;
+  border: 1px solid var(--gray);
 }
 
 .holydaysModalHeader {
   position: relative;
-  background-color: $lightRouge;
+  background-color: var(--lightRouge);
   border-top-left-radius: $borderRadiusSmall;
   border-top-right-radius: $borderRadiusSmall;
   width: 100%;

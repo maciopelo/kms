@@ -4,6 +4,7 @@ import binIcon from "../../../assets/icons/bin.svg";
 import { API } from "../../../api/urls";
 import useFetch from "../../../hooks/useFetch";
 import { parseText } from "../../../utils/helpers";
+import Text from "../../atoms/Text/Text";
 
 const TodoItem = ({
   todo: { id, text },
@@ -32,7 +33,11 @@ const TodoItem = ({
 
   return (
     <li className={styles.todo}>
-      <p className={styles.text}> {parseText(text)} </p>
+      <p className={styles.text}>
+        <Text s14 gray>
+          {parseText(text)}
+        </Text>
+      </p>
       <img
         className={styles.removeTodo}
         src={binIcon}

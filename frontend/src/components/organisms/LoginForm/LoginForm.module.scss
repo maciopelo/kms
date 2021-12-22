@@ -29,8 +29,8 @@
 }
 
 .form {
-  background-color: $beige;
-  border: 3px solid $gray;
+  background-color: var(--beige);
+  border: 3px solid var(--gray);
   border-top: none;
   border-bottom-right-radius: $borderRadiusHuge;
   border-bottom-left-radius: $borderRadiusHuge;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import GenericPage from "../../templates/GenericPage/GenericPage";
 import { useAuthContext } from "../../store/contexts/AuthContext";
 import DailyInfoPanel from "../../components/molecules/DailyInfoPanel/DailyInfoPanel";

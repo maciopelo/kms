@@ -11,10 +11,10 @@ import { API, BASE_URL } from "../../api/urls";
 import pdf from "../../assets/icons/pdf.svg";
 import word from "../../assets/icons/word.svg";
 import txt from "../../assets/icons/txt.svg";
-import bin from "../../assets/icons/bin.svg";
 import Text from "../../components/atoms/Text/Text";
 import AreYouSureModal from "../../components/organisms/modals/AreYouSureModal/AreYouSureModal";
 import { v4 as uuidv4 } from "uuid";
+import SvgIcon from "../../components/atoms/SvgIcon/SvgIcon";
 
 const Files = () => {
   const {
@@ -69,7 +69,8 @@ const Files = () => {
                     <img src={icon} alt="File Icon" />
                   </a>
                   {user.type !== USER.PARENT && (
-                    <img
+                    <SvgIcon
+                      icon="bin"
                       onClick={() =>
                         handleModal(
                           <AreYouSureModal
@@ -78,9 +79,6 @@ const Files = () => {
                           />
                         )
                       }
-                      className={styles.deleteFile}
-                      src={bin}
-                      alt="Bin Icon"
                     />
                   )}
 

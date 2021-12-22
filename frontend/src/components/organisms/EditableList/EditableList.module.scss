@@ -19,7 +19,7 @@
   height: auto;
   display: flex;
   justify-content: space-between;
-  border: 1px solid $gray;
+  border: 1px solid var(--gray);
   border-radius: $borderRadiusSmall;
 
   img {

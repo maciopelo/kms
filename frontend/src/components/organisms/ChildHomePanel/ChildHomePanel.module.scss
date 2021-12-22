@@ -21,7 +21,7 @@
 .dropdown {
   @extend .s24;
   @extend .fMedium;
-  color: $gray;
+  color: var(--gray);
 }
 
 .info {

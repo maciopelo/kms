@@ -1,12 +1,13 @@
 @import "../../../sassStyles/variables";
 
 .svgIcon {
+  svg {
+    path {
+      fill: var(--gray);
+    }
+  }
+
   &:hover {
     cursor: pointer;
-    svg {
-      path {
-        fill: $rouge;
-      }
-    }
   }
 }

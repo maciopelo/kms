@@ -8,8 +8,8 @@
   z-index: 100;
   top: 0;
   height: $headerHeight;
-  background-color: $beige;
-  box-shadow: 0 2px 2px 0 rgba(62, 60, 61, 0.2);
+  background-color: var(--beige);
+  box-shadow: var(--defaultShadowBox);
   display: flex;
 
   @include medium {
@@ -52,9 +52,9 @@
   }
 
   &:hover {
-    -webkit-text-fill-color: $gray;
+    -webkit-text-fill-color: var(--gray);
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: $gray;
+    -webkit-text-stroke-color: var(--gray);
   }
 }
 
@@ -88,17 +88,17 @@
 
 :global {
   .active {
-    color: $rouge;
+    color: var(--rouge);
     font-weight: 700;
 
     span {
-      color: $rouge;
+      color: var(--rouge);
       font-weight: 700;
     }
     &:hover {
-      -webkit-text-fill-color: $rouge;
+      -webkit-text-fill-color: var(--rouge);
       -webkit-text-stroke-width: 0;
-      -webkit-text-stroke-color: $rouge;
+      -webkit-text-stroke-color: var(--rouge);
     }
   }
 }
@@ -114,7 +114,7 @@
     width: 50px;
     height: 5px;
     border-radius: 5px;
-    background-color: $gray;
+    background-color: var(--gray);
     display: block;
     margin: 8px auto;
     -webkit-transition: all 0.3s ease-in-out;
@@ -147,18 +147,24 @@
   }
 }
 
+.themeToggle {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+}
+
 .mobileMenu {
   position: fixed;
-  border-top: 1px solid rgba(62, 60, 61, 0.2);
-  background-color: $beige;
+  background-color: var(--beige);
   transition: all 0.15s ease-out;
-  padding: 10px 20px;
   opacity: 0;
   height: 0;
   width: 100%;
   z-index: 100;
 
   &[data-open="true"] {
+    border-top: 1px solid rgba(62, 60, 61, 0.2);
+    padding: 10px 20px;
     height: 100%;
     opacity: 1;
     transition: all 0.25s ease-in;
@@ -175,6 +181,11 @@
   }
 }
 
+.mobileItem {
+  &:hover {
+    cursor: pointer;
+  }
+}
 .mobileItem:not(:last-child) {
   margin-bottom: 10px;
 }

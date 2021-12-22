@@ -9,9 +9,9 @@
   height: 530px;
   width: 335px;
   margin-right: 20px;
-  background-color: $lightRouge;
+  background-color: var(--lightRouge);
   border-radius: $borderRadiusSmall;
-  box-shadow: $defaultShadowBox;
+  box-shadow: var(--defaultShadowBox);
   overflow: hidden;
 
   @include small {
@@ -64,7 +64,7 @@
 }
 
 .male {
-  background-color: $lightBlue;
+  background-color: var(--lightBlue);
   img {
     align-self: flex-end;
   }

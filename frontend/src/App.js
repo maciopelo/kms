@@ -19,34 +19,37 @@ import NewsTemplate from "./templates/NewsTemplate/NewsTemplate";
 import ChildrenTemplate from "./templates/ChildrenTemplate/ChildrenTemplate";
 import { AuthProvider } from "./store/contexts/AuthContext";
 import { ModalProvider } from "./store/contexts/ModalContext";
+import { ThemeProvider } from "./store/contexts/ThemeContext";
 
 function App() {
   return (
     <AuthProvider>
       <ModalProvider>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/login" />
-            </Route>
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <PrivateRoute path="/home" component={Home} />
-            <PrivateRoute path="/news/:id" component={NewsTemplate} />
-            <PrivateRoute
-              exact
-              path="/children/:id"
-              component={ChildrenTemplate}
-            />
-            <PrivateRoute exact path="/news" component={News} />
-            <PrivateRoute path="/children" component={Children} />
-            <PrivateRoute path="/news/:id" component={NewsTemplate} />
-            <PrivateRoute path="/groups" component={Groups} />
-            <PrivateRoute path="/chat" component={Chat} />
-            <PrivateRoute path="/about" component={About} />
-            <PrivateRoute path="/files" component={Files} />
-          </Switch>
-        </Router>
+        <ThemeProvider>
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/login" />
+              </Route>
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <PrivateRoute path="/home" component={Home} />
+              <PrivateRoute path="/news/:id" component={NewsTemplate} />
+              <PrivateRoute
+                exact
+                path="/children/:id"
+                component={ChildrenTemplate}
+              />
+              <PrivateRoute exact path="/news" component={News} />
+              <PrivateRoute path="/children" component={Children} />
+              <PrivateRoute path="/news/:id" component={NewsTemplate} />
+              <PrivateRoute path="/groups" component={Groups} />
+              <PrivateRoute path="/chat" component={Chat} />
+              <PrivateRoute path="/about" component={About} />
+              <PrivateRoute path="/files" component={Files} />
+            </Switch>
+          </Router>
+        </ThemeProvider>
       </ModalProvider>
     </AuthProvider>
   );

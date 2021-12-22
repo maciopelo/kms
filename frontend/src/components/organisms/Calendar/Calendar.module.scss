@@ -3,10 +3,10 @@
 
 .calendar {
   display: grid;
-  background-color: $beige;
+  background-color: var(--beige);
   grid-template-columns: repeat(7, minmax(65px, 125px));
   grid-template-rows: repeat(5, minmax(65px, 125px));
-  box-shadow: $defaultShadowBox;
+  box-shadow: var(--defaultShadowBox);
 
   @include default {
     margin-top: 50px;
