@@ -1,0 +1,72 @@
+@import "../../../sassStyles/variables";
+
+.inactiveMixin {
+  content: "";
+  position: absolute;
+  display: block;
+}
+
+.beforeAnimation {
+  transition: 0.2s cubic-bezier(0.24, 0, 0.5, 1);
+}
+
+.afterAnimation {
+  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 0px 0 hsla(0, 0%, 0%, 0.04),
+    0 4px 9px hsla(0, 0%, 0%, 0.13), 0 3px 3px hsla(0, 0%, 0%, 0.05);
+  transition: 0.35s cubic-bezier(0.54, 1.6, 0.5, 1);
+}
+
+// Mobile Toggle Switch
+.toggleWrapper {
+  &:hover {
+    cursor: pointer;
+  }
+  input {
+    &.mobileToggle {
+      opacity: 0; // hides checkbox
+      position: absolute;
+      & + label {
+        position: relative;
+        display: inline-block;
+        user-select: none;
+        transition: 0.4s ease;
+        height: 10px;
+        width: 25px;
+        border-radius: 60px;
+        &:before {
+          @extend .inactiveMixin;
+          @extend .beforeAnimation;
+          background: var(--gray);
+          height: 10px;
+          width: 25px;
+          top: 0;
+          left: 0;
+          border-radius: 30px;
+        }
+        &:after {
+          @extend .inactiveMixin;
+          @extend .beforeAnimation;
+          background: var(--beige);
+          height: 8px;
+          width: 8px;
+          top: 1px;
+          left: 1px;
+          border-radius: 60px;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      &:checked {
+        & + label:before {
+          background: var(--gray);
+          transition: width 0.2s cubic-bezier(0, 0, 0, 0.1);
+        }
+        & + label:after {
+          left: 16px;
+        }
+      }
+    }
+  }
+}

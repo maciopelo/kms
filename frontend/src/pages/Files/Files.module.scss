@@ -24,14 +24,14 @@
     max-width: 100px;
     word-wrap: break-word;
   }
-}
 
-.deleteFile {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  & > div {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 
-  &:hover {
-    cursor: pointer;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

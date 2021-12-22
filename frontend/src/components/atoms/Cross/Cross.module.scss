@@ -17,7 +17,7 @@
   content: " ";
   height: 33px;
   width: 2px;
-  background-color: $gray;
+  background-color: var(--gray);
 }
 .cross:before {
   transform: rotate(45deg);

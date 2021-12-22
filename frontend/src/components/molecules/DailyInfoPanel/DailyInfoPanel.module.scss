@@ -13,10 +13,10 @@ $paddingLR: 5px;
   flex-direction: column;
   width: 100%;
   min-height: 170px;
-  background-color: $beige;
+  background-color: var(--beige);
   border-radius: $borderRadiusSmall;
   border: rgba(62, 60, 61, 0.7) solid 2px;
-  box-shadow: $defaultShadowBox;
+  box-shadow: var(--defaultShadowBox);
 }
 
 .top {

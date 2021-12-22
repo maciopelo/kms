@@ -20,7 +20,7 @@
   font: inherit;
   height: 18px;
   width: 18px;
-  border: 2px solid $gray;
+  border: 2px solid var(--gray);
   display: grid;
   place-content: center;
   margin-right: 10px;
@@ -31,7 +31,7 @@
     content: "";
     width: 10px;
     height: 10px;
-    background-color: $gray;
+    background-color: var(--gray);
     transform: scale(0);
     transition: 120ms transform ease-in-out;
   }

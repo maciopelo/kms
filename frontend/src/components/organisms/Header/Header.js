@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Header.module.scss";
 import { NavLink } from "react-router-dom";
-import logout from "../../../assets/icons/logout.svg";
 import { useAuthContext } from "../../../store/contexts/AuthContext";
 import { useHistory } from "react-router";
 import { logoutUser } from "../../../store/actions";
 import { v4 as uuidv4 } from "uuid";
 import loginKids from "../../../assets/images/login-kids.png";
 import Text from "../../atoms/Text/Text";
+import SvgIcon from "../../atoms/SvgIcon/SvgIcon";
+import ToggleButton from "../../atoms/ToggleButton/ToggleButton";
 
 const NAV = {
   HEADMASTER: [
@@ -60,6 +61,10 @@ const Header = () => {
   return (
     <>
       <header className={styles.header}>
+        <div className={styles.themeToggle}>
+          <ToggleButton />
+        </div>
+
         <nav className={styles.layout}>
           <img
             onClick={redirectHome}
@@ -81,12 +86,9 @@ const Header = () => {
             })}
 
             <li className={styles.item}>
-              <img
-                onClick={handleLogout}
-                src={logout}
-                alt="Logout Icon"
-                className={styles.logout}
-              />
+              <div className={styles.logout}>
+                <SvgIcon icon="logout" onClick={handleLogout} />
+              </div>
             </li>
           </ul>
           <div

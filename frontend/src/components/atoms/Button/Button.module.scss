@@ -2,16 +2,16 @@
 
 .button {
   padding: 8px 15px;
-  border: 1px solid $gray;
+  border: 1px solid var(--gray);
   border-radius: $borderRadiusBig;
-  background-color: $beige;
+  background-color: var(--beige);
   transition: all 0.4s;
 
   &:hover {
-    background-color: $gray;
+    background-color: var(--gray);
     span {
       transition: all 0.4s;
-      color: $beige;
+      color: var(--beige);
     }
   }
 }

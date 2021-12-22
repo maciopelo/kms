@@ -4,6 +4,7 @@ import AppNameWithImage from "../../components/molecules/AppNameWithImage/AppNam
 import styles from "./Login.module.scss";
 import { useAuthContext } from "../../store/contexts/AuthContext";
 import { Redirect } from "react-router-dom";
+import ToggleButton from "../../components/atoms/ToggleButton/ToggleButton";
 
 const Login = () => {
   const {
@@ -14,6 +15,9 @@ const Login = () => {
     <main className={styles.container}>
       <LoginForm />
       <AppNameWithImage />
+      <div className={styles.themeToggle}>
+        <ToggleButton />
+      </div>
     </main>
   ) : (
     <Redirect to="/home" />

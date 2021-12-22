@@ -10,7 +10,7 @@
   .switchTile {
     display: flex;
     flex: 1;
-    color: $gray;
+    color: var(--gray);
     padding: 20px;
 
     @include tiny {
@@ -19,16 +19,16 @@
 
     justify-content: center;
     position: relative;
-    background-color: $beige;
+    background-color: var(--beige);
     border-top-left-radius: $borderRadiusHuge;
     border-top-right-radius: $borderRadiusHuge;
-    border: 3px solid $gray;
+    border: 3px solid var(--gray);
     border-bottom: none;
 
     &[data-active="true"] {
-      color: $beige;
-      background-color: $gray;
-      border-bottom: 3px solid $gray;
+      color: var(--beige);
+      background-color: var(--gray);
+      border-bottom: 3px solid var(--gray);
     }
   }
 }
