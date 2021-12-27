@@ -17,6 +17,7 @@ const ChildTile = ({ child, clickable = true, groups, layout }) => {
     }
   };
 
+  console.log(layout);
   return (
     <div
       className={`${styles.childTileWrapper} ${
@@ -26,7 +27,7 @@ const ChildTile = ({ child, clickable = true, groups, layout }) => {
       {layout && (
         <img
           className={styles.genderIcon}
-          data-linear={!layout}
+          data-linear={layout}
           src={child.gender === "M" ? male : female}
           alt="Gender Icon"
         />

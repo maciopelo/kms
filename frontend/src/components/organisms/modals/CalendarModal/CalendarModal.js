@@ -52,7 +52,7 @@ const CalendarModal = ({ date, setHomepageTodos }) => {
             <div className={styles.sendFile}>
               <Button>prześlij</Button>
               <Text s16 gray fLight>
-                jadlospis_1_pazdzernik.pdf
+                jadlospis.pdf
               </Text>
             </div>
           </div>

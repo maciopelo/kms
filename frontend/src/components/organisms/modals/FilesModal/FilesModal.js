@@ -30,6 +30,7 @@ const FilesModal = ({ setData }) => {
       (acc, file) => file.size + acc,
       0
     );
+    console.log(files);
     if (filesSize > MAX_FILES_SIZE_IN_BYTES) {
       setErrors((prev) => ({
         ...prev,
@@ -47,6 +48,13 @@ const FilesModal = ({ setData }) => {
         ...prev,
         files: "Maksymalna ilość plików to 10.",
       }));
+
+      setTimeout(() => {
+        setErrors((prev) => ({
+          ...prev,
+          files: "",
+        }));
+      }, 4000);
       return;
     }
 
@@ -62,12 +70,13 @@ const FilesModal = ({ setData }) => {
   };
 
   const handleFilesAdd = async () => {
+    let error = false;
     if (!Boolean(permission)) {
       setErrors((prev) => ({
         ...prev,
         permission: "Nie wybrano uprawnień.",
       }));
-      return;
+      error = true;
     } else {
       setErrors((prev) => ({
         ...prev,
@@ -80,24 +89,26 @@ const FilesModal = ({ setData }) => {
         ...prev,
         files: "Nie wybrano żadnego pliku.",
       }));
-      return;
+      error = true;
     } else
       setErrors((prev) => ({
         ...prev,
         files: "",
       }));
 
-    const formData = new FormData();
-    formData.append("permission", permission);
-    files.forEach((file, idx) => {
-      formData.append(`file_${idx}`, file);
-    });
-
-    const res = await callAPI(API.FILES, "POST", formData, null, {});
-
-    handleModal();
-    setData((prev) => [...prev, ...res]);
+    if (!error) {
+      const formData = new FormData();
+      formData.append("permission", permission);
+      files.forEach((file, idx) => {
+        formData.append(`file_${idx}`, file);
+      });
+      const res = await callAPI(API.FILES, "POST", formData, null, {});
+      handleModal();
+      setData((prev) => [...prev, ...res]);
+    }
   };
+
+  console.log(files);
 
   return (
     <div className={styles.filesModalWrapper}>
@@ -168,6 +179,10 @@ const FilesModal = ({ setData }) => {
 
           <Text s12 error fMedium>
             {Boolean(errors.files) && errors.files}
+          </Text>
+
+          <Text s12 gray fMedium>
+            obłusigwane pliki: {EXTENSIONS.join(", ")}
           </Text>
         </div>
 

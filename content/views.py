@@ -26,24 +26,8 @@ class FileView(APIView):
         return Response(serializer.data, content_type='application/pdf')
 
     
-    def delete(self, request, pk=None):
-        
-        authenticate_user(request)
-
-        try:
-            file = File.objects.get(id=pk)
-            serializer = FileSerializer(file)
-            file.delete()
-        except (File.DoesNotExist, ValidationError):
-            return Response({'msg':"File of given id does not exist"}, status=status.HTTP_404_NOT_FOUND) 
-
-        
-        return Response({**serializer.data, "id":pk})
-
-
-
     def post(self, request, format=None):
-
+    
         parser_classes = [MultiPartParser, FormParser]
 
         authenticate_user(request)
@@ -64,6 +48,25 @@ class FileView(APIView):
                 return Response(news_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(response, status=status.HTTP_201_CREATED)
+
+    
+    def delete(self, request, pk=None):
+        
+        authenticate_user(request)
+
+        try:
+            file = File.objects.get(id=pk)
+            serializer = FileSerializer(file)
+            file.delete()
+        except (File.DoesNotExist, ValidationError):
+            return Response({'msg':"File of given id does not exist"}, status=status.HTTP_404_NOT_FOUND) 
+
+        
+        return Response({**serializer.data, "id":pk})
+
+
+
+    
 
         
 
