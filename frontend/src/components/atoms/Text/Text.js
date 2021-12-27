@@ -3,7 +3,7 @@
 import React from "react";
 import styles from "./Text.module.scss";
 
-function Text(props) {
+const Text = (props) => {
   const parseStyleProps = Object.keys(props)
     .map((prop) => (Object.keys(styles).includes(prop) ? styles[prop] : ""))
     .join(" ");
@@ -16,6 +16,6 @@ function Text(props) {
       {props.children}
     </span>
   );
-}
+};
 
 export default Text;

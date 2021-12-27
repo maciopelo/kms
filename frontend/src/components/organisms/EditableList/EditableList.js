@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import Text from "../../atoms/Text/Text";
 import add from "../../../assets/icons/add.svg";
 import { getDBDateFormat, getUrlDateFormat } from "../../../utils/dateHelpers";
+import SvgIcon from "../../atoms/SvgIcon/SvgIcon";
 
 const EditableList = ({ date, url, setHomepageTodos, group }) => {
   const [newTodo, setNewTodo] = useState("");
@@ -82,7 +83,7 @@ const EditableList = ({ date, url, setHomepageTodos, group }) => {
           onChange={(e) => setNewTodo(e.target.value)}
           value={newTodo}
         />
-        <img src={add} alt="Plus Icon" onClick={handleNewTodoAdd} />
+        <SvgIcon icon="plus" onClick={handleNewTodoAdd} />
       </div>
     </>
   );

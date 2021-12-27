@@ -2,7 +2,7 @@
 @import "../../../../sassStyles/mixins";
 
 .filesModalWrapper {
-  width: 450px;
+  width: 550px;
   background-color: var(--beige);
   border-radius: $borderRadiusSmall;
   border: 1px solid var(--gray);
@@ -48,10 +48,16 @@
   border-radius: $borderRadiusSmall;
   height: 300px;
 
-  & > span {
+  & > span:nth-of-type(1) {
     position: absolute;
     bottom: -20px;
     left: 0;
+  }
+
+  & > span:nth-of-type(2) {
+    position: absolute;
+    bottom: -20px;
+    right: 0px;
   }
 
   label {

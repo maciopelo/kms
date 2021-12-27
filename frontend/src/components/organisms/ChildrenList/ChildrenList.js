@@ -74,7 +74,7 @@ const ChildrenList = ({ data, children, setChildren }) => {
               key={child.pesel}
               child={child}
               groups={groups}
-              layout={layout}
+              layout={!layout}
             />
           ))}
       </div>

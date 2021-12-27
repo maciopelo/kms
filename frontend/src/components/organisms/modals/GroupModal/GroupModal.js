@@ -20,6 +20,7 @@ export const GroupModal = ({
 }) => {
   const { callAPI } = useFetch();
   const [childKeyword, setChildKeyword] = useState("");
+  const [childWithoutGroupKeyword, setChildWithoutGroupKeyword] = useState("");
   const { handleModal } = useModalContext();
   const [groupName, setGroupName] = useState("");
   const [groupType, setGroupType] = useState(null);
@@ -103,10 +104,6 @@ export const GroupModal = ({
     setGroupName(value);
   };
 
-  const handleFilterInputChange = ({ target: { value } }) => {
-    setChildKeyword(value);
-  };
-
   const handleNewGroupAddition = async () => {
     const { errors, isValid } = groupModalValidation(
       groupName,
@@ -144,10 +141,20 @@ export const GroupModal = ({
   useEffect(() => {
     setChildren((prev) => ({
       ...prev,
-      filteredWithoutGroup: prev.withoutGroup.filter(filterFunction),
-      filtered: prev.list.filter(filterFunction),
+      filtered: prev.list.filter((child) =>
+        filterFunction(child, childKeyword)
+      ),
     }));
   }, [childKeyword]);
+
+  useEffect(() => {
+    setChildren((prev) => ({
+      ...prev,
+      filteredWithoutGroup: prev.withoutGroup.filter((child) =>
+        filterFunction(child, childWithoutGroupKeyword)
+      ),
+    }));
+  }, [childWithoutGroupKeyword]);
 
   useEffect(() => {
     if (id) {
@@ -161,15 +168,11 @@ export const GroupModal = ({
     } else fetchChildrenAndTeachersForNewGroup();
   }, []);
 
-  const filterFunction = (child) => {
-    if (childKeyword.trim().length === 0) return true;
+  const filterFunction = (child, keyword) => {
+    if (keyword.trim().length === 0) return true;
     if (
-      child.name
-        .toLowerCase()
-        .includes(childKeyword.trim().toLocaleLowerCase()) ||
-      child.surname
-        .toLowerCase()
-        .includes(childKeyword.trim().toLocaleLowerCase())
+      child.name.toLowerCase().includes(keyword.trim().toLocaleLowerCase()) ||
+      child.surname.toLowerCase().includes(keyword.trim().toLocaleLowerCase())
     )
       return true;
     return false;
@@ -205,7 +208,7 @@ export const GroupModal = ({
                 type="text"
                 placeholder="szukaj ..."
                 value={childKeyword}
-                onChange={handleFilterInputChange}
+                onChange={({ target: { value } }) => setChildKeyword(value)}
               />
               <Cross onClick={() => setChildKeyword("")} />
             </div>
@@ -233,6 +236,18 @@ export const GroupModal = ({
               <Text rouge gray s28 fMedium>
                 Dzieci bez grupy
               </Text>
+
+              <div className={styles.search}>
+                <input
+                  type="text"
+                  placeholder="szukaj ..."
+                  value={childWithoutGroupKeyword}
+                  onChange={({ target: { value } }) =>
+                    setChildWithoutGroupKeyword(value)
+                  }
+                />
+                <Cross onClick={() => setChildWithoutGroupKeyword("")} />
+              </div>
 
               <div className={styles.list}>
                 {children.withoutGroup.length > 0 &&
