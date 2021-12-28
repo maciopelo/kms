@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
+from . import views
 
 
 urlpatterns = [
@@ -25,6 +26,7 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('kindergarten.urls')),
     path('api/', include('content.urls')),
+    path('jqueryChildren/', views.jqueryChildren),
     path('', TemplateView.as_view(template_name="index.html"))
 ]
 
