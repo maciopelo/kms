@@ -1,5 +1,9 @@
 
 from django.shortcuts import render
 
-def jqueryChildren(request):
+def jqueryChildrenPageView(request):
     return render(request,'jqueryChildren.html')
+
+
+def brythonChildrenPageView(request):
+    return render(request,'brythonChildren.html')
