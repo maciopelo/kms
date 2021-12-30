@@ -6,8 +6,11 @@ import styles from "./AppNameWithImage.module.scss";
 const AppNameWithImage = () => {
   return (
     <div className={styles.wrapper}>
-      <Text s96 gray>
-        Name of app
+      <Text s96 gray fLight>
+        KMS
+      </Text>
+      <Text s16 gray fMedium>
+        Kindergarten Management System
       </Text>
       <img
         draggable="false"
