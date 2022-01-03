@@ -33,10 +33,44 @@ const Chat = () => {
 
     const channel = pusher.subscribe("chat");
     channel.bind("message", function(data) {
-      allMessages.push(data);
-      setMessages(allMessages);
+      const msg = {
+        text: data.text,
+        date: data.date,
+        sender: data.sender,
+        receiver: data.receiver,
+      };
+
+      allMessages.push(msg);
+      setMessages((prev) => [...prev, msg]);
     });
   }, []);
+
+  useEffect(() => {
+    const fetchChat = async () => {
+      const res = await fetch(
+        `http://localhost:8000/api/chat/${user.id}/${personToChatWith.id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      const data = await res.json();
+
+      setMessages((prev) => [
+        ...data.map((msg) => ({
+          text: msg.text,
+          date: msg.date,
+          sender: msg.sender_id,
+          receiver: msg.receiver_id,
+        })),
+      ]);
+    };
+
+    if (personToChatWith) {
+      fetchChat();
+    }
+  }, [personToChatWith]);
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -122,7 +156,7 @@ const Chat = () => {
                   data-sender={user.id === message.sender}
                 >
                   <Text s16 gray fRegular>
-                    {parseText(message.message)}
+                    {parseText(message.text)}
                   </Text>
                 </div>
               );
