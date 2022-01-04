@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'kindergarten',
     'users',
-    'content'
+    'content',
+    'chat'
 ]
 
 REST_FRAMEWORK = {

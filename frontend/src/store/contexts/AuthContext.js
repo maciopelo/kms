@@ -21,7 +21,6 @@ export const useAuthContext = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  console.log("AuthProvider");
   const [state, dispatch] = useReducer(authReducer, authInitialState);
 
   useEffect(() => {

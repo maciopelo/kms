@@ -18,4 +18,5 @@ export const API = {
   CHILDREN: `${BASE_API_URL}/children/`,
   TEACHER: `${BASE_API_URL}/teacher/`,
   FILES: `${BASE_API_URL}/file/`,
+  USERS: `${BASE_API_URL}/users/`,
 };

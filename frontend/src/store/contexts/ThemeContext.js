@@ -17,6 +17,7 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const root = document.documentElement;
     root?.style.setProperty("--beige", darkTheme ? "#3e3c3d" : "#fef8e5");
+    root?.style.setProperty("--khaki", darkTheme ? "#aca489" : "#e4d8b1");
     root?.style.setProperty("--rouge", darkTheme ? "#ba6268" : "#a65358");
     root?.style.setProperty("--lightRouge", darkTheme ? "#d1968f" : "#e6a9a2");
     root?.style.setProperty("--lightBlue", darkTheme ? "#9eabb3" : "#cedde5");

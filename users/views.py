@@ -191,6 +191,18 @@ class TeacherView(APIView):
         serializer = UserSerializer(teachers, many=True)
 
         return Response(serializer.data)
+
+
+class UsersView(APIView):
+    
+    def get(self, request):
+    
+        authenticate_user(request)
+
+        users = User.objects.all()
+        serializer = UserSerializer(users,many=True)
+
+        return Response(serializer.data)
             
 
         

@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('kindergarten.urls')),
     path('api/', include('content.urls')),
+    path('api/', include('chat.urls')),
     path('jqueryChildren/', views.jqueryChildrenPageView),
     path('brythonChildren/', views.brythonChildrenPageView),
     path('', TemplateView.as_view(template_name="index.html"))
